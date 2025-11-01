@@ -39,6 +39,7 @@
       position: relative;
     }
 
+    /* language switch top right */
     .lang-switch {
       position: absolute;
       top: 0;
@@ -72,6 +73,7 @@
       text-decoration: underline;
     }
 
+    /* profile picture */
     .profile-pic {
       width: 140px;
       height: 140px;
@@ -172,12 +174,15 @@
       border: 1px solid rgba(56,189,248,.4);
     }
 
+    /* grid of project cards */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr));
       gap: 1rem;
+      align-items: stretch; /* make columns align vertically */
     }
 
+    /* card */
     .card {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
@@ -188,6 +193,14 @@
       flex-direction: column;
       position: relative;
       overflow: hidden;
+      min-height: 320px; /* ensures consistent min height */
+    }
+
+    /* content part grows to take the height */
+    .card-content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
     }
 
     .card h3 {
@@ -217,10 +230,16 @@
       font-size: .9rem;
       margin-top: .6rem;
       margin-bottom: 1rem;
-      min-height: 3.5em;
+      line-height: 1.4;
     }
 
-    .card a.project-link {
+    /* footer zone of card, button is pinned at bottom */
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+    }
+
+    .project-link {
       font-size: .85rem;
       font-weight: 500;
       color: var(--accent);
@@ -230,15 +249,31 @@
       border-radius: var(--radius-xl);
       padding: .5rem .75rem;
       text-align: center;
+      width: 100%;
       transition: all .15s linear;
     }
 
-    .card a.project-link:hover {
+    .project-link:hover {
       background: rgba(56,189,248,.15);
       box-shadow: 0 20px 40px rgba(56,189,248,.2);
       transform: translateY(-1px) scale(1.01);
     }
 
+    /* special style for "in progress" buttons */
+    .project-link.in-progress {
+      background: rgba(251,191,36,0.08);          /* amber-ish */
+      border: 1px solid rgba(251,191,36,0.4);
+      color: #facc15;                              /* yellow accent text */
+      font-style: italic;
+    }
+
+    .project-link.in-progress:hover {
+      background: rgba(251,191,36,0.15);
+      box-shadow: 0 20px 40px rgba(251,191,36,.2);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    /* experience / skills layout */
     .xp-wrapper {
       display: grid;
       grid-template-columns: repeat(auto-fit,minmax(min(500px,100%),1fr));
@@ -319,7 +354,7 @@
 <body>
 
   <header>
-    <!-- language switch top right -->
+    <!-- language switch -->
     <div class="lang-switch">
       <a href="/" title="English">
         <span class="flag">🇬🇧</span>
@@ -365,93 +400,113 @@
 
     <div class="projects-grid">
 
-      <!-- The Forest first -->
+      <!-- The Forest (with "In progress" style as example) -->
       <div class="card">
-        <h3>
-          “The Forest” Application
-          <span class="pill">Full project lifecycle</span>
-        </h3>
-        <p class="desc">
-          400+ hour project completed with a 5-person team: requirements gathering
-          with the client, full app development, budget tracking (€180),
-          and weekly reviews with two supervisors.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/the-forest-app"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
+        <div class="card-content">
+          <h3>
+            “The Forest” Application
+            <span class="pill">Full project lifecycle</span>
+          </h3>
+          <p class="desc">
+            400+ hour project completed with a 5-person team: requirements gathering
+            with the client, full app development, budget tracking (€180),
+            and weekly reviews with two supervisors.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link in-progress"
+             href="/"
+             target="_self" rel="noopener noreferrer">
+            In progress
+          </a>
+        </div>
       </div>
 
       <!-- Fencing results reader -->
       <div class="card">
-        <h3>
-          Fencing Results Reader
-          <span class="pill">PHP / Data parsing</span>
-        </h3>
-        <p class="desc">
-          Web tool built for the French Fencing Federation to parse match results,
-          compute statistics and display analysis for managers. Delivered,
-          demoed to the federation and iterated based on their feedback.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/fencing-results-reader-php"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
+        <div class="card-content">
+          <h3>
+            Fencing Results Reader
+            <span class="pill">PHP / Data parsing</span>
+          </h3>
+          <p class="desc">
+            Web tool built for the French Fencing Federation to parse match results,
+            compute statistics and display analysis for managers. Delivered,
+            demoed to the federation and iterated based on their feedback.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/fencing-results-reader-php"
+             target="_blank" rel="noopener noreferrer">
+            View project
+          </a>
+        </div>
       </div>
 
       <!-- Arduino gas pump -->
       <div class="card">
-        <h3>
-          Automated Gas Pump
-          <span class="pill">Arduino / Automation</span>
-        </h3>
-        <p class="desc">
-          Miniature fuel pump simulation: fuel flow control, embedded logic
-          and process automation using Arduino. Hardware control + safety logic.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
+        <div class="card-content">
+          <h3>
+            Automated Gas Pump
+            <span class="pill">Arduino / Automation</span>
+          </h3>
+          <p class="desc">
+            Miniature fuel pump simulation: fuel flow control, embedded logic
+            and process automation using Arduino. Hardware control + safety logic.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
+             target="_blank" rel="noopener noreferrer">
+            View project
+          </a>
+        </div>
       </div>
 
       <!-- Arduino weather station -->
       <div class="card">
-        <h3>
-          Connected Weather Station
-          <span class="pill">IoT / Sensors</span>
-        </h3>
-        <p class="desc">
-          Arduino-based weather station (temperature, humidity, pressure)
-          with live data capture and a dedicated interface to visualize
-          measurements in real time.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/iot-weather-station"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
+        <div class="card-content">
+          <h3>
+            Connected Weather Station
+            <span class="pill">IoT / Sensors</span>
+          </h3>
+          <p class="desc">
+            Arduino-based weather station (temperature, humidity, pressure)
+            with live data capture and a dedicated interface to visualize
+            measurements in real time.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/iot-weather-station"
+             target="_blank" rel="noopener noreferrer">
+            View project
+          </a>
+        </div>
       </div>
 
-      <!-- Pac-Man in C last -->
+      <!-- Pac-Man in C -->
       <div class="card">
-        <h3>
-          Pac-Man (C)
-          <span class="pill">C / Retro game</span>
-        </h3>
-        <p class="desc">
-          Pac-Man clone written in C: player movement, ghost AI logic,
-          collisions, score handling. Strong focus on memory management
-          and low-level struct organization.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/pacman-c"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
+        <div class="card-content">
+          <h3>
+            Pac-Man (C)
+            <span class="pill">C / Retro game</span>
+          </h3>
+          <p class="desc">
+            Pac-Man clone written in C: player movement, ghost AI logic,
+            collisions, score handling. Strong focus on memory management
+            and low-level struct organization.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/pacman-c"
+             target="_blank" rel="noopener noreferrer">
+            View project
+          </a>
+        </div>
       </div>
 
     </div>
