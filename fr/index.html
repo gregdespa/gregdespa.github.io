@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grégoire Desparain • Portfolio</title>
+  <style>
+    :root {
+      --bg-grad-1: #0f172a;
+      --bg-grad-2: #1e293b;
+      --card-bg: #1e2537;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #38bdf8;
+      --radius-xl: 1.25rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, var(--bg-grad-2) 0%, var(--bg-grad-1) 60%);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 2rem 1rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: .5rem;
+      background: rgba(148,163,184,.08);
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: var(--radius-xl);
+      padding: .4rem .6rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+      font-size: .8rem;
+      line-height: 1.2;
+    }
+
+    .lang-switch a {
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-weight: 500;
+    }
+
+    .lang-switch a span.flag {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .lang-switch a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(56,189,248,.6);
+      box-shadow: 0 0 25px rgba(56,189,248,.25);
+      display: block;
+      margin: 0 auto 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 2vw, 2.5rem);
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.04em;
+    }
+
+    header p.tagline {
+      margin-top: 0.75rem;
+      font-size: 1rem;
+      color: var(--text-dim);
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .75rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn-main,
+    .btn-ghost {
+      display: inline-block;
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      padding: .7rem 1rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid transparent;
+      line-height: 1.2;
+      min-width: 140px;
+      text-align: center;
+      transition: all .15s linear;
+    }
+
+    .btn-main {
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 600;
+      box-shadow: 0 20px 40px rgba(56,189,248,.2);
+    }
+
+    .btn-main:hover {
+      filter: brightness(1.05);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .btn-ghost {
+      background: rgba(148,163,184,.08);
+      color: var(--text-main);
+      border-color: rgba(148,163,184,.3);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(148,163,184,.15);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text-main);
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title span.tag {
+      background: rgba(56,189,248,.12);
+      color: var(--accent);
+      font-size: .7rem;
+      line-height: 1;
+      padding: .4rem .6rem;
+      border-radius: var(--radius-xl);
+      font-weight: 500;
+      border: 1px solid rgba(56,189,248,.4);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      padding: 1.25rem 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      row-gap: .5rem;
+    }
+
+    .card h3 .pill {
+      font-size: .7rem;
+      font-weight: 500;
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.3);
+      color: var(--text-dim);
+      padding: .3rem .5rem;
+      border-radius: var(--radius-xl);
+      line-height: 1.1;
+    }
+
+    .card p.desc {
+      color: var(--text-dim);
+      font-size: .9rem;
+      margin-top: .6rem;
+      margin-bottom: 1rem;
+      min-height: 3.5em;
+    }
+
+    .card a.project-link {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: var(--radius-xl);
+      padding: .5rem .75rem;
+      text-align: center;
+      transition: all .15s linear;
+    }
+
+    .card a.project-link:hover {
+      background: rgba(56,189,248,.15);
+      box-shadow: 0 20px 40px rgba(56,189,248,.2);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .xp-wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(min(500px,100%),1fr));
+      gap: 1rem;
+    }
+
+    .xp-card {
+      background: rgba(15,23,42,.4);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      padding: 1rem 1.25rem 1.25rem;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    }
+
+    .xp-card h4 {
+      color: var(--text-main);
+      font-size: .95rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: .5rem;
+    }
+
+    .xp-card h4 span.loc {
+      color: var(--text-dim);
+      font-size: .8rem;
+      font-weight: 400;
+    }
+
+    .xp-card p.role {
+      color: var(--accent);
+      font-size: .8rem;
+      font-weight: 500;
+      margin-top: .25rem;
+    }
+
+    .xp-card p.text {
+      color: var(--text-dim);
+      font-size: .9rem;
+      margin-top: .75rem;
+    }
+
+    ul.skill-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem .6rem;
+      margin-top: .75rem;
+    }
+
+    ul.skill-list li {
+      font-size: .75rem;
+      color: var(--text-main);
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: var(--radius-xl);
+      padding: .4rem .6rem;
+      line-height: 1.1;
+      font-weight: 500;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: .75rem;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <!-- switch langue -->
+    <div class="lang-switch">
+      <a href="/" title="English">
+        <span class="flag">🇬🇧</span>
+        <span>EN</span>
+      </a>
+      <a href="/fr/" title="Français">
+        <span class="flag">🇫🇷</span>
+        <span>FR</span>
+      </a>
+    </div>
+
+    <!-- photo -->
+    <img src="profile.jpg" alt="Photo de Grégoire Desparain" class="profile-pic" />
+
+    <h1>Grégoire Desparain</h1>
+    <p class="tagline">
+      Élève-ingénieur en informatique et systèmes connectés à l’IMT Nord Europe
+      (Mines de Douai). Je recherche un stage de 10 à 16 semaines à partir du
+      10 mai 2025 dans la cybersécurité, la data ou la tech digitale, y compris
+      en environnement international anglophone.
+    </p>
+
+    <div class="contact-row">
+      <a class="btn-main" href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener noreferrer">
+        LinkedIn
+      </a>
+
+      <a class="btn-ghost" href="../CV%20ATS%20EN.pdf" target="_blank" rel="noopener noreferrer">
+        Télécharger mon CV (PDF)
+      </a>
+
+      <a class="btn-ghost" href="mailto:gdespar1@hotmail.com">
+        Me contacter
+      </a>
+    </div>
+  </header>
+
+  <!-- PROJETS -->
+  <section id="projets">
+    <div class="section-title">
+      <h2>Projets techniques</h2>
+      <span class="tag">Arduino • C • PHP • App</span>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- The Forest en premier -->
+      <div class="card">
+        <h3>
+          Application “The Forest”
+          <span class="pill">Cycle complet de projet</span>
+        </h3>
+        <p class="desc">
+          Projet de plus de 400 h réalisé avec une équipe de 5 personnes :
+          recueil du besoin client, développement complet de l’application,
+          suivi budgétaire (180 €) et réunions hebdomadaires avec deux tuteurs.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/the-forest-app"
+           target="_blank" rel="noopener noreferrer">
+          Voir le projet
+        </a>
+      </div>
+
+      <!-- Lecteur résultats escrime -->
+      <div class="card">
+        <h3>
+          Lecteur de résultats d’escrime
+          <span class="pill">PHP / Analyse stat</span>
+        </h3>
+        <p class="desc">
+          Outil web développé pour la Fédération Française d’Escrime : lecture
+          automatique des résultats, calcul d’indicateurs et affichage pour les
+          responsables. Présenté à la fédé puis amélioré avec leurs retours.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/fencing-results-reader-php"
+           target="_blank" rel="noopener noreferrer">
+          Voir le projet
+        </a>
+      </div>
+
+      <!-- Pompe essence Arduino -->
+      <div class="card">
+        <h3>
+          Pompe à essence automatisée
+          <span class="pill">Arduino / Automatisation</span>
+        </h3>
+        <p class="desc">
+          Simulation miniature de pompe à essence : contrôle du débit,
+          logique embarquée, automatisation du process avec Arduino.
+          Gestion hardware + sécurité.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
+           target="_blank" rel="noopener noreferrer">
+          Voir le projet
+        </a>
+      </div>
+
+      <!-- Station météo -->
+      <div class="card">
+        <h3>
+          Station météo connectée
+          <span class="pill">IoT / Capteurs</span>
+        </h3>
+        <p class="desc">
+          Station météo basée sur Arduino (température, humidité, pression)
+          avec acquisition en temps réel et interface dédiée pour visualiser
+          les mesures en direct.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/iot-weather-station"
+           target="_blank" rel="noopener noreferrer">
+          Voir le projet
+        </a>
+      </div>
+
+      <!-- Pac-Man en C en dernier -->
+      <div class="card">
+        <h3>
+          Pac-Man (C)
+          <span class="pill">C / Jeu rétro</span>
+        </h3>
+        <p class="desc">
+          Clone de Pac-Man en C : gestion du player, IA des fantômes,
+          collisions, score. Travail mémoire bas niveau et organisation
+          modulaire du code.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/pacman-c"
+           target="_blank" rel="noopener noreferrer">
+          Voir le projet
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPÉRIENCE -->
+  <section id="xp">
+    <div class="section-title">
+      <h2>Expérience</h2>
+      <span class="tag">Terrain & technique</span>
+    </div>
+
+    <div class="xp-wrapper">
+
+      <div class="xp-card">
+        <h4>
+          Passman / Passenergy
+          <span class="loc">Lyon · Juin–Août 2025</span>
+        </h4>
+        <p class="role">Stagiaire ingénierie — énergie & bâtiment connecté</p>
+        <p class="text">
+          Diagnostic des pannes terrain (capteurs, serveurs PMS, connectivité),
+          tests de la solution Passenergy avant le déploiement national,
+          création de scénarios d’amélioration continue poussés sur GitHub.
+        </p>
+      </div>
+
+      <div class="xp-card">
+        <h4>
+          Fédération Française d’Escrime
+          <span class="loc">Paris · Juin–Juil 2024</span>
+        </h4>
+        <p class="role">Développeur Web (PHP)</p>
+        <p class="text">
+          Lecture automatique des résultats de compétition, traitement
+          statistique et mise à disposition d’une interface d’analyse
+          pour les responsables fédéraux. Présentation, retours, itérations.
+        </p>
+      </div>
+
+      <div class="xp-card">
+        <h4>
+          Disneyland Paris
+          <span class="loc">Paris · Été 2023</span>
+        </h4>
+        <p class="role">Opérateur Attraction</p>
+        <p class="text">
+          Gestion du flux (800+ visiteurs/jour), sûreté et expérience
+          client en environnement international, réaction rapide aux imprévus.
+        </p>
+      </div>
+
+      <div class="xp-card">
+        <h4>
+          Coca-Cola Europacific Partners
+          <span class="loc">Lyon · Fév–Avr 2023</span>
+        </h4>
+        <p class="role">Technicien terrain (Stage)</p>
+        <p class="text">
+          Maintenance préventive chez les clients (dont McDonald’s),
+          priorisation des interventions via l’outil interne, autonomie
+          et travail en équipe.
+        </p>
+      </div>
+
+      <div class="xp-card">
+        <h4>
+          Tournoi “Challenge Aramis”
+          <span class="loc">Lyon · 2020–Aujourd’hui</span>
+        </h4>
+        <p class="role">Chef de projet — organisation événementielle</p>
+        <p class="text">
+          Organisation d’un tournoi international d’escrime
+          (200+ participants sur 2 jours). Management d’une équipe de 15,
+          gestion logistique et gestion de crise. Arbitre national,
+          responsable de 3 à 15 arbitres selon l’évènement.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPÉTENCES -->
+  <section id="skills">
+    <div class="section-title">
+      <h2>Compétences clés</h2>
+      <span class="tag">Tech & humain</span>
+    </div>
+
+    <ul class="skill-list">
+      <li>Python</li>
+      <li>C / Bas niveau</li>
+      <li>PHP / HTML / CSS / SQL</li>
+      <li>Arduino & IoT</li>
+      <li>Traitement de fichiers XML</li>
+      <li>Automatisation & dashboarding</li>
+      <li>Gestion de projet (équipe 5+, budget 180 €)</li>
+      <li>Anglais C1 (TOEIC 955)</li>
+      <li>Italien B1</li>
+      <li>Travail en équipe internationale</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>
+      Basé dans la région de Douai, mobile en France et à l’international. Permis B.
+      <br/>
+      Contact direct : <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> · +33 7 82 82 79 55
+    </p>
+  </footer>
+
+</body>
+</html>
