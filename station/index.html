@@ -208,7 +208,7 @@
     }
 
     pre {
-      background: rgba(15,23,42,.5); 
+      background: rgba(15,23,42,.5);
       color: #e2e8f0;
       border: 1px solid rgba(56,189,248,.3);
       border-radius: var(--radius-xl);
@@ -310,21 +310,21 @@
 
     <div class="mini-meta">
       <div class="role">Role: Embedded / Connected systems</div>
-      <div>Tech: Arduino + ZigBee link + servos</div>
+      <div>Tech: Arduino + XBee radio link + servos</div>
       <div>2024–2025</div>
     </div>
   </div>
 
   <h1>
     Connected Weather Station
-    <span class="pill">Arduino • ZigBee • Sensors</span>
+    <span class="pill">Arduino • XBee • Sensors</span>
   </h1>
 
   <p class="subtitle">
-    A two-Arduino weather station with wireless data transmission and automatic actuation.
-    One Arduino (Emitter) reads environmental values (temperature, humidity, wind, light),
-    sends them over ZigBee; the other Arduino (Receiver) displays them on an LCD interface
-    and drives servo motors to open/close blinds based on conditions.
+    A two-Arduino weather station with a wireless XBee radio link and automatic actuation.
+    One Arduino (Emitter) reads environmental data (temperature, humidity, wind, light)
+    and transmits it over XBee. The other Arduino (Receiver) displays the live data on
+    an LCD/keypad interface and drives servo motors to open/close blinds based on those values.
   </p>
 </header>
 
@@ -336,19 +336,19 @@
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span><strong>Emitter (E):</strong> collects all sensor data and broadcasts it over ZigBee (XBee module).  
-      This is the outdoor “weather probe”.</span>
+      <span><strong>Emitter (E):</strong> collects all sensor data and sends it over an XBee radio link.  
+      This is basically the outdoor “weather probe”.</span>
     </li>
     <li>
       <span class="bullet"></span>
-      <span><strong>Receiver (R):</strong> listens to the ZigBee stream, shows live values on an LCD / keypad
+      <span><strong>Receiver (R):</strong> listens to the XBee frames, shows live values on an LCD / keypad
       interface, and decides how to move the servos that control blinds / shades.</span>
     </li>
   </ul>
 
   <p>
-    The communication is fully wireless using ZigBee, so the sensor node and the control/display node
-    can be physically separated (example: sensor outside the house, receiver indoors next to the user).
+    The communication is fully wireless using point-to-point XBee modules, so the sensor node
+    and the control/display node can be physically separated (for example: outdoor sensor vs indoor controller).
   </p>
 
   <div class="center-btn-row">
@@ -363,22 +363,22 @@
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span><strong>Temperature & humidity:</strong> DHT-type sensor gives ambient °C and %RH.</span>
+      <span><strong>Temperature & humidity:</strong> DHT-style sensor gives ambient °C and %RH.</span>
     </li>
     <li>
       <span class="bullet"></span>
-      <span><strong>Wind speed:</strong> anemometer pulses are counted over time to estimate wind speed.
-      The code uses timing/interrupt-style logic to convert pulses into km/h.</span>
+      <span><strong>Wind speed:</strong> anemometer pulses are counted over time to estimate wind in km/h.</span>
     </li>
     <li>
       <span class="bullet"></span>
-      <span><strong>Light level:</strong> LDR-style sensor measures brightness, used to decide whether blinds should open to let more light in.</span>
+      <span><strong>Light level:</strong> LDR input measures brightness, used to decide whether blinds
+      should open to bring in more daylight.</span>
     </li>
   </ul>
 
   <p>
-    The Emitter formats these sensor values into a lightweight frame and sends it via serial
-    to the ZigBee radio. The Receiver parses that frame and updates the UI instantly.
+    The Emitter formats the sensor values into a lightweight frame and transmits it via XBee UART.
+    The Receiver parses that frame and updates the UI instantly.
   </p>
 </section>
 
@@ -387,23 +387,23 @@
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span><strong>LCD + keypad module (Manuella board):</strong> shows the live measurements in a human-friendly way.</span>
+      <span><strong>LCD + keypad module (“Manuella” board):</strong> shows the live measurements in a human-friendly way.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span><strong>Page navigation:</strong> the user can switch which variable is displayed (temperature, humidity, wind, etc.).  
-      A gesture sensor (PAJ7620) can be used to flip between screens without touching buttons.</span>
+      <span><strong>Page navigation:</strong> the user can switch which variable is displayed (temperature, humidity, wind, etc.).
+      A PAJ7620 gesture sensor can flip between screens without pressing a button.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span><strong>Real-time feedback:</strong> the display updates continuously as new wireless data arrives.</span>
+      <span><strong>Real-time feedback:</strong> the display refreshes every time a new frame arrives over XBee.</span>
     </li>
   </ul>
 
   <p>
-    This was designed so a non-technical user can read “is it safe to open the window now?” instead of just raw voltage values.
+    Goal: a non-technical user can read “is it safe to open the blinds right now?” instead of raw voltages.
   </p>
 </section>
 
@@ -412,7 +412,7 @@
 
   <p>
     The Receiver Arduino controls several servo motors that drive blinds / shutters.
-    Based on the latest received weather data:
+    Based on the latest received data:
   </p>
 
   <ul class="details-list">
@@ -438,7 +438,7 @@
   </ul>
 
   <p>
-    So it’s not just “monitoring weather”. It actually reacts to the environment — like a tiny home automation system.
+    So it’s not just measuring weather — it’s reacting to the environment like a tiny home automation system.
   </p>
 </section>
 
@@ -446,7 +446,7 @@
   <h2>05. Core code structure <span class="pill">Arduino (E & R)</span></h2>
 
   <p>
-    The logic is split in two sketches:  
+    The logic is split into two Arduino sketches:  
     <code>DESPARAIN_Station_Meteo_E.ino</code> (Emitter) and  
     <code>DESPARAIN_Station_Meteo_R.ino</code> (Receiver).
   </p>
@@ -455,7 +455,7 @@
 // Pseudocode - Emitter (E)
 // 1. Read sensors
 // 2. Build data frame
-// 3. Send frame over ZigBee
+// 3. Send frame over XBee
 
 loop() {
     temp = readTemperature();
@@ -467,20 +467,20 @@ loop() {
     String frame = "T:" + temp + ";H:" + hum +
                    ";W:" + wind + ";L:" + lux + ";";
 
-    zigbeeSerial.print(frame); // send to Receiver
+    xbeeSerial.print(frame); // send to Receiver
 }
   </code></pre>
 
   <pre><code class="language-c">
 // Pseudocode - Receiver (R)
-// 1. Read ZigBee frame
+// 1. Read XBee frame
 // 2. Parse values
 // 3. Update LCD
 // 4. Move servos if needed
 
 loop() {
-    if (zigbeeSerial.available()) {
-        String frame = zigbeeSerial.readStringUntil(';');
+    if (xbeeSerial.available()) {
+        String frame = xbeeSerial.readStringUntil(';');
         parseFrame(frame);        // extract T,H,W,L
         updateLCD();
         updateServos();
@@ -489,9 +489,9 @@ loop() {
   </code></pre>
 
   <p>
-    This split (E = measurement + transmit, R = receive + decide + act) makes it easy
-    to upgrade either side separately: change sensors on the Emitter without touching
-    the UI code, or improve control rules on the Receiver without rewiring the outside unit.
+    Splitting it like this (E = measure & transmit, R = receive & decide & act)
+    makes the system modular: you can upgrade sensors on the Emitter without touching
+    the display code, or rewrite the control rules on the Receiver without rewiring the outdoor node.
   </p>
 </section>
 
@@ -501,7 +501,7 @@ loop() {
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span>Wireless data links with ZigBee / XBee (not Wi-Fi, not Bluetooth): pairing, framing, parsing.</span>
+      <span>Wireless point-to-point communication using XBee modules: framing, parsing, robustness.</span>
     </li>
 
     <li>
@@ -511,12 +511,12 @@ loop() {
 
     <li>
       <span class="bullet"></span>
-      <span>Building a human-facing interface (LCD + keypad + gesture sensor), not just raw serial output.</span>
+      <span>Designing an actual user interface (LCD + keypad + gesture sensor), not just dumping values to Serial Monitor.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span>Turning environmental data into actions that affect the physical world (automatic blinds logic).</span>
+      <span>Turning environmental data into physical actions (automatic blind/shutter control).</span>
     </li>
   </ul>
 </section>
