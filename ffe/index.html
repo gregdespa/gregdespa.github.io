@@ -47,7 +47,13 @@
       align-items: flex-start;
     }
 
-    .back-link {
+    .left-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
       text-decoration: none;
       color: var(--accent);
       font-size: .9rem;
@@ -64,7 +70,7 @@
       transition: all .15s linear;
     }
 
-    .back-link:hover {
+    .nav-btn:hover {
       background: rgba(56,189,248,.15);
       transform: translateY(-1px) scale(1.01);
     }
@@ -236,10 +242,10 @@
 
   <header>
     <div class="top-row">
-      <a class="back-link" href="/" title="Back to portfolio">
-        <span>←</span>
-        <span>Back to portfolio</span>
-      </a>
+      <div class="left-buttons">
+        <a class="nav-btn" href="/" title="Back to portfolio">← Back to portfolio</a>
+        <a class="nav-btn" href="https://github.com/YOUR_GITHUB/fencing-results-reader-php" target="_blank" rel="noopener noreferrer">🔗 View Repo</a>
+      </div>
 
       <div class="mini-meta">
         <div class="role">Role: Web developer (PHP)</div>
