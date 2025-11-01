@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lecteur de Résultats d'Escrime • Grégoire Desparain</title>
+  <style>
+    :root {
+      --bg-grad-1: #0f172a;
+      --bg-grad-2: #1e293b;
+      --card-bg: #1e2537;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #38bdf8;
+      --radius-xl: 1.25rem;
+      --mono: "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, var(--bg-grad-2) 0%, var(--bg-grad-1) 60%);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 2rem 1rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .left-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 500;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: var(--radius-xl);
+      padding: .5rem .75rem;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      transition: all .15s linear;
+    }
+
+    .nav-btn:hover {
+      background: rgba(56,189,248,.15);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .mini-meta {
+      text-align: right;
+      color: var(--text-dim);
+      font-size: .8rem;
+      line-height: 1.3;
+    }
+
+    .mini-meta .role {
+      color: var(--accent);
+      font-weight: 500;
+      font-size: .8rem;
+    }
+
+    h1 {
+      color: var(--text-main);
+      font-size: clamp(1.6rem, 1vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin: 1.5rem 0 .5rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: .7rem;
+      font-weight: 500;
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.3);
+      color: var(--text-dim);
+      padding: .3rem .5rem;
+      border-radius: var(--radius-xl);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      font-size: 1rem;
+      max-width: 650px;
+      line-height: 1.4;
+    }
+
+    section.block {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      padding: 1.25rem 1.25rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .block h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .block p {
+      font-size: .9rem;
+      color: var(--text-dim);
+      margin-bottom: .8rem;
+      line-height: 1.5;
+    }
+
+    ul.details-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.details-list li {
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    ul.details-list li .bullet {
+      width: .5rem;
+      height: .5rem;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: .45rem;
+      box-shadow: 0 0 10px rgba(56,189,248,.8);
+      flex-shrink: 0;
+    }
+
+    pre {
+      background: rgba(15,23,42,.5);
+      color: #e2e8f0;
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: var(--radius-xl);
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: .8rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 40px rgba(56,189,248,.15);
+      white-space: pre;
+    }
+
+    code {
+      font-family: var(--mono);
+    }
+
+    .repo-link {
+      display: inline-block;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      color: var(--accent);
+      padding: .6rem 1rem;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .9rem;
+      line-height: 1.2;
+      transition: .15s;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .repo-link:hover {
+      background: rgba(56,189,248,.15);
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: .75rem;
+      margin-top: 3rem;
+      line-height: 1.4;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mini-meta {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top-row">
+      <div class="left-buttons">
+        <a class="nav-btn" href="/" title="Retour au portfolio">← Retour au portfolio</a>
+        <a class="nav-btn" href="https://github.com/gregdespa/resultsreader" target="_blank" rel="noopener noreferrer">🧩 Voir le dépôt GitHub</a>
+      </div>
+
+      <div class="mini-meta">
+        <div class="role">Rôle : Développeur web (PHP)</div>
+        <div>Client : Fédération Française d’Escrime</div>
+        <div>Paris · Juin–Juillet 2024</div>
+      </div>
+    </div>
+
+    <h1>
+      Lecteur de Résultats d’Escrime
+      <span class="pill">PHP / Parsing XML / Statistiques</span>
+    </h1>
+
+    <p class="subtitle">
+      Outil web développé pour la Fédération Française d’Escrime.  
+      Il lit automatiquement les fichiers de résultats officiels (exports XML),
+      extrait les informations clés (matchs, classements, arbitres, performances)
+      et les présente sous forme de tableaux lisibles pour les entraîneurs.
+      Le but : éliminer toutes les manipulations Excel manuelles après chaque compétition.
+    </p>
+  </header>
+
+  <!-- 01 -->
+  <section class="block">
+    <h2>01. Contexte <span class="pill">Avant l’outil</span></h2>
+    <p>
+      Après chaque compétition d’escrime, la fédération récupère un fichier brut contenant
+      tous les assauts, les poules, les tableaux d’élimination directe, les classements,
+      les arbitres, etc. Avant ce projet :
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>Les responsables ouvraient ces fichiers à la main pour chercher qui a battu qui, avec quel score, à quel tour.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Ils copiaient/collaient les infos dans Excel pour reconstituer les classements et préparer un retour aux entraîneurs.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Chaque compétition demandait une reconstruction complète des tableaux. C’était lent et dépendant de la personne dispo ce week-end-là.</span>
+      </li>
+    </ul>
+
+    <p>
+      La demande : un outil rapide, fiable, utilisable par du personnel non technique.
+    </p>
+  </section>
+
+  <!-- 02 -->
+  <section class="block">
+    <h2>02. Objectif <span class="pill">Ce que j’ai livré</span></h2>
+    <p>
+      J’ai développé une interface web en PHP qui :
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>Analyse automatiquement les exports officiels de compétition (par ex. <code>lille.xml</code>).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Affiche les poules (<code>poules.php</code>), le classement final (<code>classement_f.php</code>), les feuilles de match (<code>match.php</code>), la liste des tireurs inscrits (<code>inscrits.php</code>) et la liste des arbitres (<code>arbitre.php</code>).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Calcule des indicateurs de performance (victoires, écart de touches, etc.).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Présente les résultats dans des tableaux HTML propres, prêts à être partagés avec les entraîneurs.</span>
+      </li>
+    </ul>
+
+    <p>
+      J’ai fait une démo en direct auprès du responsable fédéral, récupéré leur feedback
+      (quels indicateurs sont vraiment utiles pour eux), puis ajusté le contenu et la présentation.
+    </p>
+  </section>
+
+  <!-- 03 -->
+  <section class="block">
+    <h2>03. Approche technique <span class="pill">Comment ça marche</span></h2>
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Source unique :</strong> un seul fichier XML (ex : <code>lille.xml</code>) contient toute la compétition : poules, tireurs, arbitres, scores, classement.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Pages PHP dédiées :</strong> chaque fichier PHP correspond à une vue claire :
+          <code>poules.php</code> pour les poules,
+          <code>match.php</code> pour les matchs,
+          <code>classement_f.php</code> pour le classement,
+          <code>inscrits.php</code> pour les engagés,
+          <code>arbitre.php</code> pour les arbitres.
+        </span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Rendu HTML :</strong> les données sont affichées en tableaux propres avec un style commun (<code>styles.css</code>) pour que ce soit lisible par quelqu’un qui n’est pas développeur.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Pas de base de données :</strong> tout est calculé en mémoire à partir du XML → déploiement facile, réutilisable sur n’importe quelle compétition.</span>
+      </li>
+    </ul>
+
+    <p>
+      Concrètement : on dépose un nouveau fichier XML de compétition dans le dossier,
+      et le site est prêt pour cet événement sans rien reprogrammer.
+    </p>
+  </section>
+
+  <!-- 04 -->
+  <section class="block">
+    <h2>04. Stack technique <span class="pill">Outils</span></h2>
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>PHP</strong> pour la logique, le parsing et les calculs d’indicateurs</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>SimpleXML</strong> pour lire les exports XML fournis par la fédération</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>HTML / CSS</strong> pour l’interface visible par les coachs et les arbitres</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Architecture modulaire</strong> (plusieurs pages PHP spécialisées) pour obtenir des URL simples à partager</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 05 -->
+  <section class="block">
+    <h2>05. Impact <span class="pill">Pourquoi c’est utile</span></h2>
+    <p>
+      Après mise en place :
+    </p>
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>La fédération peut générer un récapitulatif de compétition en quelques minutes, au lieu de refaire tout à la main sous Excel.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Tous les entraîneurs voient la même info, présentée de la même façon — plus de version contradictoire.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Les débriefs d’après-compétition se concentrent enfin sur la performance sportive, pas sur le ménage de la donnée.</span>
+      </li>
+    </ul>
+
+    <p>
+      Le projet m’a aussi appris à travailler avec des interlocuteurs non techniques
+      (encadrement fédéral, arbitres), traduire « on veut des stats » en KPIs calculables,
+      et formater l’info comme ils en ont besoin sur le terrain.
+    </p>
+  </section>
+
+  <!-- 06 -->
+  <section class="block">
+    <h2>06. Spécification du besoin <span class="pill">État des Besoins</span></h2>
+    <p>
+      Avant d’écrire la moindre ligne de code, j’ai rédigé un <strong>État des Besoins</strong>
+      qui décrit toutes les pages attendues, les données à afficher et la navigation.
+      En pratique, j’ai joué le rôle de chef de produit.
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Accueil / index.php :</strong> nom de la compétition, organisateur, lieu, date,
+        formule (ex : Poules → Élimination directe), statut en cours.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>inscrits.php :</strong> liste des tireurs engagés avec nom, club, catégorie, arme. Avec recherche.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>arbitre.php :</strong> liste des arbitres affectés à l’événement (nom, club, niveau).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>poules.php :</strong> tableaux de poules complets, avec chaque assaut, les touches données/reçues, les victoires, et l’arbitre de la poule.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>classement_f.php :</strong> classement intermédiaire et final, couleurs des médailles, tour d’élimination atteint.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>match.php :</strong> vue détaillée d’un match ou d’une branche de tableau pour analyse avec l’entraîneur.</span>
+      </li>
+    </ul>
+
+    <p>
+      L’État des Besoins inclut aussi les évolutions futures :
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>Suivi des cartons / pénalités par tireur.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Statistiques d’arbitrage pour évaluer les arbitres.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Mise en évidence des surprises (une tête de série basse bat un favori).</span>
+      </li>
+    </ul>
+
+    <p style="text-align:center; margin-top:1rem;">
+      <a class="repo-link" href="edb.pdf" target="_blank" rel="noopener noreferrer">
+        📄 Consulter l’État des Besoins (PDF)
+      </a>
+    </p>
+  </section>
+
+  <!-- 07 -->
+  <section class="block">
+    <h2>07. Logique PHP principale <span class="pill">Parsing XML</span></h2>
+    <p>
+      Ci-dessous un extrait simplifié de la logique utilisée dans <code>poules.php</code> :
+      on lit l’export XML officiel (ex : <code>lille.xml</code>), on boucle sur chaque poule,
+      puis on liste tous les matchs avec le score.
+    </p>
+
+    <pre><code class="language-php">
+// Charger les données de compétition
+$xml = simplexml_load_file("lille.xml");
+
+// Stocker toutes les poules
+$pools = [];
+
+foreach ($xml->Poule as $poule) {
+    $poolNum = (string)$poule['Num'];
+
+    // Infos structurées pour cette poule
+    $pools[$poolNum] = [
+        "referee" => (string)$poule['Arbitre'],
+        "matches" => []
+    ];
+
+    // Boucle sur chaque match de la poule
+    foreach ($poule->Match as $match) {
+        $fencerA = (string)$match->TireurA['Nom'];
+        $fencerB = (string)$match->TireurB['Nom'];
+        $scoreA  = (int)$match['ScoreA'];
+        $scoreB  = (int)$match['ScoreB'];
+
+        $pools[$poolNum]["matches"][] = [
+            "a" => $fencerA,
+            "b" => $fencerB,
+            "sa" => $scoreA,
+            "sb" => $scoreB
+        ];
+    }
+}
+
+// Rendu HTML de chaque poule
+foreach ($pools as $num => $data) {
+    echo "&lt;h2&gt;Poule " . $num . " (Arbitre : " . $data["referee"] . ")&lt;/h2&gt;";
+    echo "&lt;table&gt;";
+    echo "&lt;tr&gt;&lt;th&gt;Tireur A&lt;/th&gt;&lt;th&gt;Tireur B&lt;/th&gt;&lt;th&gt;Score&lt;/th&gt;&lt;/tr&gt;";
+
+    foreach ($data["matches"] as $m) {
+        $scoreLine = $m["sa"] . " - " . $m["sb"];
+        echo "&lt;tr&gt;";
+        echo "&lt;td&gt;" . $m["a"] . "&lt;/td&gt;";
+        echo "&lt;td&gt;" . $m["b"] . "&lt;/td&gt;";
+        echo "&lt;td&gt;" . $scoreLine . "&lt;/td&gt;";
+        echo "&lt;/tr&gt;";
+    }
+
+    echo "&lt;/table&gt;";
+}
+    </code></pre>
+
+    <p>
+      Le même principe est réutilisé ailleurs :
+      <code>classement_f.php</code> parcourt le classement final,
+      <code>arbitre.php</code> parcourt les arbitres,
+      <code>inscrits.php</code> parcourt les tireurs engagés, etc.
+      Pour une nouvelle compétition, il suffit de remplacer le fichier XML.
+    </p>
+  </section>
+
+  <!-- 08 -->
+  <section class="block" style="text-align:center;">
+    <h2>08. Code source</h2>
+    <p style="font-size:.9rem; color:var(--text-dim); line-height:1.4; max-width:600px; margin:0 auto 1rem;">
+      Le projet complet inclut toutes les pages PHP (<code>index.php</code>, <code>poules.php</code>,
+      <code>match.php</code>, <code>inscrits.php</code>, <code>arbitre.php</code>,
+      <code>classement_f.php</code>) ainsi que la feuille de style commune <code>styles.css</code>.
+    </p>
+
+    <a class="repo-link"
+       href="https://github.com/gregdespa/resultsreader"
+       target="_blank" rel="noopener noreferrer">
+      🧩 Voir le dépôt GitHub
+    </a>
+  </section>
+
+  <footer>
+    <p>
+      Réalisé par Grégoire Desparain — IMT Nord Europe (Mines de Douai)<br/>
+      <a href="/">← Retour au portfolio</a>
+    </p>
+  </footer>
+
+</body>
+</html>
