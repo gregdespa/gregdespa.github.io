@@ -39,6 +39,7 @@
       position: relative;
     }
 
+    /* language switch */
     .lang-switch {
       position: absolute;
       top: 0;
@@ -72,6 +73,7 @@
       text-decoration: underline;
     }
 
+    /* profile picture */
     .profile-pic {
       width: 140px;
       height: 140px;
@@ -172,12 +174,15 @@
       border: 1px solid rgba(56,189,248,.4);
     }
 
+    /* grid of project cards */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr));
       gap: 1rem;
+      align-items: stretch;
     }
 
+    /* card */
     .card {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
@@ -188,6 +193,13 @@
       flex-direction: column;
       position: relative;
       overflow: hidden;
+      min-height: 320px;
+    }
+
+    .card-content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
     }
 
     .card h3 {
@@ -217,10 +229,15 @@
       font-size: .9rem;
       margin-top: .6rem;
       margin-bottom: 1rem;
-      min-height: 3.5em;
+      line-height: 1.4;
     }
 
-    .card a.project-link {
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+    }
+
+    .project-link {
       font-size: .85rem;
       font-weight: 500;
       color: var(--accent);
@@ -230,12 +247,26 @@
       border-radius: var(--radius-xl);
       padding: .5rem .75rem;
       text-align: center;
+      width: 100%;
       transition: all .15s linear;
     }
 
-    .card a.project-link:hover {
+    .project-link:hover {
       background: rgba(56,189,248,.15);
       box-shadow: 0 20px 40px rgba(56,189,248,.2);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .project-link.in-progress {
+      background: rgba(251,191,36,0.08);
+      border: 1px solid rgba(251,191,36,0.4);
+      color: #facc15;
+      font-style: italic;
+    }
+
+    .project-link.in-progress:hover {
+      background: rgba(251,191,36,0.15);
+      box-shadow: 0 20px 40px rgba(251,191,36,.2);
       transform: translateY(-1px) scale(1.01);
     }
 
@@ -319,7 +350,7 @@
 <body>
 
   <header>
-    <!-- switch langue -->
+    <!-- language switch -->
     <div class="lang-switch">
       <a href="/" title="English">
         <span class="flag">🇬🇧</span>
@@ -331,23 +362,23 @@
       </a>
     </div>
 
-    <!-- photo -->
-    <img src="profile.jpg" alt="Photo de Grégoire Desparain" class="profile-pic" />
+    <!-- profile image -->
+    <img src="../profile.jpg" alt="Portrait de Grégoire Desparain" class="profile-pic" />
 
     <h1>Grégoire Desparain</h1>
     <p class="tagline">
-      Élève-ingénieur en informatique et systèmes connectés à l’IMT Nord Europe
-      (Mines de Douai). Je recherche un stage de 10 à 16 semaines à partir du
-      10 mai 2025 dans la cybersécurité, la data ou la tech digitale, y compris
-      en environnement international anglophone.
+      Élève ingénieur en 1ère année à IMT Nord Europe
+      (Mines de Douai). Recherche un stage ingénieur de 10 à 16 semaines
+      à partir du 10 mai 2025, dans la cybersécurité, la donnée ou le digital,
+      idéalement en environnement anglophone.
     </p>
 
     <div class="contact-row">
-      <a class="btn-main" href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener noreferrer">
+      <a class="btn-main" href="https://www.linkedin.com/in/grégoire-desparain" target="_blank" rel="noopener noreferrer">
         LinkedIn
       </a>
 
-      <a class="btn-ghost" href="../CV%20ATS%20EN.pdf" target="_blank" rel="noopener noreferrer">
+      <a class="btn-ghost" href="../CVATSFR.pdf" target="_blank" rel="noopener noreferrer">
         Télécharger mon CV (PDF)
       </a>
 
@@ -358,7 +389,7 @@
   </header>
 
   <!-- PROJETS -->
-  <section id="projets">
+  <section id="projects">
     <div class="section-title">
       <h2>Projets techniques</h2>
       <span class="tag">Arduino • C • PHP • App</span>
@@ -366,101 +397,120 @@
 
     <div class="projects-grid">
 
-      <!-- The Forest en premier -->
+      <!-- The Forest -->
       <div class="card">
-        <h3>
-          Application “The Forest”
-          <span class="pill">Cycle complet de projet</span>
-        </h3>
-        <p class="desc">
-          Projet de plus de 400 h réalisé avec une équipe de 5 personnes :
-          recueil du besoin client, développement complet de l’application,
-          suivi budgétaire (180 €) et réunions hebdomadaires avec deux tuteurs.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/the-forest-app"
-           target="_blank" rel="noopener noreferrer">
-          Voir le projet
-        </a>
+        <div class="card-content">
+          <h3>
+            Application “The Forest”
+            <span class="pill">Cycle projet complet</span>
+          </h3>
+          <p class="desc">
+            Projet de plus de 400 heures mené en équipe (5 personnes) :
+            expression du besoin avec le client, développement de l’application,
+            suivi budgétaire (180 €), points hebdomadaires avec deux encadrants.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link in-progress"
+             href="/"
+             target="_self" rel="noopener noreferrer">
+            En cours
+          </a>
+        </div>
       </div>
 
       <!-- Lecteur résultats escrime -->
       <div class="card">
-        <h3>
-          Lecteur de résultats d’escrime
-          <span class="pill">PHP / Analyse stat</span>
-        </h3>
-        <p class="desc">
-          Outil web développé pour la Fédération Française d’Escrime : lecture
-          automatique des résultats, calcul d’indicateurs et affichage pour les
-          responsables. Présenté à la fédé puis amélioré avec leurs retours.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/fencing-results-reader-php"
-           target="_blank" rel="noopener noreferrer">
-          Voir le projet
-        </a>
+        <div class="card-content">
+          <h3>
+            Lecteur de Résultats d’Escrime
+            <span class="pill">PHP / Parsing données</span>
+          </h3>
+          <p class="desc">
+            Outil web pour la Fédération Française d’Escrime : lecture des fichiers
+            officiels de compétition (XML), génération de statistiques et affichage
+            clair pour les entraîneurs. Présenté à la fédé puis amélioré selon leur retour.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://gregdespa.github.io/ffe/index.html"
+             target="_blank" rel="noopener noreferrer">
+            Voir le projet
+          </a>
+        </div>
       </div>
 
-      <!-- Pompe essence Arduino -->
+      <!-- Pompe à essence Arduino -->
       <div class="card">
-        <h3>
-          Pompe à essence automatisée
-          <span class="pill">Arduino / Automatisation</span>
-        </h3>
-        <p class="desc">
-          Simulation miniature de pompe à essence : contrôle du débit,
-          logique embarquée, automatisation du process avec Arduino.
-          Gestion hardware + sécurité.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
-           target="_blank" rel="noopener noreferrer">
-          Voir le projet
-        </a>
+        <div class="card-content">
+          <h3>
+            Pompe à essence automatisée
+            <span class="pill">Arduino / Automatisation</span>
+          </h3>
+          <p class="desc">
+            Simulation d’une pompe à essence : contrôle du débit, logique embarquée,
+            sécurités et automatisation avec Arduino. Pilotage physique + gestion des états.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
+             target="_blank" rel="noopener noreferrer">
+            Voir le projet
+          </a>
+        </div>
       </div>
 
-      <!-- Station météo -->
+      <!-- Station météo connectée -->
       <div class="card">
-        <h3>
-          Station météo connectée
-          <span class="pill">IoT / Capteurs</span>
-        </h3>
-        <p class="desc">
-          Station météo basée sur Arduino (température, humidité, pression)
-          avec acquisition en temps réel et interface dédiée pour visualiser
-          les mesures en direct.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/iot-weather-station"
-           target="_blank" rel="noopener noreferrer">
-          Voir le projet
-        </a>
+        <div class="card-content">
+          <h3>
+            Station météo connectée
+            <span class="pill">IoT / Capteurs</span>
+          </h3>
+          <p class="desc">
+            Station météo Arduino (température, humidité, pression)
+            avec lecture en temps réel des mesures et interface dédiée
+            pour visualisation en direct.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/iot-weather-station"
+             target="_blank" rel="noopener noreferrer">
+            Voir le projet
+          </a>
+        </div>
       </div>
 
-      <!-- Pac-Man en C en dernier -->
+      <!-- Pac-Man en C -->
       <div class="card">
-        <h3>
-          Pac-Man (C)
-          <span class="pill">C / Jeu rétro</span>
-        </h3>
-        <p class="desc">
-          Clone de Pac-Man en C : gestion du player, IA des fantômes,
-          collisions, score. Travail mémoire bas niveau et organisation
-          modulaire du code.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/pacman-c"
-           target="_blank" rel="noopener noreferrer">
-          Voir le projet
-        </a>
+        <div class="card-content">
+          <h3>
+            Pac-Man (C)
+            <span class="pill">C / Jeu rétro</span>
+          </h3>
+          <p class="desc">
+            Clone de Pac-Man en C : déplacement du joueur, IA des fantômes,
+            collisions, gestion du score. Travail spécifique sur la mémoire
+            et l’organisation bas niveau avec des structures.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="project-link"
+             href="https://github.com/YOUR_GITHUB/pacman-c"
+             target="_blank" rel="noopener noreferrer">
+            Voir le projet
+          </a>
+        </div>
       </div>
 
     </div>
   </section>
 
   <!-- EXPÉRIENCE -->
-  <section id="xp">
+  <section id="experience">
     <div class="section-title">
       <h2>Expérience</h2>
       <span class="tag">Terrain & technique</span>
@@ -473,24 +523,24 @@
           Passman / Passenergy
           <span class="loc">Lyon · Juin–Août 2025</span>
         </h4>
-        <p class="role">Stagiaire ingénierie — énergie & bâtiment connecté</p>
+        <p class="role">Stagiaire ingénieur — Énergie & bâtiments connectés</p>
         <p class="text">
-          Diagnostic des pannes terrain (capteurs, serveurs PMS, connectivité),
-          tests de la solution Passenergy avant le déploiement national,
-          création de scénarios d’amélioration continue poussés sur GitHub.
+          Diagnostic d’incidents terrain (capteurs, serveurs PMS, connectivité),
+          tests de la solution Passenergy avant déploiement national,
+          et propositions d’amélioration continue poussées sur GitHub.
         </p>
       </div>
 
       <div class="xp-card">
         <h4>
           Fédération Française d’Escrime
-          <span class="loc">Paris · Juin–Juil 2024</span>
+          <span class="loc">Paris · Juin–Juillet 2024</span>
         </h4>
-        <p class="role">Développeur Web (PHP)</p>
+        <p class="role">Développeur web (PHP)</p>
         <p class="text">
-          Lecture automatique des résultats de compétition, traitement
-          statistique et mise à disposition d’une interface d’analyse
-          pour les responsables fédéraux. Présentation, retours, itérations.
+          Automatisation de la lecture des résultats de compétition
+          et du calcul statistique, mise à disposition d’une interface claire
+          pour les encadrants. Présentation, retours, itérations.
         </p>
       </div>
 
@@ -499,10 +549,11 @@
           Disneyland Paris
           <span class="loc">Paris · Été 2023</span>
         </h4>
-        <p class="role">Opérateur Attraction</p>
+        <p class="role">Opérateur Attractions</p>
         <p class="text">
-          Gestion du flux (800+ visiteurs/jour), sûreté et expérience
-          client en environnement international, réaction rapide aux imprévus.
+          Gestion des flux visiteurs (800+ personnes/jour), sécurité,
+          expérience client en environnement international, réaction rapide
+          aux situations imprévues.
         </p>
       </div>
 
@@ -511,11 +562,11 @@
           Coca-Cola Europacific Partners
           <span class="loc">Lyon · Fév–Avr 2023</span>
         </h4>
-        <p class="role">Technicien terrain (Stage)</p>
+        <p class="role">Stagiaire technicien itinérant</p>
         <p class="text">
-          Maintenance préventive chez les clients (dont McDonald’s),
-          priorisation des interventions via l’outil interne, autonomie
-          et travail en équipe.
+          Maintenance préventive sur site client (dont McDonald’s),
+          priorisation des interventions à l’aide de l’outil interne.
+          Forte autonomie et travail en binôme.
         </p>
       </div>
 
@@ -524,12 +575,12 @@
           Tournoi “Challenge Aramis”
           <span class="loc">Lyon · 2020–Aujourd’hui</span>
         </h4>
-        <p class="role">Chef de projet — organisation événementielle</p>
+        <p class="role">Responsable organisation & arbitrage</p>
         <p class="text">
           Organisation d’un tournoi international d’escrime
-          (200+ participants sur 2 jours). Management d’une équipe de 15,
-          gestion logistique et gestion de crise. Arbitre national,
-          responsable de 3 à 15 arbitres selon l’évènement.
+          (200+ participants sur deux jours). Management d’une équipe
+          d’environ 15 personnes, logistique, gestion de crise.
+          Arbitre national encadrant 3 à 15 arbitres selon l’événement.
         </p>
       </div>
 
@@ -547,19 +598,19 @@
       <li>Python</li>
       <li>C / Bas niveau</li>
       <li>PHP / HTML / CSS / SQL</li>
-      <li>Arduino & IoT</li>
-      <li>Traitement de fichiers XML</li>
-      <li>Automatisation & dashboarding</li>
-      <li>Gestion de projet (équipe 5+, budget 180 €)</li>
+      <li>Arduino & systèmes IoT</li>
+      <li>Traitement de données XML</li>
+      <li>Automatisation & tableaux de bord</li>
+      <li>Gestion de projet (5+ personnes, budget 180 €)</li>
       <li>Anglais C1 (TOEIC 955)</li>
       <li>Italien B1</li>
-      <li>Travail en équipe internationale</li>
+      <li>Travail interculturel</li>
     </ul>
   </section>
 
   <footer>
     <p>
-      Basé dans la région de Douai, mobile en France et à l’international. Permis B.
+      Basé en France (secteur Douai), mobile en France ou à l’étranger. Permis B.
       <br/>
       Contact direct : <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> · +33 7 82 82 79 55
     </p>
