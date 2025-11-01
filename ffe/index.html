@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fencing Results Reader • Grégoire Desparain</title>
+  <style>
+    :root {
+      --bg-grad-1: #0f172a;
+      --bg-grad-2: #1e293b;
+      --card-bg: #1e2537;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #38bdf8;
+      --radius-xl: 1.25rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, var(--bg-grad-2) 0%, var(--bg-grad-1) 60%);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 2rem 1rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .back-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      row-gap: 1rem;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 500;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: var(--radius-xl);
+      padding: .5rem .75rem;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      transition: all .15s linear;
+    }
+
+    .back-link:hover {
+      background: rgba(56,189,248,.15);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .mini-meta {
+      text-align: right;
+      color: var(--text-dim);
+      font-size: .8rem;
+      line-height: 1.3;
+    }
+
+    .mini-meta div.role {
+      color: var(--accent);
+      font-weight: 500;
+      font-size: .8rem;
+    }
+
+    .project-title-area {
+      text-align: left;
+      margin-top: 2rem;
+    }
+
+    h1 {
+      color: var(--text-main);
+      font-size: clamp(1.6rem, 1vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin-bottom: .5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: .5rem;
+    }
+
+    .pill {
+      font-size: .7rem;
+      font-weight: 500;
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.3);
+      color: var(--text-dim);
+      padding: .3rem .5rem;
+      border-radius: var(--radius-xl);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      font-size: 1rem;
+      max-width: 650px;
+      line-height: 1.4;
+    }
+
+    /* CONTENT BLOCKS */
+    section.block {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      padding: 1.25rem 1.25rem 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .block h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text-main);
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .block p {
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: .8rem;
+    }
+
+    .inline-badge {
+      background: rgba(56,189,248,.12);
+      border: 1px solid rgba(56,189,248,.4);
+      color: var(--accent);
+      border-radius: var(--radius-xl);
+      font-size: .7rem;
+      font-weight: 500;
+      line-height: 1.2;
+      padding: .3rem .5rem;
+    }
+
+    ul.details-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    ul.details-list li {
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+    }
+
+    ul.details-list li .bullet {
+      min-width: .5rem;
+      height: .5rem;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-top: .45rem;
+      box-shadow: 0 0 10px rgba(56,189,248,.8);
+    }
+
+    /* CTA to repo */
+    .cta-card {
+      text-align: center;
+      background: rgba(15,23,42,.4);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      padding: 1.25rem 1.25rem 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .cta-card p {
+      font-size: .8rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .repo-link {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: var(--radius-xl);
+      padding: .6rem 1rem;
+      text-align: center;
+      display: inline-block;
+      min-width: 180px;
+      transition: all .15s linear;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+    }
+
+    .repo-link:hover {
+      background: rgba(56,189,248,.15);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: .75rem;
+      margin-top: 3rem;
+      line-height: 1.4;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .back-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mini-meta {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="back-row">
+      <a class="back-link" href="/" title="Back to portfolio">
+        <span>←</span>
+        <span>Back to portfolio</span>
+      </a>
+
+      <div class="mini-meta">
+        <div class="role">Role: Web developer (PHP)</div>
+        <div>Client: French Fencing Federation</div>
+        <div>Paris · June–July 2024</div>
+      </div>
+    </div>
+
+    <div class="project-title-area">
+      <h1>
+        Fencing Results Reader
+        <span class="pill">PHP / Data parsing / Analytics</span>
+      </h1>
+
+      <p class="subtitle">
+        A web tool I built for the French Fencing Federation to automatically read
+        competition result files, extract the key stats, and present them in a clear,
+        coach-friendly dashboard. This replaced manual Excel work after every event.
+      </p>
+    </div>
+  </header>
+
+  <!-- Context / Problem -->
+  <section class="block">
+    <h2>
+      01. Context
+      <span class="pill">Problem to solve</span>
+    </h2>
+
+    <p>
+      After each fencing competition, the federation receives raw result files.
+      These files contain all bouts, rankings, pools, eliminations, etc.  
+      Before my tool, staff had to:
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>Open the files manually and search for relevant info (who beat who, score spreads, consistency).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Copy/paste into Excel to build internal reports for coaches and managers.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Repeat this for every category, every competition, every weekend.</span>
+      </li>
+    </ul>
+
+    <p>
+      This process was slow, error-prone, and depended on whoever was on duty.
+      The federation wanted something <strong>repeatable</strong>, <strong>fast</strong>,
+      and <strong>usable by non-technical staff</strong>.
+    </p>
+  </section>
+
+  <!-- Goal -->
+  <section class="block">
+    <h2>
+      02. Objective
+      <span class="pill">What I delivered</span>
+    </h2>
+
+    <p>
+      I built a lightweight PHP web interface that:
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>Ingests competition result files (export formats provided by the federation).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Parses and extracts structured data: athletes, ranking, match outcomes, indicators.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Computes performance metrics (for coaches and staff).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Displays everything on a clean web dashboard: no Excel formulas needed anymore.</span>
+      </li>
+    </ul>
+
+    <p>
+      I first demoed it live to the federation’s manager, then iterated based on feedback
+      (readability, naming, and which KPIs matter most to them).
+    </p>
+  </section>
+
+  <!-- Technical -->
+  <section class="block">
+    <h2>
+      03. How it works
+      <span class="pill">Technical view</span>
+    </h2>
+
+    <p>
+      The pipeline is intentionally simple so it can run on any basic PHP hosting:
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Upload / Select a file</strong>: the staff either uploads a results file or points to an existing one.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Parsing layer (PHP)</strong>: I read the raw data line by line, detect blocks (pools, DE brackets, final standings), and map them to arrays / objects.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Stat engine</strong>: I generate key indicators such as victory margins, loss patterns, rank progression, etc.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Render</strong>: final info is displayed as HTML tables and summaries, so staff can screenshot / export directly.</span>
+      </li>
+    </ul>
+
+    <p>
+      No external database was required in the first version: all processing is done in memory,
+      which makes deployment easier for a federation that doesn’t have internal devops resources.
+    </p>
+  </section>
+
+  <!-- Stack -->
+  <section class="block">
+    <h2>
+      04. Tech stack
+      <span class="pill">Tools I used</span>
+    </h2>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>PHP</strong> for file parsing and server-side logic.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>HTML / CSS</strong> for the dashboard UI.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Basic data structures in PHP</strong> (arrays, associative arrays) instead of a database to keep it portable.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Iterative design with the federation</strong>: they told me which KPIs they actually look at on Monday morning.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Impact -->
+  <section class="block">
+    <h2>
+      05. Impact
+      <span class="pill">Why it matters</span>
+    </h2>
+
+    <p>
+      After the demo, the federation could:
+    </p>
+
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>Generate a competition summary in minutes, not an hour+ of Excel cleaning.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Share consistent reports across coaches and staff — same format every time.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Focus discussions on athlete performance instead of “where did you get that number?”</span>
+      </li>
+    </ul>
+
+    <p>
+      This project also trained me to talk directly with non-technical stakeholders
+      (federation managers, coaches) and translate what they mean by “we need stats”
+      into something that can actually be computed reliably.
+    </p>
+  </section>
+
+  <!-- Link to GitHub -->
+  <div class="cta-card">
+    <p>
+      Code repository and technical notes:
+    </p>
+    <a class="repo-link"
+       href="https://github.com/YOUR_GITHUB/fencing-results-reader-php"
+       target="_blank" rel="noopener noreferrer">
+      View the GitHub repo
+    </a>
+  </div>
+
+  <footer>
+    <p>
+      Built by Grégoire Desparain — Web Developer (PHP) for the French Fencing Federation.<br/>
+      <a href="/">← Back to portfolio</a>
+    </p>
+  </footer>
+
+</body>
+</html>
