@@ -13,6 +13,7 @@
       --text-dim: #94a3b8;
       --accent: #38bdf8;
       --radius-xl: 1.25rem;
+      --mono: "Courier New", monospace;
     }
 
     * {
@@ -38,12 +39,12 @@
       position: relative;
     }
 
-    .back-row {
+    .top-row {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
       flex-wrap: wrap;
       row-gap: 1rem;
+      align-items: flex-start;
     }
 
     .back-link {
@@ -65,7 +66,6 @@
 
     .back-link:hover {
       background: rgba(56,189,248,.15);
-      box-shadow: 0 24px 50px rgba(56,189,248,.28);
       transform: translateY(-1px) scale(1.01);
     }
 
@@ -76,15 +76,10 @@
       line-height: 1.3;
     }
 
-    .mini-meta div.role {
+    .mini-meta .role {
       color: var(--accent);
       font-weight: 500;
       font-size: .8rem;
-    }
-
-    .project-title-area {
-      text-align: left;
-      margin-top: 2rem;
     }
 
     h1 {
@@ -93,11 +88,11 @@
       font-weight: 600;
       letter-spacing: -0.04em;
       line-height: 1.2;
-      margin-bottom: .5rem;
+      margin: 1.5rem 0 .5rem;
       display: flex;
-      flex-wrap: wrap;
       align-items: baseline;
       gap: .5rem;
+      flex-wrap: wrap;
     }
 
     .pill {
@@ -118,20 +113,18 @@
       line-height: 1.4;
     }
 
-    /* CONTENT BLOCKS */
     section.block {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
       border: 1px solid rgba(148,163,184,.15);
       box-shadow: 0 30px 80px rgba(0,0,0,.6);
       padding: 1.25rem 1.25rem 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .block h2 {
       font-size: 1rem;
       font-weight: 600;
-      letter-spacing: -0.04em;
       color: var(--text-main);
       margin-bottom: .6rem;
       display: flex;
@@ -143,28 +136,13 @@
     .block p {
       font-size: .9rem;
       color: var(--text-dim);
-      line-height: 1.5;
       margin-bottom: .8rem;
-    }
-
-    .inline-badge {
-      background: rgba(56,189,248,.12);
-      border: 1px solid rgba(56,189,248,.4);
-      color: var(--accent);
-      border-radius: var(--radius-xl);
-      font-size: .7rem;
-      font-weight: 500;
-      line-height: 1.2;
-      padding: .3rem .5rem;
+      line-height: 1.5;
     }
 
     ul.details-list {
       list-style: none;
       padding-left: 0;
-      margin: 0;
-      font-size: .9rem;
-      color: var(--text-dim);
-      line-height: 1.5;
     }
 
     ul.details-list li {
@@ -172,55 +150,61 @@
       display: flex;
       align-items: flex-start;
       gap: .5rem;
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.4;
     }
 
     ul.details-list li .bullet {
-      min-width: .5rem;
+      width: .5rem;
       height: .5rem;
-      border-radius: 999px;
+      border-radius: 50%;
       background: var(--accent);
       margin-top: .45rem;
       box-shadow: 0 0 10px rgba(56,189,248,.8);
+      flex-shrink: 0;
     }
 
-    /* CTA to repo */
-    .cta-card {
-      text-align: center;
-      background: rgba(15,23,42,.4);
+    pre {
+      background: rgba(15,23,42,.5);
+      color: #e2e8f0;
+      border: 1px solid rgba(56,189,248,.3);
       border-radius: var(--radius-xl);
-      border: 1px solid rgba(148,163,184,.15);
-      box-shadow: 0 30px 80px rgba(0,0,0,.6);
-      padding: 1.25rem 1.25rem 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .cta-card p {
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
       font-size: .8rem;
-      color: var(--text-dim);
       line-height: 1.4;
       margin-bottom: 1rem;
+      box-shadow: 0 0 40px rgba(56,189,248,.15);
+      white-space: pre;
+    }
+
+    code {
+      font-family: var(--mono);
     }
 
     .repo-link {
-      font-size: .9rem;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
+      display: inline-block;
       background: rgba(56,189,248,.08);
       border: 1px solid rgba(56,189,248,.4);
-      border-radius: var(--radius-xl);
+      color: var(--accent);
       padding: .6rem 1rem;
-      text-align: center;
-      display: inline-block;
-      min-width: 180px;
-      transition: all .15s linear;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .9rem;
+      line-height: 1.2;
+      transition: .15s;
       box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      min-width: 180px;
+      text-align: center;
     }
 
     .repo-link:hover {
       background: rgba(56,189,248,.15);
-      box-shadow: 0 24px 50px rgba(56,189,248,.28);
       transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
     }
 
     footer {
@@ -238,7 +222,7 @@
     }
 
     @media (max-width: 480px) {
-      .back-row {
+      .top-row {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -251,7 +235,7 @@
 <body>
 
   <header>
-    <div class="back-row">
+    <div class="top-row">
       <a class="back-link" href="/" title="Back to portfolio">
         <span>←</span>
         <span>Back to portfolio</span>
@@ -264,202 +248,309 @@
       </div>
     </div>
 
-    <div class="project-title-area">
-      <h1>
-        Fencing Results Reader
-        <span class="pill">PHP / Data parsing / Analytics</span>
-      </h1>
+    <h1>
+      Fencing Results Reader
+      <span class="pill">PHP / Data parsing / Analytics</span>
+    </h1>
 
-      <p class="subtitle">
-        A web tool I built for the French Fencing Federation to automatically read
-        competition result files, extract the key stats, and present them in a clear,
-        coach-friendly dashboard. This replaced manual Excel work after every event.
-      </p>
-    </div>
+    <p class="subtitle">
+      A web tool I built for the French Fencing Federation to automatically read
+      competition result files (XML exports), extract key statistics, and present
+      them in a clear, coach-friendly dashboard. This replaces hours of Excel work
+      after each event.
+    </p>
   </header>
 
-  <!-- Context / Problem -->
+  <!-- 01 -->
   <section class="block">
-    <h2>
-      01. Context
-      <span class="pill">Problem to solve</span>
-    </h2>
-
+    <h2>01. Context <span class="pill">Before the tool</span></h2>
     <p>
-      After each fencing competition, the federation receives raw result files.
-      These files contain all bouts, rankings, pools, eliminations, etc.  
-      Before my tool, staff had to:
+      After each fencing competition, the federation receives raw result files with all bouts,
+      pools, eliminations, rankings, and referees. Before this project:
     </p>
 
     <ul class="details-list">
       <li>
         <span class="bullet"></span>
-        <span>Open the files manually and search for relevant info (who beat who, score spreads, consistency).</span>
+        <span>Staff had to open these files manually and search for relevant info (who beat who, score spreads, cards, etc.).</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span>Copy/paste into Excel to build internal reports for coaches and managers.</span>
+        <span>They copied data into Excel to rebuild standings and produce internal reports for coaches.</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span>Repeat this for every category, every competition, every weekend.</span>
+        <span>Every competition meant starting over. The process depended on whoever was on duty that weekend.</span>
       </li>
     </ul>
 
     <p>
-      This process was slow, error-prone, and depended on whoever was on duty.
-      The federation wanted something <strong>repeatable</strong>, <strong>fast</strong>,
-      and <strong>usable by non-technical staff</strong>.
+      They asked me to make this fast, reliable, and usable by non-technical staff.
     </p>
   </section>
 
-  <!-- Goal -->
+  <!-- 02 -->
   <section class="block">
-    <h2>
-      02. Objective
-      <span class="pill">What I delivered</span>
-    </h2>
-
+    <h2>02. Objective <span class="pill">What I delivered</span></h2>
     <p>
-      I built a lightweight PHP web interface that:
+      I developed a PHP web interface that:
     </p>
 
     <ul class="details-list">
       <li>
         <span class="bullet"></span>
-        <span>Ingests competition result files (export formats provided by the federation).</span>
+        <span>Parses official competition exports (like <code>lille.xml</code>).</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span>Parses and extracts structured data: athletes, ranking, match outcomes, indicators.</span>
+        <span>Displays pools (<code>poules.php</code>), final rankings (<code>classement_f.php</code>), match sheets (<code>match.php</code>), registered athletes (<code>inscrits.php</code>), and referees (<code>arbitre.php</code>).</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span>Computes performance metrics (for coaches and staff).</span>
+        <span>Computes performance indicators (victories, score differences, etc.).</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span>Displays everything on a clean web dashboard: no Excel formulas needed anymore.</span>
+        <span>Shows results in a clean HTML view that can be shared instantly with coaches and managers.</span>
       </li>
     </ul>
 
     <p>
-      I first demoed it live to the federation’s manager, then iterated based on feedback
-      (readability, naming, and which KPIs matter most to them).
+      I demoed it live to the federation’s manager, collected feedback on what stats mattered most,
+      and iterated on wording and layout.
     </p>
   </section>
 
-  <!-- Technical -->
+  <!-- 03 -->
   <section class="block">
-    <h2>
-      03. How it works
-      <span class="pill">Technical view</span>
-    </h2>
+    <h2>03. Technical Approach <span class="pill">How it works</span></h2>
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Central data source:</strong> A single XML file (example: <code>lille.xml</code>) contains the full competition: pools, fencers, referees, match results, ranking.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>PHP pages:</strong> each PHP file focuses on one view:
+          <code>poules.php</code> shows pool tables, <code>match.php</code> shows match details,
+          <code>classement_f.php</code> shows standings, <code>inscrits.php</code> lists competitors,
+          <code>arbitre.php</code> lists referees.
+        </span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Rendering:</strong> data is turned into styled HTML tables using a shared stylesheet (<code>styles.css</code>) so it’s readable for non-tech users.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>No DB:</strong> everything is computed in memory from the XML → easy to deploy, easy to move to another competition.</span>
+      </li>
+    </ul>
 
     <p>
-      The pipeline is intentionally simple so it can run on any basic PHP hosting:
+      This structure means you can just drop a new competition XML file in the folder,
+      and the site instantly works for that event — no recoding.
+    </p>
+  </section>
+
+  <!-- 04 -->
+  <section class="block">
+    <h2>04. Tech Stack <span class="pill">Tools</span></h2>
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span><strong>PHP</strong> for logic, parsing, stats calculation</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>SimpleXML</strong> for reading the exported federation XML files</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>HTML / CSS</strong> for rendering clean tables for coaches and referees</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>Modular pages</strong> (<code>poules.php</code>, <code>match.php</code>, etc.) so each part of the competition has its own URL</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 05 -->
+  <section class="block">
+    <h2>05. Impact <span class="pill">Why it matters</span></h2>
+    <p>
+      After this tool:
+    </p>
+    <ul class="details-list">
+      <li>
+        <span class="bullet"></span>
+        <span>They can generate a competition summary in minutes instead of manually rebuilding Excel sheets.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>All coaches see the same standardized view (no more “my version vs your version”).</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span>Discussions after competition focus on performance, not on data cleaning.</span>
+      </li>
+    </ul>
+    <p>
+      It also trained me to work with non-technical stakeholders (federation staff, referees),
+      translate “we need stats” into computable KPIs, and design around how they actually talk about fencing.
+    </p>
+  </section>
+
+  <!-- 06 Needs Analysis -->
+  <section class="block">
+    <h2>06. Needs Analysis <span class="pill">Functional specification</span></h2>
+    <p>
+      Before touching code, I produced a formal <strong>Functional Specification</strong> (“État des Besoins”)
+      that described all screens and all data the federation expected to see.
+      This is basically me acting like a product owner.
     </p>
 
     <ul class="details-list">
       <li>
         <span class="bullet"></span>
-        <span><strong>Upload / Select a file</strong>: the staff either uploads a results file or points to an existing one.</span>
+        <span><strong>Home / index.php:</strong> competition name, organizer, location, date, fencing formula (e.g. Pools → Direct Elimination), and live status.</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span><strong>Parsing layer (PHP)</strong>: I read the raw data line by line, detect blocks (pools, DE brackets, final standings), and map them to arrays / objects.</span>
+        <span><strong>inscrits.php:</strong> list of registered fencers with name, club, category, weapon. Searchable.</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span><strong>Stat engine</strong>: I generate key indicators such as victory margins, loss patterns, rank progression, etc.</span>
+        <span><strong>arbitre.php:</strong> list of referees assigned to the event (name, club, qualification level).</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span><strong>Render</strong>: final info is displayed as HTML tables and summaries, so staff can screenshot / export directly.</span>
+        <span><strong>poules.php:</strong> pool tables with every match, hits scored / taken, victories, referee on that pool.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>classement_f.php:</strong> intermediate and final ranking with clear medal colors and elimination round reached.</span>
+      </li>
+      <li>
+        <span class="bullet"></span>
+        <span><strong>match.php:</strong> detailed view of a specific match or tableau branch for review with the coach.</span>
       </li>
     </ul>
 
     <p>
-      No external database was required in the first version: all processing is done in memory,
-      which makes deployment easier for a federation that doesn’t have internal devops resources.
+      The spec also lists <strong>planned improvements</strong>:
     </p>
-  </section>
-
-  <!-- Stack -->
-  <section class="block">
-    <h2>
-      04. Tech stack
-      <span class="pill">Tools I used</span>
-    </h2>
-
     <ul class="details-list">
       <li>
         <span class="bullet"></span>
-        <span><strong>PHP</strong> for file parsing and server-side logic.</span>
+        <span>Track cards / penalties per fencer.</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span><strong>HTML / CSS</strong> for the dashboard UI.</span>
+        <span>Referee stats to support evaluation of officials.</span>
       </li>
       <li>
         <span class="bullet"></span>
-        <span><strong>Basic data structures in PHP</strong> (arrays, associative arrays) instead of a database to keep it portable.</span>
-      </li>
-      <li>
-        <span class="bullet"></span>
-        <span><strong>Iterative design with the federation</strong>: they told me which KPIs they actually look at on Monday morning.</span>
+        <span>Highlight “unexpected upsets” (lower seed beats top seed).</span>
       </li>
     </ul>
+
+    <p style="text-align:center; margin-top:1rem;">
+      <a class="repo-link" href="État des Besoins Résultats de Compétitions.pdf" target="_blank" rel="noopener noreferrer">
+        📄 View full Functional Specification (PDF)
+      </a>
+    </p>
   </section>
 
-  <!-- Impact -->
+  <!-- 07 Parsing code sample -->
   <section class="block">
-    <h2>
-      05. Impact
-      <span class="pill">Why it matters</span>
-    </h2>
-
+    <h2>07. Core PHP Logic <span class="pill">XML parsing</span></h2>
     <p>
-      After the demo, the federation could:
+      Below is a simplified version of the logic I use (in <code>poules.php</code>) to read the official XML export
+      (example: <code>lille.xml</code>), loop through each pool, and list the bouts with scores.
     </p>
 
-    <ul class="details-list">
-      <li>
-        <span class="bullet"></span>
-        <span>Generate a competition summary in minutes, not an hour+ of Excel cleaning.</span>
-      </li>
-      <li>
-        <span class="bullet"></span>
-        <span>Share consistent reports across coaches and staff — same format every time.</span>
-      </li>
-      <li>
-        <span class="bullet"></span>
-        <span>Focus discussions on athlete performance instead of “where did you get that number?”</span>
-      </li>
-    </ul>
+    <pre><code class="language-php">
+// Load competition data
+$xml = simplexml_load_file("lille.xml");
+
+// Store all pools
+$pools = [];
+
+foreach ($xml->Poule as $poule) {
+    $poolNum = (string)$poule['Num'];
+
+    // Keep structured info for this pool
+    $pools[$poolNum] = [
+        "referee" => (string)$poule['Arbitre'],
+        "matches" => []
+    ];
+
+    // Loop over each match in the pool
+    foreach ($poule->Match as $match) {
+        $fencerA = (string)$match->TireurA['Nom'];
+        $fencerB = (string)$match->TireurB['Nom'];
+        $scoreA  = (int)$match['ScoreA'];
+        $scoreB  = (int)$match['ScoreB'];
+
+        $pools[$poolNum]["matches"][] = [
+            "a" => $fencerA,
+            "b" => $fencerB,
+            "sa" => $scoreA,
+            "sb" => $scoreB
+        ];
+    }
+}
+
+// Example rendering (HTML table for each pool)
+foreach ($pools as $num => $data) {
+    echo "&lt;h2&gt;Pool " . $num . " (Ref: " . $data["referee"] . ")&lt;/h2&gt;";
+    echo "&lt;table&gt;";
+    echo "&lt;tr&gt;&lt;th&gt;Fencer A&lt;/th&gt;&lt;th&gt;Fencer B&lt;/th&gt;&lt;th&gt;Score&lt;/th&gt;&lt;/tr&gt;";
+
+    foreach ($data["matches"] as $m) {
+        $scoreLine = $m["sa"] . " - " . $m["sb"];
+        echo "&lt;tr&gt;";
+        echo "&lt;td&gt;" . $m["a"] . "&lt;/td&gt;";
+        echo "&lt;td&gt;" . $m["b"] . "&lt;/td&gt;";
+        echo "&lt;td&gt;" . $scoreLine . "&lt;/td&gt;";
+        echo "&lt;/tr&gt;";
+    }
+
+    echo "&lt;/table&gt;";
+}
+    </code></pre>
 
     <p>
-      This project also trained me to talk directly with non-technical stakeholders
-      (federation managers, coaches) and translate what they mean by “we need stats”
-      into something that can actually be computed reliably.
+      This pattern is reused across pages:
+      <code>classement_f.php</code> loops through final standings,
+      <code>arbitre.php</code> loops through referees,
+      <code>inscrits.php</code> loops through fencer registrations,
+      and so on.  
+      The federation can simply change the XML file, and the interface instantly reflects a new competition.
     </p>
   </section>
 
-  <!-- Link to GitHub -->
-  <div class="cta-card">
-    <p>
-      Code repository and technical notes:
+  <!-- 08 Repo link -->
+  <section class="block" style="text-align:center;">
+    <h2>08. Source Code</h2>
+    <p style="font-size:.9rem; color:var(--text-dim); line-height:1.4; max-width:600px; margin:0 auto 1rem;">
+      The full project includes all PHP pages (<code>index.php</code>, <code>poules.php</code>, 
+      <code>match.php</code>, <code>inscrits.php</code>, <code>arbitre.php</code>, 
+      <code>classement_f.php</code>) and the shared <code>styles.css</code>.
     </p>
+
     <a class="repo-link"
        href="https://github.com/YOUR_GITHUB/fencing-results-reader-php"
        target="_blank" rel="noopener noreferrer">
-      View the GitHub repo
+      🧩 View the GitHub repo
     </a>
-  </div>
+  </section>
 
   <footer>
     <p>
-      Built by Grégoire Desparain — Web Developer (PHP) for the French Fencing Federation.<br/>
+      Built by Grégoire Desparain — IMT Nord Europe (Mines de Douai)<br/>
       <a href="/">← Back to portfolio</a>
     </p>
   </footer>
