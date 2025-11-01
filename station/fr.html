@@ -310,21 +310,21 @@
 
     <div class="mini-meta">
       <div class="role">Rôle : Systèmes embarqués / Objets connectés</div>
-      <div>Tech : Arduino + liaison ZigBee + servos</div>
+      <div>Tech : Arduino + liaison radio XBee + servos</div>
       <div>2024–2025</div>
     </div>
   </div>
 
   <h1>
     Station météo connectée
-    <span class="pill">Arduino • ZigBee • Capteurs</span>
+    <span class="pill">Arduino • XBee • Capteurs</span>
   </h1>
 
   <p class="subtitle">
-    Station météo sur deux Arduino avec transmission radio et actionnement automatique.
-    Un Arduino (Émetteur) lit la température, l’humidité, le vent, la luminosité
-    et envoie ces données en ZigBee. L’autre Arduino (Récepteur) affiche les valeurs
-    sur un écran LCD et pilote des servomoteurs pour ouvrir / fermer les volets
+    Station météo basée sur deux Arduino, avec liaison radio XBee et actionnement automatique.
+    Un Arduino (Émetteur) lit la température, l’humidité, le vent et la luminosité
+    puis envoie ces données via XBee. L’autre Arduino (Récepteur) affiche les valeurs
+    sur un écran LCD / clavier et pilote des servomoteurs pour ouvrir ou fermer les volets
     selon les conditions.
   </p>
 </header>
@@ -337,19 +337,19 @@
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span><strong>Émetteur (E) :</strong> lit tous les capteurs météo, formate les mesures et les envoie par radio ZigBee (module XBee).  
+      <span><strong>Émetteur (E) :</strong> lit tous les capteurs météo et envoie les mesures via une liaison radio XBee point-à-point.  
       C’est la “sonde extérieure”.</span>
     </li>
     <li>
       <span class="bullet"></span>
-      <span><strong>Récepteur (R) :</strong> reçoit les valeurs ZigBee, les affiche sur l’interface LCD / clavier,
-      et décide comment bouger les servos qui contrôlent les stores / volets.</span>
+      <span><strong>Récepteur (R) :</strong> reçoit les trames XBee, affiche les valeurs en direct sur l’interface LCD / clavier,
+      et décide comment bouger les servos qui commandent les stores / volets.</span>
     </li>
   </ul>
 
   <p>
-    La liaison est entièrement sans fil (ZigBee), donc on peut mettre l’émetteur dehors
-    et garder le récepteur dedans près de l’utilisateur.
+    Toute la communication passe par deux modules XBee, donc l’émetteur peut rester dehors
+    pendant que le récepteur est installé à l’intérieur, à côté de l’utilisateur.
   </p>
 
   <div class="center-btn-row">
@@ -364,22 +364,22 @@
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span><strong>Température & humidité :</strong> capteur type DHT → donne les °C et l’humidité relative (%RH).</span>
+      <span><strong>Température & humidité :</strong> capteur type DHT → °C ambiante et humidité relative (%RH).</span>
     </li>
     <li>
       <span class="bullet"></span>
-      <span><strong>Vitesse du vent :</strong> l’anémomètre génère des impulsions. On compte les impulsions / seconde
-      pour estimer la vitesse en km/h.</span>
+      <span><strong>Vitesse du vent :</strong> l’anémomètre génère des impulsions. On compte les impulsions
+      pour estimer la vitesse du vent en km/h.</span>
     </li>
     <li>
       <span class="bullet"></span>
-      <span><strong>Luminosité :</strong> capteur LDR (résistance photo) → sert à décider si on doit ouvrir les volets pour laisser entrer plus de lumière naturelle.</span>
+      <span><strong>Luminosité :</strong> capteur LDR → sert à décider si on doit ouvrir les volets pour laisser entrer plus de lumière naturelle.</span>
     </li>
   </ul>
 
   <p>
-    L’Émetteur regroupe ces mesures dans une trame texte simple, puis l’envoie en série
-    au module ZigBee. Le Récepteur lit cette trame, l’interprète et met l’affichage à jour en direct.
+    L’Émetteur formate ces valeurs dans une trame texte légère et l’envoie via l’UART XBee.
+    Le Récepteur lit cette trame, la décode et met l’affichage à jour immédiatement.
   </p>
 </section>
 
@@ -388,24 +388,24 @@
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span><strong>Module LCD + clavier (carte “Manuella”) :</strong> affiche les valeurs météo en temps réel, sous une forme lisible pour n’importe qui.</span>
+      <span><strong>Module LCD + clavier (“Manuella”) :</strong> affiche les valeurs météo en direct d’une façon lisible pour n’importe qui.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span><strong>Navigation par pages :</strong> on peut faire défiler les écrans pour voir température, humidité, vent, etc.
-      Un capteur de geste (PAJ7620) permet même de changer d’écran sans appuyer physiquement sur un bouton.</span>
+      <span><strong>Navigation par pages :</strong> on peut faire défiler les écrans (température, humidité, vent, luminosité).
+      Un capteur de geste PAJ7620 permet même de changer d’écran sans toucher de bouton.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span><strong>Mise à jour continue :</strong> l’affichage se rafraîchit à chaque nouvelle trame reçue en ZigBee.</span>
+      <span><strong>Mise à jour continue :</strong> l’affichage se rafraîchit à chaque nouvelle trame reçue en XBee.</span>
     </li>
   </ul>
 
   <p>
-    L’idée est que l’utilisateur voit directement « est-ce qu’on ouvre les volets ? »
-    plutôt que des valeurs brutes en volts.
+    Objectif : qu’un utilisateur non technique voie directement “est-ce qu’on ouvre les volets ?”
+    et pas seulement une valeur brute en volts.
   </p>
 </section>
 
@@ -413,8 +413,8 @@
   <h2>04. Actionnement automatique <span class="pill">Volets intelligents</span></h2>
 
   <p>
-    L’Arduino Récepteur pilote plusieurs servomoteurs qui commandent l’ouverture des volets / stores.
-    Les règles sont basées sur les dernières mesures reçues :
+    L’Arduino Récepteur pilote plusieurs servomoteurs qui commandent les volets / stores.
+    Les décisions se basent sur les dernières données reçues :
   </p>
 
   <ul class="details-list">
@@ -458,7 +458,7 @@
 // Pseudocode - Émetteur (E)
 // 1. Lire les capteurs
 // 2. Construire une trame texte
-// 3. Envoyer la trame via ZigBee
+// 3. Envoyer la trame via XBee
 
 loop() {
     temp = readTemperature();
@@ -470,20 +470,20 @@ loop() {
     String frame = "T:" + temp + ";H:" + hum +
                    ";W:" + wind + ";L:" + lux + ";";
 
-    zigbeeSerial.print(frame); // envoi vers le Récepteur
+    xbeeSerial.print(frame); // envoi vers le Récepteur
 }
   </code></pre>
 
   <pre><code class="language-c">
 // Pseudocode - Récepteur (R)
-// 1. Lire la trame ZigBee
+// 1. Lire la trame XBee
 // 2. Parser les valeurs
 // 3. Mettre l'écran à jour
 // 4. Bouger les servos si besoin
 
 loop() {
-    if (zigbeeSerial.available()) {
-        String frame = zigbeeSerial.readStringUntil(';');
+    if (xbeeSerial.available()) {
+        String frame = xbeeSerial.readStringUntil(';');
         parseFrame(frame);        // extraire T,H,W,L
         updateLCD();
         updateServos();
@@ -493,9 +493,9 @@ loop() {
 
   <p>
     Cette séparation (E = mesure + émission, R = réception + décision + action)
-    rend le système modulaire : on peut changer les capteurs côté Émetteur
-    sans toucher à l’interface utilisateur, ou refaire les règles de pilotage
-    des volets sans re-câbler la partie extérieure.
+    rend le système modulaire : tu peux changer les capteurs sur l’Émetteur
+    sans toucher à l’interface utilisateur, ou réécrire les règles de pilotage
+    sur le Récepteur sans toucher à la partie extérieure.
   </p>
 </section>
 
@@ -505,22 +505,22 @@ loop() {
   <ul class="details-list">
     <li>
       <span class="bullet"></span>
-      <span>Communication radio ZigBee / XBee (ni Wi-Fi, ni Bluetooth) : adressage, format de trame, parsing.</span>
+      <span>Liaison radio point-à-point avec modules XBee : création de trames, parsing côté réception, robustesse.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span>Acquisition capteurs temps réel et pilotage de servomoteurs sur Arduino.</span>
+      <span>Acquisition de capteurs en temps réel et pilotage de servomoteurs sur Arduino.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span>Création d’une vraie interface utilisateur (LCD + clavier + capteur de geste), pas juste un moniteur série pour ingénieur.</span>
+      <span>Conception d’une vraie interface utilisateur (LCD + clavier + capteur de geste), pas juste un port série pour ingénieur.</span>
     </li>
 
     <li>
       <span class="bullet"></span>
-      <span>Traduire des mesures physiques en actions concrètes qui impactent l’environnement (ouverture/fermeture automatique des volets).</span>
+      <span>Traduire des mesures physiques en actions concrètes sur l’environnement (ouverture / fermeture automatique des volets).</span>
     </li>
   </ul>
 </section>
