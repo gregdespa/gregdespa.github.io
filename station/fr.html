@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Station météo connectée • Grégoire Desparain</title>
+  <style>
+    :root {
+      --bg-grad-1: #0f172a;
+      --bg-grad-2: #1e293b;
+      --card-bg: #1e2537;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #38bdf8;
+      --radius-xl: 1.25rem;
+      --mono: "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, var(--bg-grad-2) 0%, var(--bg-grad-1) 60%);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 2rem 1rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 1rem;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .left-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 500;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: var(--radius-xl);
+      padding: .5rem .75rem;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      transition: all .15s linear;
+    }
+
+    .nav-btn:hover {
+      background: rgba(56,189,248,.15);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    /* switch langue */
+    .lang-switch {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: .5rem;
+      background: rgba(148,163,184,.08);
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: var(--radius-xl);
+      padding: .4rem .6rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+      font-size: .8rem;
+      line-height: 1.2;
+    }
+
+    .lang-switch a {
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-weight: 500;
+    }
+
+    .lang-switch a span.flag {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .lang-switch a:hover {
+      text-decoration: underline;
+    }
+
+    .mini-meta {
+      text-align: right;
+      color: var(--text-dim);
+      font-size: .8rem;
+      line-height: 1.3;
+      padding-right: 7rem; /* pour pas chevaucher le switch langue */
+    }
+
+    .mini-meta .role {
+      color: var(--accent);
+      font-weight: 500;
+      font-size: .8rem;
+    }
+
+    h1 {
+      color: var(--text-main);
+      font-size: clamp(1.6rem, 1vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin: 1.5rem 0 .5rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: .7rem;
+      font-weight: 500;
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.3);
+      color: var(--text-dim);
+      padding: .3rem .5rem;
+      border-radius: var(--radius-xl);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      font-size: 1rem;
+      max-width: 650px;
+      line-height: 1.4;
+    }
+
+    section.block {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      padding: 1.25rem 1.25rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .block h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .block p {
+      font-size: .9rem;
+      color: var(--text-dim);
+      margin-bottom: .8rem;
+      line-height: 1.5;
+    }
+
+    ul.details-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.details-list li {
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    ul.details-list li .bullet {
+      width: .5rem;
+      height: .5rem;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: .45rem;
+      box-shadow: 0 0 10px rgba(56,189,248,.8);
+      flex-shrink: 0;
+    }
+
+    pre {
+      background: rgba(15,23,42,.5);
+      color: #e2e8f0;
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: var(--radius-xl);
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: .8rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 40px rgba(56,189,248,.15);
+      white-space: pre;
+    }
+
+    code {
+      font-family: var(--mono);
+    }
+
+    .center-btn-row {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .repo-link {
+      display: inline-block;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      color: var(--accent);
+      padding: .6rem 1rem;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .9rem;
+      line-height: 1.2;
+      transition: .15s;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      min-width: 200px;
+      text-align: center;
+      margin: .4rem;
+    }
+
+    .repo-link:hover {
+      background: rgba(56,189,248,.15);
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: .75rem;
+      margin-top: 3rem;
+      line-height: 1.4;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mini-meta {
+        text-align: left;
+        padding-right: 0;
+      }
+      .lang-switch {
+        position: static;
+        margin-top: .75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="top-row">
+    <div class="left-buttons">
+      <a class="nav-btn" href="/" title="Retour au portfolio">← Retour au portfolio</a>
+      <a class="nav-btn" href="https://github.com/gregdespa/weather-station" target="_blank" rel="noopener noreferrer">
+        🧩 Voir le dépôt
+      </a>
+    </div>
+
+    <!-- switch langue -->
+    <div class="lang-switch">
+      <a href="/weather/" title="English">
+        <span class="flag">🇬🇧</span>
+        <span>EN</span>
+      </a>
+      <a href="/weather/fr.html" title="Français">
+        <span class="flag">🇫🇷</span>
+        <span>FR</span>
+      </a>
+    </div>
+
+    <div class="mini-meta">
+      <div class="role">Rôle : Systèmes embarqués / Objets connectés</div>
+      <div>Tech : Arduino + liaison ZigBee + servos</div>
+      <div>2024–2025</div>
+    </div>
+  </div>
+
+  <h1>
+    Station météo connectée
+    <span class="pill">Arduino • ZigBee • Capteurs</span>
+  </h1>
+
+  <p class="subtitle">
+    Station météo sur deux Arduino avec transmission radio et actionnement automatique.
+    Un Arduino (Émetteur) lit la température, l’humidité, le vent, la luminosité
+    et envoie ces données en ZigBee. L’autre Arduino (Récepteur) affiche les valeurs
+    sur un écran LCD et pilote des servomoteurs pour ouvrir / fermer les volets
+    selon les conditions.
+  </p>
+</header>
+
+<section class="block">
+  <h2>01. Vue d’ensemble <span class="pill">Architecture</span></h2>
+  <p>
+    Le système est séparé en deux modules physiques :
+  </p>
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Émetteur (E) :</strong> lit tous les capteurs météo, formate les mesures et les envoie par radio ZigBee (module XBee).  
+      C’est la “sonde extérieure”.</span>
+    </li>
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Récepteur (R) :</strong> reçoit les valeurs ZigBee, les affiche sur l’interface LCD / clavier,
+      et décide comment bouger les servos qui contrôlent les stores / volets.</span>
+    </li>
+  </ul>
+
+  <p>
+    La liaison est entièrement sans fil (ZigBee), donc on peut mettre l’émetteur dehors
+    et garder le récepteur dedans près de l’utilisateur.
+  </p>
+
+  <div class="center-btn-row">
+    <a class="repo-link" href="station_meteo.pdf" target="_blank" rel="noopener noreferrer">
+      📄 Voir le rapport (PDF)
+    </a>
+  </div>
+</section>
+
+<section class="block">
+  <h2>02. Mesures & données <span class="pill">Surveillance météo</span></h2>
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Température & humidité :</strong> capteur type DHT → donne les °C et l’humidité relative (%RH).</span>
+    </li>
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Vitesse du vent :</strong> l’anémomètre génère des impulsions. On compte les impulsions / seconde
+      pour estimer la vitesse en km/h.</span>
+    </li>
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Luminosité :</strong> capteur LDR (résistance photo) → sert à décider si on doit ouvrir les volets pour laisser entrer plus de lumière naturelle.</span>
+    </li>
+  </ul>
+
+  <p>
+    L’Émetteur regroupe ces mesures dans une trame texte simple, puis l’envoie en série
+    au module ZigBee. Le Récepteur lit cette trame, l’interprète et met l’affichage à jour en direct.
+  </p>
+</section>
+
+<section class="block">
+  <h2>03. Interface utilisateur <span class="pill">Homme ↔ Machine</span></h2>
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Module LCD + clavier (carte “Manuella”) :</strong> affiche les valeurs météo en temps réel, sous une forme lisible pour n’importe qui.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Navigation par pages :</strong> on peut faire défiler les écrans pour voir température, humidité, vent, etc.
+      Un capteur de geste (PAJ7620) permet même de changer d’écran sans appuyer physiquement sur un bouton.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Mise à jour continue :</strong> l’affichage se rafraîchit à chaque nouvelle trame reçue en ZigBee.</span>
+    </li>
+  </ul>
+
+  <p>
+    L’idée est que l’utilisateur voit directement « est-ce qu’on ouvre les volets ? »
+    plutôt que des valeurs brutes en volts.
+  </p>
+</section>
+
+<section class="block">
+  <h2>04. Actionnement automatique <span class="pill">Volets intelligents</span></h2>
+
+  <p>
+    L’Arduino Récepteur pilote plusieurs servomoteurs qui commandent l’ouverture des volets / stores.
+    Les règles sont basées sur les dernières mesures reçues :
+  </p>
+
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Température élevée (&gt;30 °C) :</strong> volets fermés pour garder la fraîcheur.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Plage de confort (≈20–30 °C) :</strong> volets à moitié ouverts.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Faible luminosité :</strong> volets ouverts pour faire entrer la lumière naturelle.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Vent fort :</strong> volets fermés pour éviter les dégâts.</span>
+    </li>
+  </ul>
+
+  <p>
+    Donc ce n’est pas juste “je mesure la météo”.  
+    Le système réagit et modifie physiquement l’environnement intérieur.
+  </p>
+</section>
+
+<section class="block">
+  <h2>05. Structure du code <span class="pill">Arduino (E & R)</span></h2>
+
+  <p>
+    Le projet est séparé en deux programmes Arduino :  
+    <code>DESPARAIN_Station_Meteo_E.ino</code> (Émetteur) et  
+    <code>DESPARAIN_Station_Meteo_R.ino</code> (Récepteur).
+  </p>
+
+  <pre><code class="language-c">
+// Pseudocode - Émetteur (E)
+// 1. Lire les capteurs
+// 2. Construire une trame texte
+// 3. Envoyer la trame via ZigBee
+
+loop() {
+    temp = readTemperature();
+    hum  = readHumidity();
+    wind = readWindSpeed();
+    lux  = readLightLevel();
+
+    // Exemple de trame : "T:23.4;H:41;W:12;L:380;"
+    String frame = "T:" + temp + ";H:" + hum +
+                   ";W:" + wind + ";L:" + lux + ";";
+
+    zigbeeSerial.print(frame); // envoi vers le Récepteur
+}
+  </code></pre>
+
+  <pre><code class="language-c">
+// Pseudocode - Récepteur (R)
+// 1. Lire la trame ZigBee
+// 2. Parser les valeurs
+// 3. Mettre l'écran à jour
+// 4. Bouger les servos si besoin
+
+loop() {
+    if (zigbeeSerial.available()) {
+        String frame = zigbeeSerial.readStringUntil(';');
+        parseFrame(frame);        // extraire T,H,W,L
+        updateLCD();
+        updateServos();
+    }
+}
+  </code></pre>
+
+  <p>
+    Cette séparation (E = mesure + émission, R = réception + décision + action)
+    rend le système modulaire : on peut changer les capteurs côté Émetteur
+    sans toucher à l’interface utilisateur, ou refaire les règles de pilotage
+    des volets sans re-câbler la partie extérieure.
+  </p>
+</section>
+
+<section class="block">
+  <h2>06. Compétences acquises <span class="pill">Ce que ça m’a appris</span></h2>
+
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span>Communication radio ZigBee / XBee (ni Wi-Fi, ni Bluetooth) : adressage, format de trame, parsing.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span>Acquisition capteurs temps réel et pilotage de servomoteurs sur Arduino.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span>Création d’une vraie interface utilisateur (LCD + clavier + capteur de geste), pas juste un moniteur série pour ingénieur.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span>Traduire des mesures physiques en actions concrètes qui impactent l’environnement (ouverture/fermeture automatique des volets).</span>
+    </li>
+  </ul>
+</section>
+
+<footer>
+  <p>
+    Réalisé par Grégoire Desparain — IMT Nord Europe (Mines de Douai)<br/>
+    <a href="/">← Retour au portfolio</a>
+  </p>
+</footer>
+
+</body>
+</html>
