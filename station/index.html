@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connected Weather Station • Grégoire Desparain</title>
+  <style>
+    :root {
+      --bg-grad-1: #0f172a;
+      --bg-grad-2: #1e293b;
+      --card-bg: #1e2537;
+      --text-main: #f8fafc;
+      --text-dim: #94a3b8;
+      --accent: #38bdf8;
+      --radius-xl: 1.25rem;
+      --mono: "Courier New", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 20%, var(--bg-grad-2) 0%, var(--bg-grad-1) 60%);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 2rem 1rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 1rem;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .left-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 500;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      border-radius: var(--radius-xl);
+      padding: .5rem .75rem;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      transition: all .15s linear;
+    }
+
+    .nav-btn:hover {
+      background: rgba(56,189,248,.15);
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    /* language switch */
+    .lang-switch {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: .5rem;
+      background: rgba(148,163,184,.08);
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: var(--radius-xl);
+      padding: .4rem .6rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+      font-size: .8rem;
+      line-height: 1.2;
+    }
+
+    .lang-switch a {
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-weight: 500;
+    }
+
+    .lang-switch a span.flag {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .lang-switch a:hover {
+      text-decoration: underline;
+    }
+
+    .mini-meta {
+      text-align: right;
+      color: var(--text-dim);
+      font-size: .8rem;
+      line-height: 1.3;
+      padding-right: 7rem; /* leave space for lang switch */
+    }
+
+    .mini-meta .role {
+      color: var(--accent);
+      font-weight: 500;
+      font-size: .8rem;
+    }
+
+    h1 {
+      color: var(--text-main);
+      font-size: clamp(1.6rem, 1vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin: 1.5rem 0 .5rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: .7rem;
+      font-weight: 500;
+      background: rgba(148,163,184,.12);
+      border: 1px solid rgba(148,163,184,.3);
+      color: var(--text-dim);
+      padding: .3rem .5rem;
+      border-radius: var(--radius-xl);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      font-size: 1rem;
+      max-width: 650px;
+      line-height: 1.4;
+    }
+
+    section.block {
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      padding: 1.25rem 1.25rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .block h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: .6rem;
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .block p {
+      font-size: .9rem;
+      color: var(--text-dim);
+      margin-bottom: .8rem;
+      line-height: 1.5;
+    }
+
+    ul.details-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.details-list li {
+      margin-bottom: .5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .5rem;
+      font-size: .9rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    ul.details-list li .bullet {
+      width: .5rem;
+      height: .5rem;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: .45rem;
+      box-shadow: 0 0 10px rgba(56,189,248,.8);
+      flex-shrink: 0;
+    }
+
+    pre {
+      background: rgba(15,23,42,.5);
+      color: #e2e8f0;
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: var(--radius-xl);
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: .8rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 40px rgba(56,189,248,.15);
+      white-space: pre;
+    }
+
+    code {
+      font-family: var(--mono);
+    }
+
+    .center-btn-row {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .repo-link {
+      display: inline-block;
+      background: rgba(56,189,248,.08);
+      border: 1px solid rgba(56,189,248,.4);
+      color: var(--accent);
+      padding: .6rem 1rem;
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .9rem;
+      line-height: 1.2;
+      transition: .15s;
+      box-shadow: 0 20px 40px rgba(56,189,248,.15);
+      min-width: 200px;
+      text-align: center;
+      margin: .4rem;
+    }
+
+    .repo-link:hover {
+      background: rgba(56,189,248,.15);
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 24px 50px rgba(56,189,248,.28);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: .75rem;
+      margin-top: 3rem;
+      line-height: 1.4;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .mini-meta {
+        text-align: left;
+        padding-right: 0;
+      }
+      .lang-switch {
+        position: static;
+        margin-top: .75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="top-row">
+    <div class="left-buttons">
+      <a class="nav-btn" href="/" title="Back to portfolio">← Back to portfolio</a>
+      <a class="nav-btn" href="https://github.com/gregdespa/weather-station" target="_blank" rel="noopener noreferrer">
+        🧩 View repo
+      </a>
+    </div>
+
+    <!-- language switch -->
+    <div class="lang-switch">
+      <a href="/weather/" title="English">
+        <span class="flag">🇬🇧</span>
+        <span>EN</span>
+      </a>
+      <a href="/weather/fr.html" title="Français">
+        <span class="flag">🇫🇷</span>
+        <span>FR</span>
+      </a>
+    </div>
+
+    <div class="mini-meta">
+      <div class="role">Role: Embedded / Connected systems</div>
+      <div>Tech: Arduino + ZigBee link + servos</div>
+      <div>2024–2025</div>
+    </div>
+  </div>
+
+  <h1>
+    Connected Weather Station
+    <span class="pill">Arduino • ZigBee • Sensors</span>
+  </h1>
+
+  <p class="subtitle">
+    A two-Arduino weather station with wireless data transmission and automatic actuation.
+    One Arduino (Emitter) reads environmental values (temperature, humidity, wind, light),
+    sends them over ZigBee; the other Arduino (Receiver) displays them on an LCD interface
+    and drives servo motors to open/close blinds based on conditions.
+  </p>
+</header>
+
+<section class="block">
+  <h2>01. System overview <span class="pill">How it works</span></h2>
+  <p>
+    The station is split into two physical modules:
+  </p>
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Emitter (E):</strong> collects all sensor data and broadcasts it over ZigBee (XBee module).  
+      This is the outdoor “weather probe”.</span>
+    </li>
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Receiver (R):</strong> listens to the ZigBee stream, shows live values on an LCD / keypad
+      interface, and decides how to move the servos that control blinds / shades.</span>
+    </li>
+  </ul>
+
+  <p>
+    The communication is fully wireless using ZigBee, so the sensor node and the control/display node
+    can be physically separated (example: sensor outside the house, receiver indoors next to the user).
+  </p>
+
+  <div class="center-btn-row">
+    <a class="repo-link" href="station_meteo.pdf" target="_blank" rel="noopener noreferrer">
+      📄 View project report (PDF)
+    </a>
+  </div>
+</section>
+
+<section class="block">
+  <h2>02. Sensing & data <span class="pill">Environment monitoring</span></h2>
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Temperature & humidity:</strong> DHT-type sensor gives ambient °C and %RH.</span>
+    </li>
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Wind speed:</strong> anemometer pulses are counted over time to estimate wind speed.
+      The code uses timing/interrupt-style logic to convert pulses into km/h.</span>
+    </li>
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Light level:</strong> LDR-style sensor measures brightness, used to decide whether blinds should open to let more light in.</span>
+    </li>
+  </ul>
+
+  <p>
+    The Emitter formats these sensor values into a lightweight frame and sends it via serial
+    to the ZigBee radio. The Receiver parses that frame and updates the UI instantly.
+  </p>
+</section>
+
+<section class="block">
+  <h2>03. User interface <span class="pill">Human ↔ System</span></h2>
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>LCD + keypad module (Manuella board):</strong> shows the live measurements in a human-friendly way.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Page navigation:</strong> the user can switch which variable is displayed (temperature, humidity, wind, etc.).  
+      A gesture sensor (PAJ7620) can be used to flip between screens without touching buttons.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Real-time feedback:</strong> the display updates continuously as new wireless data arrives.</span>
+    </li>
+  </ul>
+
+  <p>
+    This was designed so a non-technical user can read “is it safe to open the window now?” instead of just raw voltage values.
+  </p>
+</section>
+
+<section class="block">
+  <h2>04. Actuation logic <span class="pill">Smart blinds</span></h2>
+
+  <p>
+    The Receiver Arduino controls several servo motors that drive blinds / shutters.
+    Based on the latest received weather data:
+  </p>
+
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span><strong>High temperature (ex: &gt;30 °C):</strong> blinds close to keep heat out.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Comfort range (≈20–30 °C):</strong> blinds half-open.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>Low light:</strong> blinds open to bring in more natural light.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span><strong>High wind speed:</strong> blinds close for protection.</span>
+    </li>
+  </ul>
+
+  <p>
+    So it’s not just “monitoring weather”. It actually reacts to the environment — like a tiny home automation system.
+  </p>
+</section>
+
+<section class="block">
+  <h2>05. Core code structure <span class="pill">Arduino (E & R)</span></h2>
+
+  <p>
+    The logic is split in two sketches:  
+    <code>DESPARAIN_Station_Meteo_E.ino</code> (Emitter) and  
+    <code>DESPARAIN_Station_Meteo_R.ino</code> (Receiver).
+  </p>
+
+  <pre><code class="language-c">
+// Pseudocode - Emitter (E)
+// 1. Read sensors
+// 2. Build data frame
+// 3. Send frame over ZigBee
+
+loop() {
+    temp = readTemperature();
+    hum  = readHumidity();
+    wind = readWindSpeed();
+    lux  = readLightLevel();
+
+    // Example frame: "T:23.4;H:41;W:12;L:380;"
+    String frame = "T:" + temp + ";H:" + hum +
+                   ";W:" + wind + ";L:" + lux + ";";
+
+    zigbeeSerial.print(frame); // send to Receiver
+}
+  </code></pre>
+
+  <pre><code class="language-c">
+// Pseudocode - Receiver (R)
+// 1. Read ZigBee frame
+// 2. Parse values
+// 3. Update LCD
+// 4. Move servos if needed
+
+loop() {
+    if (zigbeeSerial.available()) {
+        String frame = zigbeeSerial.readStringUntil(';');
+        parseFrame(frame);        // extract T,H,W,L
+        updateLCD();
+        updateServos();
+    }
+}
+  </code></pre>
+
+  <p>
+    This split (E = measurement + transmit, R = receive + decide + act) makes it easy
+    to upgrade either side separately: change sensors on the Emitter without touching
+    the UI code, or improve control rules on the Receiver without rewiring the outside unit.
+  </p>
+</section>
+
+<section class="block">
+  <h2>06. What I learned <span class="pill">Takeaways</span></h2>
+
+  <ul class="details-list">
+    <li>
+      <span class="bullet"></span>
+      <span>Wireless data links with ZigBee / XBee (not Wi-Fi, not Bluetooth): pairing, framing, parsing.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span>Real-time sensor acquisition and servo control loops on Arduino.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span>Building a human-facing interface (LCD + keypad + gesture sensor), not just raw serial output.</span>
+    </li>
+
+    <li>
+      <span class="bullet"></span>
+      <span>Turning environmental data into actions that affect the physical world (automatic blinds logic).</span>
+    </li>
+  </ul>
+</section>
+
+<footer>
+  <p>
+    Built by Grégoire Desparain — IMT Nord Europe (Mines de Douai)<br/>
+    <a href="/">← Back to portfolio</a>
+  </p>
+</footer>
+
+</body>
+</html>
