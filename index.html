@@ -30,11 +30,57 @@
       padding: 2rem 1rem 4rem;
       max-width: 1100px;
       margin: 0 auto;
+      position: relative;
     }
 
     header {
       text-align: center;
       margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: .5rem;
+      background: rgba(148,163,184,.08);
+      border: 1px solid rgba(148,163,184,.3);
+      border-radius: var(--radius-xl);
+      padding: .4rem .6rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,.6);
+      font-size: .8rem;
+      line-height: 1.2;
+    }
+
+    .lang-switch a {
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-weight: 500;
+    }
+
+    .lang-switch a span.flag {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .lang-switch a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(56,189,248,.6);
+      box-shadow: 0 0 25px rgba(56,189,248,.25);
+      display: block;
+      margin: 0 auto 1rem;
     }
 
     header h1 {
@@ -126,7 +172,6 @@
       border: 1px solid rgba(56,189,248,.4);
     }
 
-    /* Project grid */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr));
@@ -194,7 +239,6 @@
       transform: translateY(-1px) scale(1.01);
     }
 
-    /* Experience / skills block */
     .xp-wrapper {
       display: grid;
       grid-template-columns: repeat(auto-fit,minmax(min(500px,100%),1fr));
@@ -274,26 +318,38 @@
 </head>
 <body>
 
-  <!-- HERO -->
   <header>
+    <!-- language switch top right -->
+    <div class="lang-switch">
+      <a href="/" title="English">
+        <span class="flag">🇬🇧</span>
+        <span>EN</span>
+      </a>
+      <a href="/fr/" title="Français">
+        <span class="flag">🇫🇷</span>
+        <span>FR</span>
+      </a>
+    </div>
+
+    <!-- profile image -->
+    <img src="profile.jpg" alt="Grégoire Desparain portrait" class="profile-pic" />
+
     <h1>Grégoire Desparain</h1>
     <p class="tagline">
-      Junior engineer in computer science and connected systems — looking for a 10–16 week internship
-      starting May 10, 2025, in cybersecurity, data or digital tech, in an English-speaking environment.
+      Junior engineer in computer science and connected systems at IMT Nord Europe
+      (Mines de Douai). Looking for a 10–16 week internship starting May 10, 2025,
+      in cybersecurity, data, or digital tech, in an English-speaking environment.
     </p>
 
     <div class="contact-row">
-      <!-- Replace with your real LinkedIn URL -->
       <a class="btn-main" href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener noreferrer">
         LinkedIn
       </a>
 
-      <!-- Link to your CV PDF -->
       <a class="btn-ghost" href="CV%20ATS%20EN.pdf" target="_blank" rel="noopener noreferrer">
         Download my résumé (PDF)
       </a>
 
-      <!-- Email -->
       <a class="btn-ghost" href="mailto:gdespar1@hotmail.com">
         Contact me
       </a>
@@ -309,42 +365,25 @@
 
     <div class="projects-grid">
 
-      <!-- Automated gas pump -->
+      <!-- The Forest first -->
       <div class="card">
         <h3>
-          Automated Gas Pump
-          <span class="pill">Arduino / Automation</span>
+          “The Forest” Application
+          <span class="pill">Full project lifecycle</span>
         </h3>
         <p class="desc">
-          Miniature fuel pump simulation: fuel flow control, embedded logic
-          and process automation using Arduino. Hardware control + safety logic.
+          400+ hour project completed with a 5-person team: requirements gathering
+          with the client, full app development, budget tracking (€180),
+          and weekly reviews with two supervisors.
         </p>
         <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
+           href="https://github.com/YOUR_GITHUB/the-forest-app"
            target="_blank" rel="noopener noreferrer">
           View project
         </a>
       </div>
 
-      <!-- Connected weather station -->
-      <div class="card">
-        <h3>
-          Connected Weather Station
-          <span class="pill">IoT / Sensors</span>
-        </h3>
-        <p class="desc">
-          Arduino-based weather station (temperature, humidity, pressure)
-          with live data capture and a dedicated interface to visualize
-          measurements in real time.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/iot-weather-station"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
-      </div>
-
-      <!-- PHP results reader -->
+      <!-- Fencing results reader -->
       <div class="card">
         <h3>
           Fencing Results Reader
@@ -362,7 +401,42 @@
         </a>
       </div>
 
-      <!-- Pac-Man in C -->
+      <!-- Arduino gas pump -->
+      <div class="card">
+        <h3>
+          Automated Gas Pump
+          <span class="pill">Arduino / Automation</span>
+        </h3>
+        <p class="desc">
+          Miniature fuel pump simulation: fuel flow control, embedded logic
+          and process automation using Arduino. Hardware control + safety logic.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/arduino-gas-pump"
+           target="_blank" rel="noopener noreferrer">
+          View project
+        </a>
+      </div>
+
+      <!-- Arduino weather station -->
+      <div class="card">
+        <h3>
+          Connected Weather Station
+          <span class="pill">IoT / Sensors</span>
+        </h3>
+        <p class="desc">
+          Arduino-based weather station (temperature, humidity, pressure)
+          with live data capture and a dedicated interface to visualize
+          measurements in real time.
+        </p>
+        <a class="project-link"
+           href="https://github.com/YOUR_GITHUB/iot-weather-station"
+           target="_blank" rel="noopener noreferrer">
+          View project
+        </a>
+      </div>
+
+      <!-- Pac-Man in C last -->
       <div class="card">
         <h3>
           Pac-Man (C)
@@ -375,24 +449,6 @@
         </p>
         <a class="project-link"
            href="https://github.com/YOUR_GITHUB/pacman-c"
-           target="_blank" rel="noopener noreferrer">
-          View project
-        </a>
-      </div>
-
-      <!-- "The Forest" app -->
-      <div class="card">
-        <h3>
-          “The Forest” Application
-          <span class="pill">Full project lifecycle</span>
-        </h3>
-        <p class="desc">
-          400+ hour project completed with a 5-person team:
-          requirements gathering with the client, full app development,
-          budget tracking (€180), and weekly reviews with two supervisors.
-        </p>
-        <a class="project-link"
-           href="https://github.com/YOUR_GITHUB/the-forest-app"
            target="_blank" rel="noopener noreferrer">
           View project
         </a>
@@ -501,7 +557,7 @@
 
   <footer>
     <p>
-      Based in Lyon, willing to relocate internationally. Driver’s license (car).
+      Based in France (Douai area), willing to relocate internationally. Driver’s license (car).
       <br/>
       Direct contact: <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> · +33 7 82 82 79 55
     </p>
