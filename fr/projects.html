@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projets — Grégoire Desparain</title>
+  <style>
+    :root{--navy:#0a0f1e;--card:#111827;--card2:#1a2336;--white:#f8fafc;--muted:#64748b;--muted2:#94a3b8;--accent:#38bdf8;--accent2:#818cf8;--green:#34d399;--amber:#facc15;--r:1.25rem;}
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+    body{background:#0a0f1e;color:var(--white);font-family:system-ui,-apple-system,'Inter',sans-serif;overflow-x:hidden;}
+    #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.3;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,30,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(56,189,248,.1);}
+    .nav-inner{max-width:1100px;margin:0 auto;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-size:.9rem;font-weight:700;letter-spacing:-.03em;text-decoration:none;color:var(--white);}
+    .nav-logo .b{color:var(--accent);font-family:'Courier New',monospace;}
+    .nav-links{display:flex;gap:.15rem;}
+    .nav-links a{text-decoration:none;color:var(--muted2);font-size:.82rem;font-weight:500;padding:.4rem .7rem;border-radius:var(--r);transition:all .15s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--accent);border-radius:2px;transition:width .2s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-links a:hover::after,.nav-links a.active::after{width:60%;}
+    .nav-links a.active{color:var(--accent);}
+    .lang-pill{text-decoration:none;font-size:.75rem;font-weight:600;padding:.35rem .65rem;border-radius:var(--r);background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--accent);transition:all .15s;}
+    .lang-pill:hover{background:rgba(56,189,248,.15);}
+    main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:7rem 1.5rem 4rem;}
+    .page-header{margin-bottom:3rem;animation:fadeSlideDown .6s ease both;}
+    .breadcrumb{font-size:.75rem;color:var(--muted);margin-bottom:.75rem;font-family:'Courier New',monospace;}
+    .breadcrumb a{color:var(--accent);text-decoration:none;}
+    .breadcrumb span{margin:0 .4rem;opacity:.4;}
+    h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.05em;background:linear-gradient(135deg,var(--white),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;}
+    .page-sub{color:var(--muted2);font-size:.95rem;max-width:520px;line-height:1.6;}
+    .filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;}
+    .filter-btn{font-size:.75rem;font-weight:600;padding:.4rem .85rem;border-radius:2rem;border:1px solid rgba(148,163,184,.2);background:transparent;color:var(--muted2);cursor:pointer;transition:all .15s;font-family:system-ui,sans-serif;}
+    .filter-btn:hover,.filter-btn.on{background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.4);color:var(--accent);}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:1.25rem;}
+    .project-card{background:var(--card);border:1px solid rgba(148,163,184,.1);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;transition:all .25s;position:relative;overflow:hidden;}
+    .project-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(56,189,248,.07) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;}
+    .project-card:hover::before{opacity:1;}
+    .project-card:hover{border-color:rgba(56,189,248,.3);box-shadow:0 0 40px rgba(56,189,248,.1),0 20px 60px rgba(0,0,0,.5);transform:translateY(-4px);}
+    .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+    .card-icon{font-size:1.6rem;}
+    .status-pill{font-size:.65rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.3rem .6rem;border-radius:2rem;}
+    .status-live{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+    .status-wip{background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);color:var(--amber);}
+    .card-title{font-size:1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem;}
+    .card-desc{font-size:.85rem;color:var(--muted2);line-height:1.55;flex:1;margin-bottom:1rem;}
+    .card-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.25rem;}
+    .tag{font-size:.67rem;font-weight:600;background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.15);color:var(--muted2);padding:.25rem .5rem;border-radius:.5rem;font-family:'Courier New',monospace;}
+    .card-link{text-decoration:none;font-size:.82rem;font-weight:600;color:var(--accent);background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.25);border-radius:var(--r);padding:.55rem .9rem;text-align:center;transition:all .15s;}
+    .card-link:hover{background:rgba(56,189,248,.15);box-shadow:0 0 20px rgba(56,189,248,.2);}
+    .card-link.disabled{color:var(--amber);background:rgba(250,204,21,.06);border-color:rgba(250,204,21,.25);cursor:default;font-style:italic;}
+    footer{position:relative;z-index:1;border-top:1px solid rgba(148,163,184,.08);padding:2rem 1.5rem;text-align:center;color:var(--muted);font-size:.75rem;}
+    footer a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+    @keyframes fadeSlideDown{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:none;}}
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><span class="b">&lt;</span>GD<span class="b">/&gt;</span></a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="projects.html" class="active">Projets</a>
+      <a href="experience.html">Expérience</a>
+      <a href="skills.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a class="lang-pill" href="../projects.html">🇬🇧 EN</a>
+  </div>
+</nav>
+<main>
+  <div class="page-header">
+    <p class="breadcrumb"><a href="index.html">accueil</a><span>/</span>projets</p>
+    <h1>Ce que j'ai construit</h1>
+    <p class="page-sub">Du hardware embarqué aux outils web de données — chaque projet livré, testé et présenté à de vrais utilisateurs.</p>
+  </div>
+  <div class="filter-bar reveal">
+    <button class="filter-btn on" data-filter="all">Tous</button>
+    <button class="filter-btn" data-filter="PHP">PHP</button>
+    <button class="filter-btn" data-filter="Arduino">Arduino</button>
+    <button class="filter-btn" data-filter="C">C</button>
+    <button class="filter-btn" data-filter="React">React</button>
+    <button class="filter-btn" data-filter="Firebase">Firebase</button>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal" data-tags="React Firebase équipe lifecycle" style="transition-delay:.05s">
+      <div class="card-top"><span class="card-icon">🌲</span><span class="status-pill status-live">En ligne</span></div>
+      <h3 class="card-title">Application "The Forest"</h3>
+      <p class="card-desc">Projet client de 400+ heures en équipe de 5. Cycle complet : maquettes Figma, développement React + Firebase, déploiement iOS/Android, backoffice sur Vercel, gestion du budget (180 €) et revues de sprint hebdomadaires. Livré.</p>
+      <div class="card-tags"><span class="tag">React</span><span class="tag">Firebase</span><span class="tag">iOS/Android</span><span class="tag">Vercel</span><span class="tag">Figma</span><span class="tag">équipe-de-5</span><span class="tag">agile</span></div>
+      <a class="card-link disabled" style="cursor:default;">Dépôt privé</a>
+    </div>
+    <div class="project-card reveal" data-tags="PHP XML data" style="transition-delay:.1s">
+      <div class="card-top"><span class="card-icon">🤺</span><span class="status-pill status-live">En ligne</span></div>
+      <h3 class="card-title">Lecteur de résultats d'escrime</h3>
+      <p class="card-desc">Outil web réalisé pour la Fédération Française d'Escrime. Parse les fichiers XML de résultats de compétition, calcule les statistiques par athlète et génère des tableaux de bord pour les responsables. Livré, présenté à la fédération, puis itéré selon leurs retours.</p>
+      <div class="card-tags"><span class="tag">PHP</span><span class="tag">XML</span><span class="tag">data</span><span class="tag">HTML/CSS</span></div>
+      <a class="card-link" href="https://gregdespa.github.io/ffe/index.html" target="_blank" rel="noopener">Voir le projet →</a>
+    </div>
+    <div class="project-card reveal" data-tags="Arduino C embarqué" style="transition-delay:.15s">
+      <div class="card-top"><span class="card-icon">⛽</span><span class="status-pill status-live">En ligne</span></div>
+      <h3 class="card-title">Pompe à essence automatisée</h3>
+      <p class="card-desc">Simulation miniature d'une pompe à carburant sur Arduino. Contrôle du débit, logique de sécurité embarquée, gestion des relais, firmware état-machine intégralement en C. Câblage hardware + logiciel en un système cohérent.</p>
+      <div class="card-tags"><span class="tag">Arduino</span><span class="tag">C</span><span class="tag">embarqué</span><span class="tag">relais</span></div>
+      <a class="card-link" href="https://gregdespa.github.io/pump/index.html" target="_blank" rel="noopener">Voir le projet →</a>
+    </div>
+    <div class="project-card reveal" data-tags="Arduino IoT capteurs" style="transition-delay:.2s">
+      <div class="card-top"><span class="card-icon">🌡️</span><span class="status-pill status-live">En ligne</span></div>
+      <h3 class="card-title">Station météo connectée</h3>
+      <p class="card-desc">Station IoT Arduino mesurant température, humidité et pression atmosphérique. Données en temps réel capturées et visualisées dans une interface web dédiée. Chaîne complète : capteurs → firmware → affichage.</p>
+      <div class="card-tags"><span class="tag">Arduino</span><span class="tag">IoT</span><span class="tag">capteurs</span><span class="tag">temps-réel</span></div>
+      <a class="card-link" href="https://gregdespa.github.io/station/index.html" target="_blank" rel="noopener">Voir le projet →</a>
+    </div>
+    <div class="project-card reveal" data-tags="C jeu IA" style="transition-delay:.25s">
+      <div class="card-top"><span class="card-icon">👾</span><span class="status-pill status-wip">En cours</span></div>
+      <h3 class="card-title">Pac-Man (C)</h3>
+      <p class="card-desc">Clone de l'arcade écrit en C pur. Déplacements du joueur, pathfinding des fantômes, collisions, score. Accent sur la gestion mémoire, l'organisation des structures et la séparation état/rendu.</p>
+      <div class="card-tags"><span class="tag">C</span><span class="tag">game-loop</span><span class="tag">IA</span><span class="tag">gestion-mémoire</span></div>
+      <span class="card-link disabled">En cours</span>
+    </div>
+  </div>
+</main>
+<footer>
+  Basé en France · Disponible avril 2027 ·
+  <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> ·
+  <a href="../CVATSEN.pdf" target="_blank">CV PDF</a>
+</footer>
+<script>
+(function(){const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');let W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();window.addEventListener('resize',()=>{resize();init();});function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.r=Math.random()*1.5+.5;}function init(){pts=[];for(let i=0;i<60;i++)pts.push(new Pt());}init();function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(56,189,248,.5)';ctx.fill();});for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(56,189,248,${.12*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke();}}}requestAnimationFrame(draw);}draw();})();
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.project-card').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');});});
+document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const f=btn.dataset.filter;document.querySelectorAll('.project-card').forEach(card=>{card.style.display=(f==='all'||card.dataset.tags.includes(f))?'flex':'none';});});});
+</script>
+</body>
+</html>

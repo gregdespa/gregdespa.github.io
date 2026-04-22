@@ -1,622 +1,827 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grégoire Desparain • Portfolio</title>
-  <style> 
+  <title>Grégoire Desparain — Engineering Student</title>
+  <style>
     :root {
-      --bg-grad-1: #0f172a;
-      --bg-grad-2: #1e293b;
-      --card-bg: #1e2537;
-      --text-main: #f8fafc;
-      --text-dim: #94a3b8;
+      --navy: #0a0f1e;
+      --navy2: #0f172a;
+      --navy3: #1e293b;
+      --card: #111827;
+      --card2: #1a2336;
+      --white: #f8fafc;
+      --muted: #64748b;
+      --muted2: #94a3b8;
       --accent: #38bdf8;
-      --radius-xl: 1.25rem;
+      --accent2: #818cf8;
+      --green: #34d399;
+      --amber: #facc15;
+      --r: 1.25rem;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+    html{scroll-behavior:smooth;}
+    body{
+      background:#0a0f1e;
+      color:var(--white);
+      font-family:system-ui,-apple-system,'Inter',sans-serif;
+      overflow-x:hidden;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-font-smoothing: antialiased;
-      padding: 0;
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Segoe UI", sans-serif;
+    /* CANVAS */
+    #bg-canvas{
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      z-index:0;pointer-events:none;opacity:.45;
     }
 
-    body {
-      background: radial-gradient(circle at 20% 20%, var(--bg-grad-2) 0%, var(--bg-grad-1) 60%);
-      color: var(--text-main);
-      line-height: 1.5;
-      padding: 2rem 1rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
+    /* NAV */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(10,15,30,.7);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(56,189,248,.1);
+      transition:background .3s;
+    }
+    .nav-inner{
+      max-width:1100px;margin:0 auto;
+      padding:.75rem 1.5rem;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .nav-logo{
+      font-size:.9rem;font-weight:700;letter-spacing:-.03em;
+      text-decoration:none;color:var(--white);
+      display:flex;align-items:center;gap:.5rem;
+    }
+    .nav-logo .bracket{color:var(--accent);font-family:'Courier New',monospace;}
+    .nav-links{display:flex;gap:.15rem;}
+    .nav-links a{
+      text-decoration:none;color:var(--muted2);font-size:.82rem;font-weight:500;
+      padding:.4rem .7rem;border-radius:var(--r);
+      transition:all .15s;position:relative;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      width:0;height:2px;background:var(--accent);border-radius:2px;
+      transition:width .2s;
+    }
+    .nav-links a:hover{color:var(--white);}
+    .nav-links a:hover::after{width:60%;}
+    .nav-links a.active{color:var(--accent);}
+    .nav-links a.active::after{width:60%;}
+    .lang-pill{
+      text-decoration:none;font-size:.75rem;font-weight:600;
+      padding:.35rem .65rem;border-radius:var(--r);
+      background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);
+      color:var(--accent);transition:all .15s;
+    }
+    .lang-pill:hover{background:rgba(56,189,248,.15);}
+
+    /* MAIN */
+    main{position:relative;z-index:1;}
+
+    /* HERO */
+    .hero{
+      min-height:100vh;display:flex;flex-direction:column;
+      justify-content:center;align-items:center;text-align:center;
+      padding:6rem 1.5rem 3rem;
+    }
+    .hero-tag{
+      display:inline-flex;align-items:center;gap:.5rem;
+      font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--accent);background:rgba(56,189,248,.08);
+      border:1px solid rgba(56,189,248,.2);border-radius:2rem;
+      padding:.45rem 1rem;margin-bottom:1.75rem;
+      animation:fadeSlideDown .6s ease both;
+    }
+    .hero-tag .dot{
+      width:6px;height:6px;border-radius:50%;
+      background:var(--green);box-shadow:0 0 6px var(--green);
+      animation:pulse 2s infinite;
+    }
+    .hero-name{
+      font-size:clamp(2.8rem,6vw,5rem);font-weight:800;
+      letter-spacing:-.05em;line-height:1.05;
+      margin-bottom:.75rem;
+      background:linear-gradient(135deg,var(--white) 0%,var(--accent) 50%,var(--accent2) 100%);
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:fadeSlideDown .7s .1s ease both;
+      position:relative;
+    }
+    .hero-name.glitch{animation:fadeSlideDown .7s .1s ease both,glitch 8s 2s infinite;}
+    .hero-role{
+      font-size:clamp(1rem,2vw,1.2rem);
+      color:var(--muted2);font-weight:400;
+      margin-bottom:1rem;min-height:1.8em;
+      animation:fadeSlideDown .7s .2s ease both;
+    }
+    .hero-role .typed{color:var(--accent);font-weight:600;}
+    .hero-role .cursor{
+      display:inline-block;width:2px;height:1em;
+      background:var(--accent);margin-left:2px;vertical-align:text-bottom;
+      animation:blink 1s step-end infinite;
+    }
+    .hero-sub{
+      font-size:.95rem;color:var(--muted2);max-width:540px;
+      line-height:1.6;margin-bottom:2.25rem;
+      animation:fadeSlideDown .7s .3s ease both;
+    }
+    .hero-ctas{
+      display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;
+      animation:fadeSlideDown .7s .4s ease both;
+    }
+    .btn-primary{
+      display:inline-flex;align-items:center;gap:.5rem;
+      text-decoration:none;font-size:.9rem;font-weight:600;
+      padding:.8rem 1.5rem;border-radius:var(--r);
+      background:var(--accent);color:#0a0f1e;
+      box-shadow:0 0 30px rgba(56,189,248,.3);
+      transition:all .2s;border:1px solid transparent;
+    }
+    .btn-primary:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:0 0 50px rgba(56,189,248,.45);
+    }
+    .btn-ghost{
+      display:inline-flex;align-items:center;gap:.5rem;
+      text-decoration:none;font-size:.9rem;font-weight:500;
+      padding:.8rem 1.5rem;border-radius:var(--r);
+      background:rgba(248,250,252,.05);
+      border:1px solid rgba(248,250,252,.15);
+      color:var(--white);transition:all .2s;
+    }
+    .btn-ghost:hover{
+      background:rgba(248,250,252,.1);
+      border-color:rgba(56,189,248,.4);
+      color:var(--accent);
+      transform:translateY(-2px);
+    }
+    .scroll-hint{
+      position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+      display:flex;flex-direction:column;align-items:center;gap:.5rem;
+      color:var(--muted);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+      animation:fadeIn 1s 1s both;
+    }
+    .scroll-hint .mouse{
+      width:20px;height:32px;border:1.5px solid rgba(100,116,139,.5);border-radius:10px;
+      display:flex;justify-content:center;padding-top:5px;
+    }
+    .scroll-hint .wheel{
+      width:3px;height:6px;background:var(--accent);border-radius:2px;
+      animation:scroll-wheel 2s infinite;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
+    /* STATS */
+    .stats-section{
+      max-width:900px;margin:0 auto;padding:0 1.5rem 5rem;
     }
-
-    /* language switch top right */
-    .lang-switch {
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: flex;
-      gap: .5rem;
-      background: rgba(148,163,184,.08);
-      border: 1px solid rgba(148,163,184,.3);
-      border-radius: var(--radius-xl);
-      padding: .4rem .6rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,.6);
-      font-size: .8rem;
-      line-height: 1.2;
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:1px;
+      background:rgba(148,163,184,.08);
+      border:1px solid rgba(148,163,184,.08);
+      border-radius:var(--r);overflow:hidden;
     }
-
-    .lang-switch a {
-      text-decoration: none;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      font-weight: 500;
+    .stat-box{
+      background:var(--card);
+      padding:1.5rem;text-align:center;
+      transition:background .2s;
     }
-
-    .lang-switch a span.flag {
-      font-size: 1rem;
-      line-height: 1;
+    .stat-box:hover{background:var(--card2);}
+    .stat-num{
+      font-size:2.2rem;font-weight:800;letter-spacing:-.04em;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text;background-clip:text;
+      -webkit-text-fill-color:transparent;
+      display:block;
     }
+    .stat-label{font-size:.78rem;color:var(--muted2);font-weight:500;margin-top:.25rem;}
 
-    .lang-switch a:hover {
-      text-decoration: underline;
+    /* SECTION BASE */
+    section{padding:5rem 1.5rem;max-width:1100px;margin:0 auto;}
+    .section-eyebrow{
+      display:inline-flex;align-items:center;gap:.5rem;
+      font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--accent);margin-bottom:.75rem;
+      font-family:'Courier New',monospace;
     }
-
-    /* profile picture */
-    .profile-pic {
-      width: 140px;
-      height: 140px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid rgba(56,189,248,.6);
-      box-shadow: 0 0 25px rgba(56,189,248,.25);
-      display: block;
-      margin: 0 auto 1rem;
+    .section-eyebrow::before{content:'// ';}
+    .section-title{
+      font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;
+      letter-spacing:-.04em;margin-bottom:.6rem;
     }
+    .section-sub{color:var(--muted2);font-size:.95rem;max-width:500px;line-height:1.6;margin-bottom:2.5rem;}
 
-    header h1 {
-      font-size: clamp(2rem, 2vw, 2.5rem);
-      font-weight: 600;
-      color: var(--text-main);
-      letter-spacing: -0.04em;
+    /* PROJECT CARDS */
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));
+      gap:1.25rem;
     }
-
-    header p.tagline {
-      margin-top: 0.75rem;
-      font-size: 1rem;
-      color: var(--text-dim);
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
+    .project-card{
+      background:var(--card);
+      border:1px solid rgba(148,163,184,.1);
+      border-radius:var(--r);padding:1.5rem;
+      display:flex;flex-direction:column;
+      transition:all .25s;
+      transform-style:preserve-3d;
+      position:relative;overflow:hidden;
+      cursor:default;
     }
-
-    .contact-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: .75rem;
-      margin-top: 1.5rem;
+    .project-card::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(56,189,248,.08) 0%,transparent 60%);
+      opacity:0;transition:opacity .3s;pointer-events:none;
     }
-
-    .btn-main,
-    .btn-ghost {
-      display: inline-block;
-      text-decoration: none;
-      font-size: .9rem;
-      font-weight: 500;
-      padding: .7rem 1rem;
-      border-radius: var(--radius-xl);
-      border: 1px solid transparent;
-      line-height: 1.2;
-      min-width: 140px;
-      text-align: center;
-      transition: all .15s linear;
+    .project-card:hover::before{opacity:1;}
+    .project-card:hover{
+      border-color:rgba(56,189,248,.3);
+      box-shadow:0 0 40px rgba(56,189,248,.1),0 20px 60px rgba(0,0,0,.5);
+      transform:translateY(-4px);
     }
-
-    .btn-main {
-      background: var(--accent);
-      color: #0f172a;
-      font-weight: 600;
-      box-shadow: 0 20px 40px rgba(56,189,248,.2);
+    .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+    .card-icon{font-size:1.6rem;}
+    .status-pill{
+      font-size:.65rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+      padding:.3rem .6rem;border-radius:2rem;
     }
-
-    .btn-main:hover {
-      filter: brightness(1.05);
-      box-shadow: 0 24px 50px rgba(56,189,248,.28);
-      transform: translateY(-1px) scale(1.01);
+    .status-live{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+    .status-wip{background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3);color:var(--amber);}
+    .card-title{font-size:1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem;}
+    .card-desc{font-size:.85rem;color:var(--muted2);line-height:1.55;flex:1;margin-bottom:1rem;}
+    .card-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.25rem;}
+    .tag{
+      font-size:.67rem;font-weight:600;
+      background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.15);
+      color:var(--muted2);padding:.25rem .5rem;border-radius:.5rem;
+      font-family:'Courier New',monospace;letter-spacing:.02em;
     }
-
-    .btn-ghost {
-      background: rgba(148,163,184,.08);
-      color: var(--text-main);
-      border-color: rgba(148,163,184,.3);
+    .card-link{
+      text-decoration:none;font-size:.82rem;font-weight:600;
+      color:var(--accent);background:rgba(56,189,248,.07);
+      border:1px solid rgba(56,189,248,.25);border-radius:var(--r);
+      padding:.55rem .9rem;text-align:center;transition:all .15s;
     }
-
-    .btn-ghost:hover {
-      background: rgba(148,163,184,.15);
-      transform: translateY(-1px) scale(1.01);
+    .card-link:hover{background:rgba(56,189,248,.15);box-shadow:0 0 20px rgba(56,189,248,.2);}
+    .card-link.disabled{
+      color:var(--amber);background:rgba(250,204,21,.06);
+      border-color:rgba(250,204,21,.25);cursor:default;font-style:italic;
     }
+    .card-link.disabled:hover{box-shadow:none;background:rgba(250,204,21,.06);}
 
-    section {
-      margin-bottom: 3rem;
+    /* SKILLS */
+    .skills-wrapper{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:2rem;
     }
-
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: -0.04em;
-      color: var(--text-main);
-      display: flex;
-      align-items: baseline;
-      gap: .5rem;
-      margin-bottom: 1.25rem;
+    .skill-col{}
+    .skill-group-title{
+      font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--muted);margin-bottom:1rem;font-family:'Courier New',monospace;
     }
-
-    .section-title span.tag {
-      background: rgba(56,189,248,.12);
-      color: var(--accent);
-      font-size: .7rem;
-      line-height: 1;
-      padding: .4rem .6rem;
-      border-radius: var(--radius-xl);
-      font-weight: 500;
-      border: 1px solid rgba(56,189,248,.4);
+    .skill-bar-row{margin-bottom:.9rem;}
+    .skill-bar-meta{
+      display:flex;justify-content:space-between;
+      font-size:.8rem;margin-bottom:.3rem;
     }
-
-    /* grid of project cards */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr));
-      gap: 1rem;
-      align-items: stretch; /* make columns align vertically */
+    .skill-bar-name{font-weight:600;color:var(--white);}
+    .skill-bar-pct{color:var(--muted2);font-family:'Courier New',monospace;font-size:.75rem;}
+    .skill-bar-track{
+      height:4px;background:rgba(148,163,184,.1);border-radius:2px;overflow:hidden;
     }
-
-    /* card */
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(148,163,184,.15);
-      box-shadow: 0 30px 80px rgba(0,0,0,.6);
-      padding: 1.25rem 1.25rem 1rem;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      min-height: 320px; /* ensures consistent min height */
+    .skill-bar-fill{
+      height:100%;border-radius:2px;width:0;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      transition:width 1.2s cubic-bezier(.16,1,.3,1);
     }
-
-    /* content part grows to take the height */
-    .card-content {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
+    .chips-section{margin-top:1rem;}
+    .chips{display:flex;flex-wrap:wrap;gap:.4rem;}
+    .chip{
+      font-size:.72rem;font-weight:600;font-family:'Courier New',monospace;
+      background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.15);
+      color:var(--muted2);padding:.35rem .6rem;border-radius:.5rem;
+      transition:all .15s;
     }
+    .chip:hover{color:var(--accent);border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.1);}
 
-    .card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-main);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      row-gap: .5rem;
+    /* EXPERIENCE STRIP */
+    .xp-list{display:flex;flex-direction:column;gap:.75rem;}
+    .xp-row{
+      background:var(--card);border:1px solid rgba(148,163,184,.1);
+      border-radius:var(--r);padding:1.25rem 1.5rem;
+      display:grid;grid-template-columns:auto 1fr auto;
+      align-items:center;gap:1.25rem;
+      transition:all .2s;
     }
-
-    .card h3 .pill {
-      font-size: .7rem;
-      font-weight: 500;
-      background: rgba(148,163,184,.12);
-      border: 1px solid rgba(148,163,184,.3);
-      color: var(--text-dim);
-      padding: .3rem .5rem;
-      border-radius: var(--radius-xl);
-      line-height: 1.1;
+    .xp-row:hover{border-color:rgba(56,189,248,.2);transform:translateX(4px);}
+    .xp-marker{
+      width:36px;height:36px;border-radius:50%;
+      background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1rem;flex-shrink:0;
     }
+    .xp-info{}
+    .xp-company{font-size:.9rem;font-weight:700;letter-spacing:-.02em;}
+    .xp-role{font-size:.78rem;color:var(--accent);font-weight:500;margin-top:.1rem;}
+    .xp-date{font-size:.72rem;color:var(--muted2);white-space:nowrap;font-family:'Courier New',monospace;}
 
-    .card p.desc {
-      color: var(--text-dim);
-      font-size: .9rem;
-      margin-top: .6rem;
-      margin-bottom: 1rem;
-      line-height: 1.4;
+    /* CONTACT CTA */
+    .cta-section{
+      padding:5rem 1.5rem;
+      text-align:center;
     }
-
-    /* footer zone of card, button is pinned at bottom */
-    .card-footer {
-      margin-top: auto;
-      display: flex;
+    .cta-box{
+      max-width:600px;margin:0 auto;
+      background:var(--card);border:1px solid rgba(56,189,248,.15);
+      border-radius:calc(var(--r)*1.5);padding:3rem 2rem;
+      position:relative;overflow:hidden;
     }
-
-    .project-link {
-      font-size: .85rem;
-      font-weight: 500;
-      color: var(--accent);
-      text-decoration: none;
-      background: rgba(56,189,248,.08);
-      border: 1px solid rgba(56,189,248,.4);
-      border-radius: var(--radius-xl);
-      padding: .5rem .75rem;
-      text-align: center;
-      width: 100%;
-      transition: all .15s linear;
+    .cta-box::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(circle at 50% 0%,rgba(56,189,248,.06) 0%,transparent 70%);
     }
+    .cta-box h2{font-size:1.8rem;font-weight:800;letter-spacing:-.04em;margin-bottom:.75rem;}
+    .cta-box p{color:var(--muted2);font-size:.9rem;line-height:1.6;margin-bottom:1.75rem;}
+    .cta-links{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;}
 
-    .project-link:hover {
-      background: rgba(56,189,248,.15);
-      box-shadow: 0 20px 40px rgba(56,189,248,.2);
-      transform: translateY(-1px) scale(1.01);
+    /* FOOTER */
+    footer{
+      border-top:1px solid rgba(148,163,184,.08);
+      padding:2rem 1.5rem;text-align:center;
+      color:var(--muted);font-size:.75rem;
     }
+    footer a{color:var(--accent);text-decoration:none;font-weight:500;}
 
-    /* special style for "in progress" buttons */
-    .project-link.in-progress {
-      background: rgba(251,191,36,0.08);          /* amber-ish */
-      border: 1px solid rgba(251,191,36,0.4);
-      color: #facc15;                              /* yellow accent text */
-      font-style: italic;
+    /* ANIMATIONS */
+    @keyframes fadeSlideDown{
+      from{opacity:0;transform:translateY(-16px);}
+      to{opacity:1;transform:translateY(0);}
     }
-
-    .project-link.in-progress:hover {
-      background: rgba(251,191,36,0.15);
-      box-shadow: 0 20px 40px rgba(251,191,36,.2);
-      transform: translateY(-1px) scale(1.01);
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    @keyframes pulse{
+      0%,100%{box-shadow:0 0 6px var(--green);}
+      50%{box-shadow:0 0 12px var(--green);}
     }
-
-    /* experience / skills layout */
-    .xp-wrapper {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(min(500px,100%),1fr));
-      gap: 1rem;
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+    @keyframes scroll-wheel{
+      0%{transform:translateY(0);opacity:1;}
+      100%{transform:translateY(10px);opacity:0;}
     }
-
-    .xp-card {
-      background: rgba(15,23,42,.4);
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(148,163,184,.15);
-      padding: 1rem 1.25rem 1.25rem;
-      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    @keyframes glitch{
+      0%,94%,100%{clip-path:none;transform:none;}
+      95%{clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);transform:translateX(-3px);}
+      96%{clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);transform:translateX(3px);}
+      97%{clip-path:none;transform:none;}
+      98%{clip-path:polygon(0 10%,100% 10%,100% 30%,0 30%);transform:translateX(-2px);}
+      99%{clip-path:none;transform:none;}
     }
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+    .reveal-left{opacity:0;transform:translateX(-24px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal-left.visible{opacity:1;transform:none;}
+    .reveal-right{opacity:0;transform:translateX(24px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal-right.visible{opacity:1;transform:none;}
 
-    .xp-card h4 {
-      color: var(--text-main);
-      font-size: .95rem;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      row-gap: .5rem;
+    @media(max-width:700px){
+      .skills-wrapper{grid-template-columns:1fr;}
+      .xp-row{grid-template-columns:1fr;gap:.5rem;}
+      .xp-marker{display:none;}
+      .xp-date{text-align:left;}
     }
-
-    .xp-card h4 span.loc {
-      color: var(--text-dim);
-      font-size: .8rem;
-      font-weight: 400;
-    }
-
-    .xp-card p.role {
-      color: var(--accent);
-      font-size: .8rem;
-      font-weight: 500;
-      margin-top: .25rem;
-    }
-
-    .xp-card p.text {
-      color: var(--text-dim);
-      font-size: .9rem;
-      margin-top: .75rem;
-    }
-
-    ul.skill-list {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem .6rem;
-      margin-top: .75rem;
-    }
-
-    ul.skill-list li {
-      font-size: .75rem;
-      color: var(--text-main);
-      background: rgba(148,163,184,.12);
-      border: 1px solid rgba(148,163,184,.3);
-      border-radius: var(--radius-xl);
-      padding: .4rem .6rem;
-      line-height: 1.1;
-      font-weight: 500;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--text-dim);
-      font-size: .75rem;
-      margin-top: 4rem;
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
   </style>
 </head>
 <body>
 
-  <header>
-    <!-- language switch -->
-    <div class="lang-switch">
-      <a href="/" title="English">
-        <span class="flag">🇬🇧</span>
-        <span>EN</span>
-      </a>
-      <a href="/fr/" title="Français">
-        <span class="flag">🇫🇷</span>
-        <span>FR</span>
-      </a>
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="bracket">&lt;</span>GD<span class="bracket">/&gt;</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="experience.html">Experience</a>
+      <a href="skills.html">Skills</a>
+      <a href="contact.html">Contact</a>
     </div>
+    <a class="lang-pill" href="fr/index.html">🇫🇷 FR</a>
+  </div>
+</nav>
 
-    <!-- profile image -->
-    <img src="profile.jpg" alt="Grégoire Desparain portrait" class="profile-pic" />
+<main>
 
-    <h1>Grégoire Desparain</h1>
-    <p class="tagline">
-      1st Year Engineering Student at IMT Nord Europe
-      (Mines de Douai). Looking for a 10–16 week internship starting May 10, 2026,
-      in cybersecurity, data, or digital tech, in an English-speaking environment.
+  <!-- HERO -->
+  <section class="hero" style="max-width:100%;padding-left:1.5rem;padding-right:1.5rem;">
+    <div class="hero-tag">
+      <span class="dot"></span>
+      Open to internship · April 2027
+    </div>
+    <h1 class="hero-name glitch">Grégoire Desparain</h1>
+    <p class="hero-role">
+      <span class="typed" id="typed-text"></span><span class="cursor"></span>
     </p>
-
-    <div class="contact-row">
-      <a class="btn-main" href="https://www.linkedin.com/in/grégoire-desparain" target="_blank" rel="noopener noreferrer">
+    <p class="hero-sub">
+      2nd-year engineering student at IMT Nord Europe (Mines de Douai).
+      Looking for a 6-month internship in cybersecurity, data, or digital tech.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="https://www.linkedin.com/in/grégoire-desparain" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
       </a>
-
-      <a class="btn-ghost" href="CVATSEN.pdf" target="_blank" rel="noopener noreferrer">
-        Download my résumé (PDF)
+      <a class="btn-ghost" href="CVATSEN.pdf" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+        Résumé PDF
       </a>
-
-      <a class="btn-ghost" href="mailto:gdespar1@hotmail.com">
-        Contact me
+      <a class="btn-ghost" href="contact.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact
       </a>
     </div>
-  </header>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-title">
-      <h2>Technical Projects</h2>
-      <span class="tag">Arduino • C • PHP • App</span>
-    </div>
-
-    <div class="projects-grid">
-
-      <!-- The Forest (with "In progress" style as example) -->
-      <div class="card">
-        <div class="card-content">
-          <h3>
-            “The Forest” Application
-            <span class="pill">Full project lifecycle</span>
-          </h3>
-          <p class="desc">
-            400+ hour project completed with a 5-person team: requirements gathering
-            with the client, full app development, budget tracking (€180),
-            and weekly reviews with two supervisors.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a class="project-link in-progress"
-             href="/"
-             target="_self" rel="noopener noreferrer">
-            In progress
-          </a>
-        </div>
-      </div>
-
-      <!-- Fencing results reader -->
-      <div class="card">
-        <div class="card-content">
-          <h3>
-            Fencing Results Reader
-            <span class="pill">PHP / Data parsing</span>
-          </h3>
-          <p class="desc">
-            Web tool built for the French Fencing Federation to parse match results,
-            compute statistics and display analysis for managers. Delivered,
-            demoed to the federation and iterated based on their feedback.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a class="project-link"
-             href="https://gregdespa.github.io/ffe/index.html"
-             target="_blank" rel="noopener noreferrer">
-            View project
-          </a>
-        </div>
-      </div>
-
-      <!-- Arduino gas pump -->
-      <div class="card">
-        <div class="card-content">
-          <h3>
-            Automated Gas Pump
-            <span class="pill">Arduino / Automation</span>
-          </h3>
-          <p class="desc">
-            Miniature fuel pump simulation: fuel flow control, embedded logic
-            and process automation using Arduino. Hardware control + safety logic.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a class="project-link"
-             href="https://gregdespa.github.io/pump/index.html"
-             target="_blank" rel="noopener noreferrer">
-            View project
-          </a>
-        </div>
-      </div>
-
-      <!-- Arduino weather station -->
-      <div class="card">
-        <div class="card-content">
-          <h3>
-            Connected Weather Station
-            <span class="pill">IoT / Sensors</span>
-          </h3>
-          <p class="desc">
-            Arduino-based weather station (temperature, humidity, pressure)
-            with live data capture and a dedicated interface to visualize
-            measurements in real time.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a class="project-link"
-             href="https://gregdespa.github.io/station/index.html"
-             target="_blank" rel="noopener noreferrer">
-            View project
-          </a>
-        </div>
-      </div>
-
-      <!-- Pac-Man in C -->
-      <div class="card">
-        <div class="card-content">
-          <h3>
-            Pac-Man (C)
-            <span class="pill">C / Retro game</span>
-          </h3>
-          <p class="desc">
-            Pac-Man clone written in C: player movement, ghost AI logic,
-            collisions, score handling. Strong focus on memory management
-            and low-level struct organization.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a class="project-link in-progress"
-             href="/"
-             target="_self" rel="noopener noreferrer">
-            In progress
-          </a>
-        </div>
-      </div>
-
+    <div class="scroll-hint">
+      <div class="mouse"><div class="wheel"></div></div>
+      <span>scroll</span>
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="section-title">
-      <h2>Experience</h2>
-      <span class="tag">Hands-on & technical</span>
+  <!-- STATS -->
+  <div class="stats-section reveal">
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-num" data-count="400" data-suffix="+">0</span>
+        <span class="stat-label">hours on The Forest App</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" data-count="5">0</span>
+        <span class="stat-label">shipped projects</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" data-count="955">0</span>
+        <span class="stat-label">TOEIC score (English C1)</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" data-count="200" data-suffix="+">0</span>
+        <span class="stat-label">athletes managed at Aramis</span>
+      </div>
     </div>
+  </div>
 
-    <div class="xp-wrapper">
+  <!-- PROJECTS -->
+  <section>
+    <div class="reveal">
+      <p class="section-eyebrow">projects</p>
+      <h2 class="section-title">Things I've built</h2>
+      <p class="section-sub">From embedded hardware to web tools — each one shipped and presented to real users.</p>
+    </div>
+    <div class="projects-grid">
 
-      <div class="xp-card">
-        <h4>
-          Passman / Passenergy
-          <span class="loc">Lyon · June–Aug 2025</span>
-        </h4>
-        <p class="role">Engineering Intern — Smart energy & building systems</p>
-        <p class="text">
-          Diagnosed field issues (sensors, PMS servers, connectivity),
-          tested the Passenergy solution before national rollout,
-          and built continuous-improvement scenarios pushed to GitHub.
-        </p>
+      <div class="project-card reveal" style="transition-delay:.05s">
+        <div class="card-top">
+          <span class="card-icon">🌲</span>
+          <span class="status-pill status-wip">In progress</span>
+        </div>
+        <h3 class="card-title">"The Forest" Application</h3>
+        <p class="card-desc">400+ hour client project with a 5-person team. Full lifecycle: requirements, architecture, dev, budget (€180), weekly reviews with two supervisors.</p>
+        <div class="card-tags">
+          <span class="tag">team-of-5</span>
+          <span class="tag">full-lifecycle</span>
+          <span class="tag">€180-budget</span>
+        </div>
+        <span class="card-link disabled">In progress</span>
       </div>
 
-      <div class="xp-card">
-        <h4>
-          French Fencing Federation
-          <span class="loc">Paris · June–July 2024</span>
-        </h4>
-        <p class="role">Web Developer (PHP)</p>
-        <p class="text">
-          Automated competition result reading and statistical processing,
-          then delivered a usable interface for managers to analyze performance.
-          Presented, received feedback, iterated.
-        </p>
+      <div class="project-card reveal" style="transition-delay:.1s">
+        <div class="card-top">
+          <span class="card-icon">🤺</span>
+          <span class="status-pill status-live">Live</span>
+        </div>
+        <h3 class="card-title">Fencing Results Reader</h3>
+        <p class="card-desc">PHP tool for the French Fencing Federation. Parses XML competition data, computes per-athlete stats, renders dashboards for managers.</p>
+        <div class="card-tags">
+          <span class="tag">PHP</span>
+          <span class="tag">XML</span>
+          <span class="tag">data-processing</span>
+        </div>
+        <a class="card-link" href="https://gregdespa.github.io/ffe/index.html" target="_blank" rel="noopener">View project →</a>
       </div>
 
-      <div class="xp-card">
-        <h4>
-          Disneyland Paris
-          <span class="loc">Paris · Summer 2023</span>
-        </h4>
-        <p class="role">Attractions Operator</p>
-        <p class="text">
-          Managed guest flow (800+ visitors/day), ensured safety and customer
-          experience in an international environment, reacted quickly to incidents.
-        </p>
+      <div class="project-card reveal" style="transition-delay:.15s">
+        <div class="card-top">
+          <span class="card-icon">⛽</span>
+          <span class="status-pill status-live">Live</span>
+        </div>
+        <h3 class="card-title">Automated Gas Pump</h3>
+        <p class="card-desc">Arduino miniature fuel pump simulation. Embedded safety logic, relay control, and state-machine firmware in C.</p>
+        <div class="card-tags">
+          <span class="tag">Arduino</span>
+          <span class="tag">C</span>
+          <span class="tag">embedded</span>
+          <span class="tag">relays</span>
+        </div>
+        <a class="card-link" href="https://gregdespa.github.io/pump/index.html" target="_blank" rel="noopener">View project →</a>
       </div>
 
-      <div class="xp-card">
-        <h4>
-          Coca-Cola Europacific Partners
-          <span class="loc">Lyon · Feb–Apr 2023</span>
-        </h4>
-        <p class="role">Field Technician Intern</p>
-        <p class="text">
-          Preventive maintenance on client sites (incl. McDonald's),
-          prioritizing interventions using the internal maintenance tool.
-          Strong autonomy and teamwork.
-        </p>
+      <div class="project-card reveal" style="transition-delay:.2s">
+        <div class="card-top">
+          <span class="card-icon">🌡️</span>
+          <span class="status-pill status-live">Live</span>
+        </div>
+        <h3 class="card-title">Connected Weather Station</h3>
+        <p class="card-desc">IoT Arduino station: temperature, humidity, pressure. Real-time data captured and visualised in a dedicated web interface.</p>
+        <div class="card-tags">
+          <span class="tag">Arduino</span>
+          <span class="tag">IoT</span>
+          <span class="tag">sensors</span>
+          <span class="tag">real-time</span>
+        </div>
+        <a class="card-link" href="https://gregdespa.github.io/station/index.html" target="_blank" rel="noopener">View project →</a>
       </div>
 
-      <div class="xp-card">
-        <h4>
-          “Challenge Aramis” Tournament
-          <span class="loc">Lyon · 2020–Present</span>
-        </h4>
-        <p class="role">Project Lead — Event Operations</p>
-        <p class="text">
-          Lead organizer for an international fencing tournament
-          (200+ participants over two days). Managed a 15-person team,
-          handled logistics and crisis situations. National referee,
-          supervising 3 to 15 referees depending on the event.
-        </p>
+      <div class="project-card reveal" style="transition-delay:.25s">
+        <div class="card-top">
+          <span class="card-icon">👾</span>
+          <span class="status-pill status-wip">In progress</span>
+        </div>
+        <h3 class="card-title">Pac-Man (C)</h3>
+        <p class="card-desc">Classic arcade clone written in pure C. Ghost AI, collision detection, score system. Focus on memory management and struct organisation.</p>
+        <div class="card-tags">
+          <span class="tag">C</span>
+          <span class="tag">game-loop</span>
+          <span class="tag">AI</span>
+          <span class="tag">low-level</span>
+        </div>
+        <span class="card-link disabled">In progress</span>
       </div>
 
+    </div>
+    <div style="text-align:center;margin-top:2rem;" class="reveal">
+      <a class="btn-ghost" href="projects.html">All projects →</a>
     </div>
   </section>
 
   <!-- SKILLS -->
-  <section id="skills">
-    <div class="section-title">
-      <h2>Key Skills</h2>
-      <span class="tag">Tech & people</span>
+  <section>
+    <div class="reveal">
+      <p class="section-eyebrow">skills</p>
+      <h2 class="section-title">Stack & expertise</h2>
     </div>
-
-    <ul class="skill-list">
-      <li>Python</li>
-      <li>C / Low-level</li>
-      <li>PHP / HTML / CSS / SQL</li>
-      <li>Arduino & IoT systems</li>
-      <li>XML data processing</li>
-      <li>Automation & dashboarding</li>
-      <li>Project management (5+ team members, €180 budget)</li>
-      <li>English C1 (TOEIC 955)</li>
-      <li>Italian B1</li>
-      <li>Cross-cultural teamwork</li>
-    </ul>
+    <div class="skills-wrapper">
+      <div class="skill-col reveal-left">
+        <p class="skill-group-title">core languages</p>
+        <div class="skill-bar-row">
+          <div class="skill-bar-meta"><span class="skill-bar-name">Python</span><span class="skill-bar-pct">85%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-meta"><span class="skill-bar-name">C / Embedded</span><span class="skill-bar-pct">80%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-meta"><span class="skill-bar-name">PHP</span><span class="skill-bar-pct">75%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-meta"><span class="skill-bar-name">HTML / CSS / JS</span><span class="skill-bar-pct">70%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="70"></div></div>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-meta"><span class="skill-bar-name">SQL</span><span class="skill-bar-pct">65%</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65"></div></div>
+        </div>
+      </div>
+      <div class="skill-col reveal-right">
+        <p class="skill-group-title">tools & other</p>
+        <div class="chips-section">
+          <div class="chips">
+            <span class="chip">React</span>
+            <span class="chip">Firebase</span>
+            <span class="chip">Figma</span>
+            <span class="chip">Arduino</span>
+            <span class="chip">IoT</span>
+            <span class="chip">Git</span>
+            <span class="chip">Linux CLI</span>
+            <span class="chip">XML parsing</span>
+            <span class="chip">Data processing</span>
+            <span class="chip">Automation</span>
+            <span class="chip">Networks</span>
+            <span class="chip">Security basics</span>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <p class="skill-group-title">languages</p>
+          <div class="chips">
+            <span class="chip">🇫🇷 French — native</span>
+            <span class="chip">🇬🇧 English — C1 / TOEIC 955</span>
+            <span class="chip">🇮🇹 Italian — B1</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <footer>
-    <p>
-      Based in France (Douai area), willing to relocate internationally. Driver’s license.
-      <br/>
-      Direct contact: <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> · +33 7 82 82 79 55
-    </p>
-  </footer>
+  <!-- EXPERIENCE -->
+  <section>
+    <div class="reveal">
+      <p class="section-eyebrow">experience</p>
+      <h2 class="section-title">Where I've worked</h2>
+    </div>
+    <div class="xp-list">
+      <div class="xp-row reveal" style="transition-delay:.05s">
+        <span class="xp-marker">💼</span>
+        <div class="xp-info">
+          <p class="xp-company">CLEEVEN He</p>
+          <p class="xp-role">Engineering Intern — Business Engineering</p>
+        </div>
+        <span class="xp-date">May–Aug 2026</span>
+      </div>
+      <div class="xp-row reveal" style="transition-delay:.08s">
+        <span class="xp-marker">⚛️</span>
+        <div class="xp-info">
+          <p class="xp-company">IMT Nord Europe</p>
+          <p class="xp-role">Project Lead & Full Stack Developer</p>
+        </div>
+        <span class="xp-date">2025–2026</span>
+      </div>
+      <div class="xp-row reveal" style="transition-delay:.12s">
+        <span class="xp-marker">⚡</span>
+        <div class="xp-info">
+          <p class="xp-company">Passman / Passenergy</p>
+          <p class="xp-role">Engineering Intern — Smart energy & building systems</p>
+        </div>
+        <span class="xp-date">Jun–Aug 2025</span>
+      </div>
+      <div class="xp-row reveal" style="transition-delay:.1s">
+        <span class="xp-marker">🤺</span>
+        <div class="xp-info">
+          <p class="xp-company">French Fencing Federation</p>
+          <p class="xp-role">Web Developer (PHP)</p>
+        </div>
+        <span class="xp-date">Jun–Jul 2024</span>
+      </div>
+      <div class="xp-row reveal" style="transition-delay:.15s">
+        <span class="xp-marker">🏰</span>
+        <div class="xp-info">
+          <p class="xp-company">Disneyland Paris</p>
+          <p class="xp-role">Attractions Operator</p>
+        </div>
+        <span class="xp-date">Summer 2023</span>
+      </div>
+      <div class="xp-row reveal" style="transition-delay:.2s">
+        <span class="xp-marker">🥤</span>
+        <div class="xp-info">
+          <p class="xp-company">Coca-Cola Europacific Partners</p>
+          <p class="xp-role">Field Technician Intern</p>
+        </div>
+        <span class="xp-date">Feb–Apr 2023</span>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem;" class="reveal">
+      <a class="btn-ghost" href="experience.html">Full experience →</a>
+    </div>
+  </section>
 
+  <!-- CTA -->
+  <section class="cta-section" style="max-width:100%;">
+    <div class="cta-box reveal">
+      <h2>Let's work together</h2>
+      <p>Available from April 1, 2027 for a 6-month internship.<br/>Cybersecurity · Data · Digital tech · Open to relocation.</p>
+      <div class="cta-links">
+        <a class="btn-primary" href="mailto:gdespar1@hotmail.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          gdespar1@hotmail.com
+        </a>
+        <a class="btn-ghost" href="CVATSEN.pdf" target="_blank" rel="noopener">Download résumé</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Built with HTML, CSS & vanilla JS — no frameworks, no dependencies. ·
+    <a href="fr/index.html">Version française</a> ·
+    <a href="https://github.com/gregdespa" target="_blank" rel="noopener">GitHub</a>
+  </p>
+</footer>
+
+<script>
+// ─── CANVAS PARTICLES ───────────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  resize();window.addEventListener('resize',()=>{resize();init();});
+  function Pt(){
+    this.x=Math.random()*W;this.y=Math.random()*H;
+    this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;
+    this.r=Math.random()*1.5+.5;
+  }
+  function init(){pts=[];for(let i=0;i<80;i++)pts.push(new Pt());}
+  init();
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(56,189,248,.6)';ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<120){
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(56,189,248,${.15*(1-d/120)})`;
+          ctx.lineWidth=.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── TYPING EFFECT ──────────────────────────────────────────────────────────
+(function(){
+  const roles=['Engineering Student','IoT Developer','PHP Developer','Python Coder','Cybersecurity Learner','Team Lead'];
+  const el=document.getElementById('typed-text');
+  let ri=0,ci=0,del=false,wait=0;
+  function tick(){
+    if(wait-->0){setTimeout(tick,50);return;}
+    const word=roles[ri];
+    if(!del){
+      el.textContent=word.slice(0,++ci);
+      if(ci===word.length){del=true;wait=40;}
+      setTimeout(tick,70);
+    } else {
+      el.textContent=word.slice(0,--ci);
+      if(ci===0){del=false;ri=(ri+1)%roles.length;wait=8;}
+      setTimeout(tick,35);
+    }
+  }
+  tick();
+})();
+
+// ─── SCROLL REVEAL ──────────────────────────────────────────────────────────
+(function(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>io.observe(el));
+})();
+
+// ─── COUNTER ANIMATION ──────────────────────────────────────────────────────
+(function(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      e.target.querySelectorAll('[data-count]').forEach(el=>{
+        const target=+el.dataset.count,suffix=el.dataset.suffix||'';
+        let start=0,dur=1400,t0=null;
+        function step(ts){
+          if(!t0)t0=ts;
+          const p=Math.min((ts-t0)/dur,1);
+          el.textContent=Math.floor(p*target)+suffix;
+          if(p<1)requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+      io.unobserve(e.target);
+    });
+  },{threshold:.3});
+  document.querySelectorAll('.stats-grid').forEach(el=>io.observe(el));
+})();
+
+// ─── SKILL BAR ANIMATION ────────────────────────────────────────────────────
+(function(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      e.target.querySelectorAll('.skill-bar-fill').forEach(bar=>{
+        bar.style.width=bar.dataset.width+'%';
+      });
+      io.unobserve(e.target);
+    });
+  },{threshold:.2});
+  document.querySelectorAll('.skills-wrapper').forEach(el=>io.observe(el));
+})();
+
+// ─── CARD GLOW ON MOUSEMOVE ─────────────────────────────────────────────────
+document.querySelectorAll('.project-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+</script>
 </body>
 </html>

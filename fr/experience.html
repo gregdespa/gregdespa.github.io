@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expérience — Grégoire Desparain</title>
+  <style>
+    :root{--navy:#0a0f1e;--card:#111827;--white:#f8fafc;--muted:#64748b;--muted2:#94a3b8;--accent:#38bdf8;--accent2:#818cf8;--r:1.25rem;}
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+    body{background:#0a0f1e;color:var(--white);font-family:system-ui,-apple-system,'Inter',sans-serif;overflow-x:hidden;}
+    #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.3;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,30,.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(56,189,248,.1);}
+    .nav-inner{max-width:1100px;margin:0 auto;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-size:.9rem;font-weight:700;letter-spacing:-.03em;text-decoration:none;color:var(--white);}
+    .nav-logo .b{color:var(--accent);font-family:'Courier New',monospace;}
+    .nav-links{display:flex;gap:.15rem;}
+    .nav-links a{text-decoration:none;color:var(--muted2);font-size:.82rem;font-weight:500;padding:.4rem .7rem;border-radius:var(--r);transition:all .15s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--accent);border-radius:2px;transition:width .2s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-links a:hover::after,.nav-links a.active::after{width:60%;}
+    .nav-links a.active{color:var(--accent);}
+    .lang-pill{text-decoration:none;font-size:.75rem;font-weight:600;padding:.35rem .65rem;border-radius:var(--r);background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--accent);transition:all .15s;}
+    .lang-pill:hover{background:rgba(56,189,248,.15);}
+    main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:7rem 1.5rem 4rem;}
+    .page-header{margin-bottom:3rem;animation:fadeSlideDown .6s ease both;}
+    .breadcrumb{font-size:.75rem;color:var(--muted);margin-bottom:.75rem;font-family:'Courier New',monospace;}
+    .breadcrumb a{color:var(--accent);text-decoration:none;}
+    .breadcrumb span{margin:0 .4rem;opacity:.4;}
+    h1{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.05em;background:linear-gradient(135deg,var(--white),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;}
+    .page-sub{color:var(--muted2);font-size:.95rem;line-height:1.6;}
+    .section-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-family:'Courier New',monospace;margin:2.5rem 0 1rem;}
+    .section-label::before{content:'// ';}
+    .timeline{position:relative;padding-left:2rem;}
+    .timeline::before{content:'';position:absolute;left:.5rem;top:.5rem;bottom:.5rem;width:1px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent);}
+    .xp-item{position:relative;margin-bottom:1.5rem;}
+    .xp-item::before{content:'';position:absolute;left:-1.625rem;top:.6rem;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--navy);box-shadow:0 0 8px var(--accent);}
+    .xp-card{background:var(--card);border:1px solid rgba(148,163,184,.1);border-radius:var(--r);padding:1.5rem;transition:all .25s;}
+    .xp-card:hover{border-color:rgba(56,189,248,.25);transform:translateX(4px);box-shadow:0 0 30px rgba(56,189,248,.08);}
+    .xp-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:.25rem;}
+    .xp-company{font-size:.95rem;font-weight:700;letter-spacing:-.02em;}
+    .xp-date{font-size:.72rem;color:var(--muted2);font-family:'Courier New',monospace;}
+    .xp-role{font-size:.8rem;color:var(--accent);font-weight:500;margin-bottom:.75rem;}
+    .xp-desc{font-size:.875rem;color:var(--muted2);line-height:1.6;margin-bottom:.9rem;}
+    .xp-pills{display:flex;flex-wrap:wrap;gap:.35rem;}
+    .pill{font-size:.68rem;font-weight:600;background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.15);color:var(--muted2);padding:.25rem .5rem;border-radius:.5rem;font-family:'Courier New',monospace;}
+    footer{position:relative;z-index:1;border-top:1px solid rgba(148,163,184,.08);padding:2rem 1.5rem;text-align:center;color:var(--muted);font-size:.75rem;}
+    footer a{color:var(--accent);text-decoration:none;font-weight:500;}
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+    @keyframes fadeSlideDown{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:none;}}
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html"><span class="b">&lt;</span>GD<span class="b">/&gt;</span></a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="projects.html">Projets</a>
+      <a href="experience.html" class="active">Expérience</a>
+      <a href="skills.html">Compétences</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a class="lang-pill" href="../experience.html">🇬🇧 EN</a>
+  </div>
+</nav>
+<main>
+  <div class="page-header">
+    <p class="breadcrumb"><a href="index.html">accueil</a><span>/</span>expérience</p>
+    <h1>Où j'ai travaillé</h1>
+    <p class="page-sub">Stages, développement web et management événementiel — des startups tech à des tournois internationaux.</p>
+  </div>
+
+  <p class="section-label reveal">expérience professionnelle</p>
+  <div class="timeline">
+    <div class="xp-item reveal" style="transition-delay:.05s">
+      <div class="xp-card">
+        <div class="xp-head"><span class="xp-company">CLEEVEN He</span><span class="xp-date">Bâle, Suisse · Mai–Août 2026</span></div>
+        <p class="xp-role">Stage Ingénieur — Ingénieur d'Affaires</p>
+        <p class="xp-desc">Prospection de nouveaux clients, organisation et participation aux rendez-vous techniques, identification des besoins et contribution aux négociations commerciales. Identification, sélection et conduite d'entretiens avec des ingénieurs consultants. Suivi opérationnel des missions, gestion de la relation client-consultant et pilotage des indicateurs de performance.</p>
+        <div class="xp-pills"><span class="pill">développement-commercial</span><span class="pill">recrutement</span><span class="pill">gestion-client</span><span class="pill">KPIs</span></div>
+      </div>
+    </div>
+    <div class="xp-item reveal" style="transition-delay:.08s">
+      <div class="xp-card">
+        <div class="xp-head"><span class="xp-company">IMT Nord Europe</span><span class="xp-date">France · 2025–2026</span></div>
+        <p class="xp-role">Chef de Projet & Développeur Full Stack</p>
+        <p class="xp-desc">Pilotage d'une équipe de 5 étudiants sur toute l'année scolaire. Conception des maquettes UX/UI et développement de l'application avec React et Firebase. Mise en place de la base de données, de l'architecture applicative, gestion du budget et publication de l'app sur iOS/Android et du backoffice sur Vercel.</p>
+        <div class="xp-pills"><span class="pill">React</span><span class="pill">Firebase</span><span class="pill">iOS/Android</span><span class="pill">Vercel</span><span class="pill">UX/UI</span><span class="pill">Figma</span><span class="pill">chef-projet×5</span></div>
+      </div>
+    </div>
+    <div class="xp-item reveal" style="transition-delay:.12s">
+      <div class="xp-card">
+        <div class="xp-head"><span class="xp-company">Passman / Passenergy</span><span class="xp-date">Lyon · Juin–Août 2025</span></div>
+        <p class="xp-role">Stagiaire ingénieur — Énergie intelligente & bâtiment connecté</p>
+        <p class="xp-desc">Diagnostic terrain sur capteurs, serveurs PMS et connectivité réseau. Tests de la solution Passenergy de bout en bout avant son déploiement national. Scénarios d'amélioration continue poussés sur GitHub. Forte autonomie dans un environnement startup où vitesse et fiabilité comptent autant.</p>
+        <div class="xp-pills"><span class="pill">IoT</span><span class="pill">capteurs</span><span class="pill">diagnostic</span><span class="pill">GitHub</span><span class="pill">autonomie</span></div>
+      </div>
+    </div>
+    <div class="xp-item reveal" style="transition-delay:.1s">
+      <div class="xp-card">
+        <div class="xp-head"><span class="xp-company">Fédération Française d'Escrime (FFE)</span><span class="xp-date">Paris · Juin–Juil. 2024</span></div>
+        <p class="xp-role">Développeur Web (PHP)</p>
+        <p class="xp-desc">Automatisation de la lecture de résultats de compétition et du traitement statistique pour la fédération nationale. Interface web livrée aux responsables pour analyser les performances des athlètes. Présentation au staff, intégration des retours, version affinée livrée.</p>
+        <div class="xp-pills"><span class="pill">PHP</span><span class="pill">XML</span><span class="pill">statistiques</span><span class="pill">retours-utilisateurs</span></div>
+      </div>
+    </div>
+    <div class="xp-item reveal" style="transition-delay:.15s">
+      <div class="xp-card">
+        <div class="xp-head"><span class="xp-company">Disneyland Paris</span><span class="xp-date">Paris · Été 2023</span></div>
+        <p class="xp-role">Opérateur attractions</p>
+        <p class="xp-desc">Gestion du flux de 800+ visiteurs par jour sur des attractions majeures. Sécurité, qualité d'accueil, réactivité face aux incidents dans un environnement multiculturel et à fort volume. Professionnalisme constant sous pression.</p>
+        <div class="xp-pills"><span class="pill">sécurité</span><span class="pill">fort-volume</span><span class="pill">multiculturel</span></div>
+      </div>
+    </div>
+    <div class="xp-item reveal" style="transition-delay:.2s">
+      <div class="xp-card">
+        <div class="xp-head"><span class="xp-company">Coca-Cola Europacific Partners</span><span class="xp-date">Lyon · Fév.–Avr. 2023</span></div>
+        <p class="xp-role">Stagiaire technicien de terrain</p>
+        <p class="xp-desc">Maintenance préventive sur sites clients (dont McDonald's) en région lyonnaise. Priorisation des interventions via l'outil interne, travail autonome et en binôme avec l'équipe permanente. Rigueur et autonomie sur le terrain.</p>
+        <div class="xp-pills"><span class="pill">maintenance-terrain</span><span class="pill">diagnostic</span><span class="pill">sites-clients</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label reveal">engagement & leadership</p>
+  <div class="timeline">
+    <div class="xp-item reveal" style="transition-delay:.05s">
+      <div class="xp-card" style="border-color:rgba(56,189,248,.2);">
+        <div class="xp-head"><span class="xp-company">Tournoi international "Challenge Aramis"</span><span class="xp-date">Lyon · 2020 – présent</span></div>
+        <p class="xp-role">Chef de projet — Organisation & Arbitre national</p>
+        <p class="xp-desc">Organisateur principal d'un tournoi international d'escrime réunissant 200+ participants sur deux jours. Management d'une équipe de 15 bénévoles, logistique complète (salle, planning, matériel), gestion de crises en direct. Arbitre de niveau national, encadrant 3 à 15 arbitres selon l'événement.</p>
+        <div class="xp-pills"><span class="pill">gestion-événement</span><span class="pill">management-×15</span><span class="pill">gestion-crise</span><span class="pill">international</span><span class="pill">arbitre-national</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  Basé en France · Disponible avril 2027 ·
+  <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> ·
+  <a href="../CVATSEN.pdf" target="_blank">CV PDF</a>
+</footer>
+<script>
+(function(){const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');let W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();window.addEventListener('resize',()=>{resize();init();});function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.r=Math.random()*1.5+.5;}function init(){pts=[];for(let i=0;i<60;i++)pts.push(new Pt());}init();function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(56,189,248,.5)';ctx.fill();});for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(56,189,248,${.12*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke();}}}requestAnimationFrame(draw);}draw();})();
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
