@@ -23,7 +23,7 @@
     .lang-pill{text-decoration:none;font-size:.75rem;font-weight:600;padding:.35rem .65rem;border-radius:var(--r);background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);color:var(--accent);transition:all .15s;}
     .lang-pill:hover{background:rgba(56,189,248,.15);}
     main{position:relative;z-index:1;}
-    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6rem 1.5rem 3rem;}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6rem 1.5rem 3rem;position:relative;}
     .hero-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:2rem;padding:.45rem 1rem;margin-bottom:1.75rem;animation:fadeSlideDown .6s ease both;}
     .hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
     .hero-name{font-size:clamp(2.8rem,6vw,5rem);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:.75rem;background:linear-gradient(135deg,var(--white) 0%,var(--accent) 50%,var(--accent2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:fadeSlideDown .7s .1s ease both,glitch 8s 2s infinite;}
@@ -112,7 +112,7 @@
 <canvas id="bg-canvas"></canvas>
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="index.html"><span class="b">&lt;</span>GD<span class="b">/&gt;</span></a>
+    <a class="nav-logo" href="../index.html"><span class="b">&lt;</span>GD<span class="b">/&gt;</span></a>
     <div class="nav-links">
       <a href="index.html" class="active">Accueil</a>
       <a href="projects.html">Projets</a>
@@ -128,13 +128,13 @@
     <div class="hero-tag"><span class="dot"></span>Disponible pour stage · Mai 2026</div>
     <h1 class="hero-name">Grégoire Desparain</h1>
     <p class="hero-role"><span class="typed" id="typed-text"></span><span class="cursor"></span></p>
-    <p class="hero-sub">Étudiant ingénieur en 2ème année à IMT Nord Europe (Mines de Douai). À la recherche d'un stage de 6 mois en cybersécurité, data ou tech numérique.</p>
+    <p class="hero-sub">Étudiant ingénieur à IMT Nord Europe — je construis des choses qui marchent, du firmware embarqué aux apps full-stack. En recherche d'un stage de 6 mois en cybersécurité, data ou systèmes numériques à partir d'avril 2027.</p>
     <div class="hero-ctas">
       <a class="btn-primary" href="https://www.linkedin.com/in/grégoire-desparain" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
       </a>
-      <a class="btn-ghost" href="../CVATSEN.pdf" target="_blank" rel="noopener">
+      <a class="btn-ghost" href="../Cv%20fr%20.pdf" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
         CV PDF
       </a>
@@ -251,7 +251,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           gdespar1@hotmail.com
         </a>
-        <a class="btn-ghost" href="../CVATSEN.pdf" target="_blank" rel="noopener">Télécharger le CV</a>
+        <a class="btn-ghost" href="../Cv%20fr%20.pdf" target="_blank" rel="noopener">Télécharger le CV</a>
       </div>
     </div>
   </section>
@@ -261,7 +261,7 @@
 </footer>
 <script>
 (function(){const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');let W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();window.addEventListener('resize',()=>{resize();init();});function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.r=Math.random()*1.5+.5;}function init(){pts=[];for(let i=0;i<80;i++)pts.push(new Pt());}init();function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(56,189,248,.6)';ctx.fill();});for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(56,189,248,${.15*(1-d/120)})`;ctx.lineWidth=.5;ctx.stroke();}}}requestAnimationFrame(draw);}draw();})();
-(function(){const roles=['Étudiant ingénieur','Développeur IoT','Développeur PHP','Codeur Python','Apprenti cybersécurité','Chef de projet'];const el=document.getElementById('typed-text');let ri=0,ci=0,del=false,wait=0;function tick(){if(wait-->0){setTimeout(tick,50);return;}const word=roles[ri];if(!del){el.textContent=word.slice(0,++ci);if(ci===word.length){del=true;wait=40;}setTimeout(tick,70);}else{el.textContent=word.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%roles.length;wait=8;}setTimeout(tick,35);}}tick();})();
+(function(){const roles=['Étudiant ingénieur','Développeur d\\'apps','Développeur SaaS','Développeur IoT','Codeur Python','Apprenti cybersécurité','Chef de projet'];const el=document.getElementById('typed-text');let ri=0,ci=0,del=false,wait=0;function tick(){if(wait-->0){setTimeout(tick,50);return;}const word=roles[ri];if(!del){el.textContent=word.slice(0,++ci);if(ci===word.length){del=true;wait=40;}setTimeout(tick,70);}else{el.textContent=word.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%roles.length;wait=8;}setTimeout(tick,35);}}tick();})();
 (function(){const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:.12});document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>io.observe(el));})();
 (function(){const io=new IntersectionObserver(e=>{e.forEach(x=>{if(!x.isIntersecting)return;x.target.querySelectorAll('[data-count]').forEach(el=>{const target=+el.dataset.count,suffix=el.dataset.suffix||'';let t0=null;function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/1400,1);el.textContent=Math.floor(p*target)+suffix;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);});io.unobserve(x.target);});},{threshold:.3});document.querySelectorAll('.stats-grid').forEach(el=>io.observe(el));})();
 (function(){const io=new IntersectionObserver(e=>{e.forEach(x=>{if(!x.isIntersecting)return;x.target.querySelectorAll('.skill-bar-fill').forEach(b=>{b.style.width=b.dataset.width+'%';});io.unobserve(x.target);});},{threshold:.2});document.querySelectorAll('.skills-wrapper').forEach(el=>io.observe(el));})();

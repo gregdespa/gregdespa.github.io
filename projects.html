@@ -77,7 +77,7 @@
   <div class="page-header">
     <p class="breadcrumb"><a href="index.html">home</a><span>/</span>projects</p>
     <h1>Things I've built</h1>
-    <p class="page-sub">From embedded hardware to data web tools — each project shipped, tested, and demoed to real users.</p>
+    <p class="page-sub">From embedded hardware to full-stack web apps — each project shipped, demoed to real users, iterated.</p>
   </div>
 
   <div class="filter-bar reveal">
@@ -94,35 +94,35 @@
     <div class="project-card reveal" data-tags="React Firebase team lifecycle" style="transition-delay:.05s">
       <div class="card-top"><span class="card-icon">🌲</span><span class="status-pill status-live">Live</span></div>
       <h3 class="card-title">"The Forest" Application</h3>
-      <p class="card-desc">400+ hour client project with a 5-person team. Full lifecycle: UX/UI design in Figma, full-stack React + Firebase, iOS/Android deployment, backoffice on Vercel, budget management (€180), and weekly sprint reviews. Real stakes, shipped.</p>
+      <p class="card-desc">400+ hours, 5-person team, one real client. Requirements to release: Figma mockups, React + Firebase, iOS/Android deployment, Vercel backoffice, €180 budget to stay under.</p>
       <div class="card-tags"><span class="tag">React</span><span class="tag">Firebase</span><span class="tag">iOS/Android</span><span class="tag">Vercel</span><span class="tag">Figma</span><span class="tag">team-of-5</span><span class="tag">agile</span></div>
       <a class="card-link disabled" style="cursor:default;">Private repo</a>
     </div>
     <div class="project-card reveal" data-tags="PHP XML data" style="transition-delay:.1s">
       <div class="card-top"><span class="card-icon">🤺</span><span class="status-pill status-live">Live</span></div>
       <h3 class="card-title">Fencing Results Reader</h3>
-      <p class="card-desc">Web tool built for the French Fencing Federation to parse XML competition results, compute per-athlete statistics, and render analysis dashboards for managers. Delivered, demoed to the federation, iterated based on their feedback.</p>
+      <p class="card-desc">Built for the French Fencing Federation — parses XML results, computes per-athlete stats, renders performance dashboards for coaches. Demoed to federation staff, shipped a revised version after their notes.</p>
       <div class="card-tags"><span class="tag">PHP</span><span class="tag">XML</span><span class="tag">data-processing</span><span class="tag">HTML/CSS</span></div>
       <a class="card-link" href="https://gregdespa.github.io/ffe/index.html" target="_blank" rel="noopener">View project →</a>
     </div>
     <div class="project-card reveal" data-tags="Arduino C embedded" style="transition-delay:.15s">
       <div class="card-top"><span class="card-icon">⛽</span><span class="status-pill status-live">Live</span></div>
       <h3 class="card-title">Automated Gas Pump</h3>
-      <p class="card-desc">Miniature fuel pump simulation on Arduino. Fuel flow control, embedded safety logic, relay management, and state-machine firmware entirely in C. Hardware wiring + software in one coherent system.</p>
+      <p class="card-desc">Miniature fuel pump on Arduino — relay control, embedded safety logic, and a full state-machine firmware written in C.</p>
       <div class="card-tags"><span class="tag">Arduino</span><span class="tag">C</span><span class="tag">embedded</span><span class="tag">relays</span><span class="tag">safety-logic</span></div>
       <a class="card-link" href="https://gregdespa.github.io/pump/index.html" target="_blank" rel="noopener">View project →</a>
     </div>
     <div class="project-card reveal" data-tags="Arduino IoT sensors" style="transition-delay:.2s">
       <div class="card-top"><span class="card-icon">🌡️</span><span class="status-pill status-live">Live</span></div>
       <h3 class="card-title">Connected Weather Station</h3>
-      <p class="card-desc">Arduino IoT station measuring temperature, humidity, and pressure. Real-time data captured and visualised in a dedicated web interface. Full chain: sensors → firmware → display.</p>
+      <p class="card-desc">Arduino-based weather station: temperature, humidity, pressure. Data flows in real time into a custom web dashboard — sensor to pixel.</p>
       <div class="card-tags"><span class="tag">Arduino</span><span class="tag">IoT</span><span class="tag">sensors</span><span class="tag">real-time</span><span class="tag">data-viz</span></div>
       <a class="card-link" href="https://gregdespa.github.io/station/index.html" target="_blank" rel="noopener">View project →</a>
     </div>
     <div class="project-card reveal" data-tags="C game AI" style="transition-delay:.25s">
       <div class="card-top"><span class="card-icon">👾</span><span class="status-pill status-wip">In progress</span></div>
       <h3 class="card-title">Pac-Man (C)</h3>
-      <p class="card-desc">Pac-Man clone written in pure C. Player movement, ghost AI pathfinding, collision system, score tracking. Emphasis on memory management, clean struct organisation, and separation between game state and rendering.</p>
+      <p class="card-desc">Full Pac-Man clone in pure C — ghost pathfinding, collision detection, score tracking. Heavy focus on memory management and clean struct layout.</p>
       <div class="card-tags"><span class="tag">C</span><span class="tag">game-loop</span><span class="tag">AI</span><span class="tag">memory-management</span><span class="tag">low-level</span></div>
       <span class="card-link disabled">In progress</span>
     </div>
@@ -131,7 +131,7 @@
 <footer>
   Based in France · Available April 2027 ·
   <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> ·
-  <a href="CVATSEN.pdf" target="_blank">Résumé PDF</a>
+  <a href="Cv%20fr%20.pdf" target="_blank">Résumé PDF</a>
 </footer>
 <script>
 (function(){const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');let W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();window.addEventListener('resize',()=>{resize();init();});function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.r=Math.random()*1.5+.5;}function init(){pts=[];for(let i=0;i<60;i++)pts.push(new Pt());}init();function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(56,189,248,.5)';ctx.fill();});for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(56,189,248,${.12*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke();}}}requestAnimationFrame(draw);}draw();})();

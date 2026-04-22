@@ -90,7 +90,7 @@
   <div class="page-header">
     <p class="breadcrumb"><a href="index.html">home</a><span>/</span>skills</p>
     <h1>Stack &amp; expertise</h1>
-    <p class="page-sub">Languages, tools, and human skills — the full picture of what I bring to a team.</p>
+    <p class="page-sub">Languages, tools, soft skills — everything I bring to a team, no fluff.</p>
   </div>
 
   <p class="section-label reveal">core languages</p>
@@ -147,17 +147,17 @@
   <div class="edu-card reveal">
     <span class="edu-icon">📚</span>
     <div>
-      <p class="edu-school">Lycée du Parc — Prépa MPSI/MP</p>
-      <p class="edu-degree">Preparatory cycle — Mathematics, Physics, Computer Science</p>
-      <p class="edu-dates">2022 – 2025 · Lyon</p>
-      <p class="edu-desc">Intensive 3-year preparatory programme for engineering schools. Rigorous training in mathematics, physics, and algorithmics. Competitive entrance examinations.</p>
+      <p class="edu-school">IMT Nord Europe — Integrated Preparatory Cycle</p>
+      <p class="edu-degree">MPSI/MP — Mathematics, Physics, Computer Science</p>
+      <p class="edu-dates">2022 – 2025 · Lille</p>
+      <p class="edu-desc">3-year integrated preparatory programme within IMT Nord Europe. Rigorous training in mathematics, physics, and algorithmics leading directly into the engineering cycle.</p>
     </div>
   </div>
 </main>
 <footer>
   Based in France · Available April 2027 ·
   <a href="mailto:gdespar1@hotmail.com">gdespar1@hotmail.com</a> ·
-  <a href="CVATSEN.pdf" target="_blank">Résumé PDF</a>
+  <a href="Cv%20fr%20.pdf" target="_blank">Résumé PDF</a>
 </footer>
 <script>
 (function(){const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');let W,H,pts=[];function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}resize();window.addEventListener('resize',()=>{resize();init();});function Pt(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.4;this.vy=(Math.random()-.5)*.4;this.r=Math.random()*1.5+.5;}function init(){pts=[];for(let i=0;i<60;i++)pts.push(new Pt());}init();function draw(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(56,189,248,.5)';ctx.fill();});for(let i=0;i<pts.length;i++){for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(56,189,248,${.12*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke();}}}requestAnimationFrame(draw);}draw();})();

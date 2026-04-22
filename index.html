@@ -84,7 +84,7 @@
     .hero{
       min-height:100vh;display:flex;flex-direction:column;
       justify-content:center;align-items:center;text-align:center;
-      padding:6rem 1.5rem 3rem;
+      padding:6rem 1.5rem 3rem;position:relative;
     }
     .hero-tag{
       display:inline-flex;align-items:center;gap:.5rem;
@@ -426,15 +426,15 @@
       <span class="typed" id="typed-text"></span><span class="cursor"></span>
     </p>
     <p class="hero-sub">
-      2nd-year engineering student at IMT Nord Europe (Mines de Douai).
-      Looking for a 6-month internship in cybersecurity, data, or digital tech.
+      Engineering student at IMT Nord Europe — I build things that work, from embedded firmware to full-stack apps.
+      Open to a 6-month internship in cybersecurity, data, or digital systems from April 2027.
     </p>
     <div class="hero-ctas">
       <a class="btn-primary" href="https://www.linkedin.com/in/grégoire-desparain" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
         LinkedIn
       </a>
-      <a class="btn-ghost" href="CVATSEN.pdf" target="_blank" rel="noopener">
+      <a class="btn-ghost" href="Cv%20fr%20.pdf" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
         Résumé PDF
       </a>
@@ -695,7 +695,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           gdespar1@hotmail.com
         </a>
-        <a class="btn-ghost" href="CVATSEN.pdf" target="_blank" rel="noopener">Download résumé</a>
+        <a class="btn-ghost" href="Cv%20fr%20.pdf" target="_blank" rel="noopener">Download résumé</a>
       </div>
     </div>
   </section>
@@ -751,7 +751,7 @@
 
 // ─── TYPING EFFECT ──────────────────────────────────────────────────────────
 (function(){
-  const roles=['Engineering Student','IoT Developer','PHP Developer','Python Coder','Cybersecurity Learner','Team Lead'];
+  const roles=['Engineering Student','App Developer','SaaS Developer','IoT Developer','Python Coder','Cybersecurity Learner','Team Lead'];
   const el=document.getElementById('typed-text');
   let ri=0,ci=0,del=false,wait=0;
   function tick(){
