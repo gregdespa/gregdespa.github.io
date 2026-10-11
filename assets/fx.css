@@ -1,0 +1,139 @@
+/* ============================================================
+   FX LAYER — shared visual effects for the whole portfolio
+   Injected via assets/fx.js — no markup needed in pages.
+   ============================================================ */
+
+/* ── Cross-document View Transitions (MPA page fade) ── */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: fx-vt-out .25s ease both; }
+::view-transition-new(root) { animation: fx-vt-in .35s ease both; }
+@keyframes fx-vt-out { to { opacity: 0; transform: translateY(8px); } }
+@keyframes fx-vt-in  { from { opacity: 0; transform: translateY(-8px); } }
+
+/* ── Selection & scrollbar ── */
+::selection { background: rgba(56,189,248,.35); color: #f8fafc; }
+html { scrollbar-color: rgba(56,189,248,.4) rgba(15,23,42,.8); }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0a0f1e; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #38bdf8, #818cf8);
+  border-radius: 5px; border: 2px solid #0a0f1e;
+}
+
+:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; border-radius: 4px; }
+
+/* ── Scroll progress bar ── */
+.fx-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #e879f9);
+  transform-origin: 0 50%; transform: scaleX(0);
+  z-index: 300; pointer-events: none;
+  box-shadow: 0 0 12px rgba(56,189,248,.6);
+}
+@supports (animation-timeline: scroll()) {
+  .fx-progress {
+    animation: fx-grow linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes fx-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+
+/* ── Aurora background ── */
+.fx-aurora {
+  position: fixed; inset: -20%; z-index: 0; pointer-events: none;
+  filter: blur(90px) saturate(1.2);
+  opacity: .5;
+}
+.fx-aurora span { position: absolute; border-radius: 50%; will-change: transform; }
+.fx-aurora span:nth-child(1) {
+  width: 45vw; height: 45vw; left: -10%; top: -10%;
+  background: radial-gradient(circle, rgba(56,189,248,.28), transparent 65%);
+  animation: fx-drift1 26s ease-in-out infinite alternate;
+}
+.fx-aurora span:nth-child(2) {
+  width: 38vw; height: 38vw; right: -8%; top: 20%;
+  background: radial-gradient(circle, rgba(129,140,248,.22), transparent 65%);
+  animation: fx-drift2 32s ease-in-out infinite alternate;
+}
+.fx-aurora span:nth-child(3) {
+  width: 40vw; height: 40vw; left: 25%; bottom: -15%;
+  background: radial-gradient(circle, rgba(232,121,249,.12), transparent 65%);
+  animation: fx-drift3 38s ease-in-out infinite alternate;
+}
+@keyframes fx-drift1 { to { transform: translate(18vw, 12vh) scale(1.15); } }
+@keyframes fx-drift2 { to { transform: translate(-14vw, 18vh) scale(.9); } }
+@keyframes fx-drift3 { to { transform: translate(10vw, -14vh) scale(1.2); } }
+
+/* ── Film grain ── */
+.fx-grain {
+  position: fixed; inset: 0; z-index: 250; pointer-events: none;
+  opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Mouse spotlight ── */
+.fx-spotlight {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(550px circle at var(--fx-mx, 50%) var(--fx-my, 30%),
+              rgba(56,189,248,.055), transparent 70%);
+}
+
+/* ── Custom cursor ── */
+@media (pointer: fine) {
+  body.fx-cursor-on, body.fx-cursor-on a, body.fx-cursor-on button { cursor: none; }
+  .fx-cursor-dot, .fx-cursor-ring {
+    position: fixed; top: 0; left: 0; z-index: 400; pointer-events: none;
+    border-radius: 50%; transform: translate(-50%, -50%);
+    opacity: 0; transition: opacity .25s;
+  }
+  body.fx-cursor-active .fx-cursor-dot,
+  body.fx-cursor-active .fx-cursor-ring { opacity: 1; }
+  .fx-cursor-dot {
+    width: 6px; height: 6px; background: #38bdf8;
+    box-shadow: 0 0 10px rgba(56,189,248,.9);
+  }
+  .fx-cursor-ring {
+    width: 34px; height: 34px;
+    border: 1.5px solid rgba(56,189,248,.55);
+    transition: opacity .25s, width .2s ease, height .2s ease,
+                border-color .2s ease, background .2s ease;
+  }
+  .fx-cursor-ring.fx-hover {
+    width: 52px; height: 52px;
+    background: rgba(56,189,248,.08);
+    border-color: rgba(56,189,248,.9);
+  }
+}
+
+/* ── Nav auto-hide ── */
+nav { transition: transform .35s ease, background .3s; }
+nav.fx-nav-hidden { transform: translateY(-105%); }
+
+/* ── Tilt cards ── */
+.project-card { will-change: transform; }
+
+/* ── Konami / matrix overlay ── */
+.fx-matrix {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(5, 10, 20, .85);
+  animation: fx-fadein .3s ease both;
+}
+.fx-matrix.out { animation: fx-fadeout .6s ease both; }
+.fx-matrix-msg {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: 'Courier New', monospace; text-align: center;
+  color: #38bdf8; text-shadow: 0 0 20px rgba(56,189,248,.8);
+  font-size: clamp(1.2rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: .1em;
+  animation: fx-flicker 1.2s steps(2) infinite;
+}
+@keyframes fx-fadein  { from { opacity: 0; } }
+@keyframes fx-fadeout { to { opacity: 0; } }
+@keyframes fx-flicker { 50% { opacity: .75; } }
+
+/* ── Reduced motion: kill the show ── */
+@media (prefers-reduced-motion: reduce) {
+  .fx-aurora, .fx-grain, .fx-spotlight,
+  .fx-cursor-dot, .fx-cursor-ring { display: none !important; }
+  body.fx-cursor-on, body.fx-cursor-on a, body.fx-cursor-on button { cursor: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
