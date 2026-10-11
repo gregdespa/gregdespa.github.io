@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Résultats d’escrime — Grégoire Desparain</title>
+  <meta name="description" content="Étude de cas : outil PHP pour la Fédération Française d’Escrime qui transforme les exports XML de compétition en tableaux lisibles.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#apropos">À propos</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#parcours">Parcours</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+    </ul>
+    <a class="nav-cta" href="../index.html#contact">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projets">← Tous les projets</a>
+      <p class="label">P—02 · Étude de cas</p>
+      <h1 style="margin-top:1rem">Lecteur de <em>résultats</em></h1>
+      <p class="case-lede">Pour la Fédération Française d’Escrime, un outil web qui lit l’export brut d’une compétition et en sort poules, matchs, classements et statistiques, prêts à partager avec les entraîneurs.</p>
+      <div class="meta">
+        <div><span class="label">Rôle</span><b>Développeur web (stage)</b></div>
+        <div><span class="label">Client</span><b>Fédération Française d’Escrime</b></div>
+        <div><span class="label">Période</span><b>Juin – Juil. 2024 · Paris</b></div>
+        <div><span class="label">Stack</span><b>PHP · SimpleXML · HTML/CSS</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://github.com/gregdespa/resultsreader" target="_blank" rel="noopener">Code sur GitHub <span class="arr">↗</span></a>
+      <a class="btn btn-ghost resource" href="../ffe/edb.pdf" target="_blank" rel="noopener">État des besoins (PDF) <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — Contexte</span>
+        <div>
+          <h2>Après chaque compétition, Excel.</h2>
+          <p>À la fin d’une compétition, le logiciel d’arbitrage produit un fichier XML qui contient tout&nbsp;: les poules, chaque assaut, les tableaux d’élimination directe, le classement, les arbitres.</p>
+          <p>Le problème, c’est que personne ne lit du XML. Les responsables ouvraient le fichier à la main pour retrouver qui avait battu qui, recopiaient les scores dans Excel et reconstruisaient les classements avant de les envoyer aux entraîneurs. <strong>À chaque compétition, tout était refait, et ça dépendait de qui était disponible ce week-end-là.</strong></p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — La demande</span>
+        <div>
+          <h2>Rapide, fiable, utilisable sans être développeur.</h2>
+          <p>Avant d’écrire du code, j’ai rédigé un <strong>état des besoins</strong> qui décrit chaque page attendue, les données affichées et la navigation. Concrètement, j’ai joué le rôle de chef de produit avant celui de développeur.</p>
+          <table class="rules">
+            <tr><th>Page</th><th>Contenu</th></tr>
+            <tr><td><code>index.php</code></td><td>Nom de la compétition, lieu, date, formule (poules → élimination directe).</td></tr>
+            <tr><td><code>inscrits.php</code></td><td>Tireurs engagés&nbsp;: nom, club, catégorie, arme, avec recherche.</td></tr>
+            <tr><td><code>arbitre.php</code></td><td>Arbitres affectés à l’événement, avec club et niveau.</td></tr>
+            <tr><td><code>poules.php</code></td><td>Chaque poule et chaque assaut&nbsp;: touches données/reçues, victoires, arbitre.</td></tr>
+            <tr><td><code>classement_f.php</code></td><td>Classement final, médailles, tour atteint par chaque tireur.</td></tr>
+            <tr><td><code>match.php</code></td><td>Vue détaillée d’un match pour l’analyse avec l’entraîneur.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — Architecture</span>
+        <div>
+          <h2>Un fichier en entrée, des pages en sortie.</h2>
+          <p>Le choix principal&nbsp;: <strong>pas de base de données</strong>. Tout est calculé en mémoire à partir du XML à chaque chargement. Pour une nouvelle compétition, on remplace le fichier et le site est à jour, sans rien reprogrammer ni migrer.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Entrée</span><b>Export XML</b><p>Logiciel d’arbitrage (ex. <code>lille.xml</code>)</p></div>
+            <div class="link">parse</div>
+            <div class="node hot"><span class="label">Traitement</span><b>PHP + SimpleXML</b><p>Extraction, calcul des indicateurs</p></div>
+            <div class="link">rendu</div>
+            <div class="node"><span class="label">Sortie</span><b>Pages HTML</b><p>Une URL par vue, simple à partager</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Le code</span>
+        <div>
+          <h2>Lire une poule.</h2>
+          <p>Extrait simplifié de <code>poules.php</code>&nbsp;: on charge l’export, on parcourt chaque poule, puis chaque match avec son score. Le même schéma sert pour le classement, les arbitres et les inscrits.</p>
+          <div class="code">
+            <div class="code-bar"><span>poules.php</span><span>PHP</span></div>
+<pre><span class="c">// Charger les données de la compétition</span>
+<span class="n">$xml</span> = <span class="k">simplexml_load_file</span>(<span class="s">"lille.xml"</span>);
+<span class="n">$pools</span> = [];
+
+<span class="k">foreach</span> (<span class="n">$xml</span>-&gt;Poule <span class="k">as</span> <span class="n">$poule</span>) {
+    <span class="n">$num</span> = (string) <span class="n">$poule</span>[<span class="s">'Num'</span>];
+    <span class="n">$pools</span>[<span class="n">$num</span>] = [<span class="s">"referee"</span> =&gt; (string) <span class="n">$poule</span>[<span class="s">'Arbitre'</span>], <span class="s">"matches"</span> =&gt; []];
+
+    <span class="k">foreach</span> (<span class="n">$poule</span>-&gt;Match <span class="k">as</span> <span class="n">$m</span>) {
+        <span class="n">$pools</span>[<span class="n">$num</span>][<span class="s">"matches"</span>][] = [
+            <span class="s">"a"</span>  =&gt; (string) <span class="n">$m</span>-&gt;TireurA[<span class="s">'Nom'</span>],
+            <span class="s">"b"</span>  =&gt; (string) <span class="n">$m</span>-&gt;TireurB[<span class="s">'Nom'</span>],
+            <span class="s">"sa"</span> =&gt; (int) <span class="n">$m</span>[<span class="s">'ScoreA'</span>],
+            <span class="s">"sb"</span> =&gt; (int) <span class="n">$m</span>[<span class="s">'ScoreB'</span>],
+        ];
+    }
+}
+<span class="c">// … puis rendu HTML de chaque poule sous forme de tableau</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Itération</span>
+        <div>
+          <h2>Démo, retours, deuxième version.</h2>
+          <p>J’ai présenté l’outil en direct au responsable fédéral. Ses retours ont surtout porté sur <strong>quels indicateurs comptent vraiment</strong> pour un entraîneur&nbsp;: j’ai retravaillé les statistiques affichées et la présentation en conséquence.</p>
+          <p>L’état des besoins prévoyait aussi des évolutions&nbsp;: suivi des cartons par tireur, statistiques d’arbitrage, mise en avant des surprises (un tireur mal classé qui bat un favori).</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — Résultat</span>
+        <div>
+          <h2>Des minutes au lieu d’heures.</h2>
+          <div class="outcomes">
+            <div class="outcome"><b>Minutes</b><span>pour produire un récapitulatif, contre une reconstruction à la main</span></div>
+            <div class="outcome"><b>1 version</b><span>des résultats, la même pour tous les entraîneurs</span></div>
+            <div class="outcome"><b>0 base</b><span>de données&nbsp;: déposer le XML suffit</span></div>
+          </div>
+          <p style="margin-top:1.4rem">Surtout, j’ai appris à traduire «&nbsp;on veut des stats&nbsp;» en indicateurs calculables, et à présenter l’information comme les gens en ont besoin sur le terrain.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="station-meteo.html">
+      <span class="label">Projet suivant →</span>
+      <b>Station météo connectée</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Me contacter →</a>
+  </div>
+</footer>
+</body>
+</html>

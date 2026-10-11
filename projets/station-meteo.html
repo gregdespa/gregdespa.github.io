@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Station météo — Grégoire Desparain</title>
+  <meta name="description" content="Étude de cas : station météo à deux Arduino reliés par XBee, qui pilote automatiquement des volets selon la météo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#apropos">À propos</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#parcours">Parcours</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+    </ul>
+    <a class="nav-cta" href="../index.html#contact">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projets">← Tous les projets</a>
+      <p class="label">P—03 · Étude de cas</p>
+      <h1 style="margin-top:1rem">Station météo <em>connectée</em></h1>
+      <p class="case-lede">Une sonde dehors, un boîtier dedans, une liaison radio entre les deux. Le système mesure la météo et ouvre ou ferme les volets tout seul en fonction de ce qu’il voit.</p>
+      <div class="meta">
+        <div><span class="label">Rôle</span><b>Systèmes embarqués &amp; IoT</b></div>
+        <div><span class="label">Cadre</span><b>Projet école · IMT Nord Europe</b></div>
+        <div><span class="label">Matériel</span><b>2 Arduino · XBee · servos</b></div>
+        <div><span class="label">Langage</span><b>C / Arduino</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://github.com/gregdespa/weather-station" target="_blank" rel="noopener">Code sur GitHub <span class="arr">↗</span></a>
+      <a class="btn btn-ghost resource" href="../station/station_meteo.pdf" target="_blank" rel="noopener">Rapport (PDF) <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — L’idée</span>
+        <div>
+          <h2>Mesurer, puis agir.</h2>
+          <p>Beaucoup de stations météo s’arrêtent à l’affichage d’une valeur. L’objectif ici était d’aller un cran plus loin&nbsp;: <strong>que les mesures déclenchent une action physique</strong> dans la maison, en l’occurrence l’ouverture et la fermeture des volets.</p>
+          <p>Et que n’importe qui puisse lire l’écran sans savoir ce qu’est un volt.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — Architecture</span>
+        <div>
+          <h2>Deux modules, une liaison radio.</h2>
+          <p>Le système est coupé en deux Arduino indépendants. L’émetteur reste dehors, le récepteur est à l’intérieur près de l’utilisateur. Ils communiquent par <strong>XBee</strong>, une liaison radio point à point.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Dehors · Émetteur</span><b>Arduino E</b><p>Température, humidité, vent, lumière</p></div>
+            <div class="link">XBee</div>
+            <div class="node hot"><span class="label">Dedans · Récepteur</span><b>Arduino R</b><p>Décodage des trames et décision</p></div>
+            <div class="link">action</div>
+            <div class="node"><span class="label">Sorties</span><b>LCD + servos</b><p>Affichage et volets motorisés</p></div>
+          </div>
+          <p style="margin-top:1.4rem">Cette séparation rend le tout modulaire&nbsp;: on peut changer un capteur sans toucher à l’interface, ou réécrire les règles des volets sans toucher à la sonde.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — Capteurs</span>
+        <div>
+          <h2>Ce qui est mesuré.</h2>
+          <table class="rules">
+            <tr><th>Grandeur</th><th>Capteur et méthode</th></tr>
+            <tr><td>Température &amp; humidité</td><td>Capteur de type DHT&nbsp;: °C et humidité relative.</td></tr>
+            <tr><td>Vent</td><td>Anémomètre à impulsions&nbsp;: on compte les impulsions pour estimer la vitesse en km/h.</td></tr>
+            <tr><td>Luminosité</td><td>Photorésistance (LDR), utilisée pour décider s’il faut laisser entrer la lumière.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Le protocole</span>
+        <div>
+          <h2>Une trame texte, légère.</h2>
+          <p>L’émetteur assemble les mesures dans une chaîne courte et l’envoie sur le port série du XBee. Le récepteur la lit, la découpe, met l’écran à jour puis bouge les servos si besoin.</p>
+          <div class="code">
+            <div class="code-bar"><span>Station_Meteo_E.ino / _R.ino</span><span>Pseudo-code</span></div>
+<pre><span class="c">// Émetteur : lire, assembler, envoyer</span>
+<span class="k">void</span> <span class="n">loop</span>() {
+  String frame = <span class="s">"T:"</span> + readTemperature() + <span class="s">";H:"</span> + readHumidity()
+               + <span class="s">";W:"</span> + readWindSpeed()  + <span class="s">";L:"</span> + readLight() + <span class="s">";"</span>;
+  xbee.<span class="n">print</span>(frame);            <span class="c">// ex. "T:23.4;H:41;W:12;L:380;"</span>
+}
+
+<span class="c">// Récepteur : lire, décoder, afficher, agir</span>
+<span class="k">void</span> <span class="n">loop</span>() {
+  <span class="k">if</span> (xbee.<span class="n">available</span>()) {
+    parseFrame(xbee.<span class="n">readStringUntil</span>(<span class="s">'\n'</span>));
+    updateLCD();
+    updateServos();
+  }
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Les règles</span>
+        <div>
+          <h2>Quand bouger les volets.</h2>
+          <table class="rules">
+            <tr><th>Condition</th><th>Action des volets</th></tr>
+            <tr><td>Plus de 30&nbsp;°C</td><td>Fermés, pour garder la fraîcheur.</td></tr>
+            <tr><td>Entre 20 et 30&nbsp;°C</td><td>À moitié ouverts.</td></tr>
+            <tr><td>Peu de lumière</td><td>Ouverts, pour profiter de la lumière naturelle.</td></tr>
+            <tr><td>Vent fort</td><td>Fermés, pour éviter les dégâts.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — Interface</span>
+        <div>
+          <h2>Lisible par tout le monde.</h2>
+          <ul class="points">
+            <li>Un écran LCD avec clavier affiche les valeurs en clair, page par page&nbsp;: température, humidité, vent, lumière.</li>
+            <li>Un <strong>capteur de geste PAJ7620</strong> permet de changer de page d’un mouvement de la main.</li>
+            <li>L’affichage se rafraîchit à chaque trame reçue.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">07 — Ce que j’en retiens</span>
+        <div>
+          <h2>Les acquis.</h2>
+          <ul class="points">
+            <li>Concevoir un petit protocole de communication et le rendre robuste côté réception.</li>
+            <li>Lire des capteurs en continu tout en pilotant des actionneurs.</li>
+            <li>Penser l’interface pour l’utilisateur final, pas pour l’ingénieur qui a le moniteur série ouvert.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="pompe-essence.html">
+      <span class="label">Projet suivant →</span>
+      <b>Pompe à essence automatisée</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Me contacter →</a>
+  </div>
+</footer>
+</body>
+</html>

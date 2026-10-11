@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShakeUp — Grégoire Desparain</title>
+  <meta name="description" content="Étude de cas : ShakeUp, plateforme de gestion de soirées. App iOS/Android, backoffice web et 50 Cloud Functions, menée en chef de projet avec une équipe de cinq étudiants.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#apropos">À propos</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#parcours">Parcours</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+    </ul>
+    <a class="nav-cta" href="../index.html#contact">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projets">← Tous les projets</a>
+      <div class="case-logo"><img src="../assets/shakeup/logo.png" alt="Logo ShakeUp" width="240" height="240"></div>
+      <p class="label">P—01 · Étude de cas</p>
+      <h1 style="margin-top:1rem">Shake<em>Up</em></h1>
+      <p class="case-lede">Une plateforme complète pour organiser des soirées&nbsp;: les clients réservent leur table depuis l’app, le staff scanne et prend les commandes sur place, l’organisateur pilote tout depuis un backoffice. Publiée sur l’App Store et le Play Store.</p>
+      <div class="meta">
+        <div><span class="label">Rôle</span><b>Chef de projet &amp; dev full stack</b></div>
+        <div><span class="label">Équipe</span><b>5 étudiants · IMT Nord Europe</b></div>
+        <div><span class="label">Période</span><b>2025 – 2026</b></div>
+        <div><span class="label">Statut</span><b>En ligne · iOS, Android, web</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — Contexte</span>
+        <div>
+          <h2>Une soirée, c’est un système d’information.</h2>
+          <p>Le projet a démarré sous le nom de code <strong>The Forest</strong>, dans le cadre du projet de deuxième année d’IMT Nord Europe&nbsp;: un vrai commanditaire, un cahier des charges, un budget et des revues régulières avec deux tuteurs.</p>
+          <p>Le besoin&nbsp;: un organisateur de soirées doit gérer en même temps les réservations de tables, les entrées, les commandes et l’encaissement. L’objectif était de <strong>tout réunir dans un seul outil</strong>, utilisable par le client chez lui comme par le staff en pleine soirée.</p>
+          <div class="shots">
+            <figure class="shot"><img src="../assets/shakeup/soirees.jpg" alt="Écran de l’app ShakeUp listant les soirées passées" width="600" height="1300" loading="lazy"><figcaption>Soirées passées</figcaption></figure>
+            <figure class="shot"><img src="../assets/shakeup/reservation.jpg" alt="Écran de réservation de table avec QR code d’entrée" width="600" height="1300" loading="lazy"><figcaption>Réservation de table + QR d’entrée</figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — Les utilisateurs</span>
+        <div>
+          <h2>Six rôles, une seule app.</h2>
+          <p>La difficulté du produit, c’est que chacun voit une application différente. L’app lit le rôle de l’utilisateur à la connexion et l’envoie vers la bonne interface.</p>
+          <table class="rules">
+            <tr><th>Rôle</th><th>Ce qu’il fait</th></tr>
+            <tr><td>Client</td><td>Découvre les soirées, réserve une table, présente son QR code, consulte le menu.</td></tr>
+            <tr><td>Staff</td><td>Scanne les entrées, suit les tables en direct, prend les commandes à table.</td></tr>
+            <tr><td>Préparateur</td><td>Voit les commandes arriver en temps réel, les marque prêtes puis servies.</td></tr>
+            <tr><td>Caisse</td><td>Encaisse les ventes hors réservation pendant la soirée.</td></tr>
+            <tr><td>Compta</td><td>Valide les paiements depuis le backoffice.</td></tr>
+            <tr><td>Admin</td><td>Crée les soirées, le menu, le plan de table, le staff, et suit les résultats.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — Le parcours</span>
+        <div>
+          <h2>D’une publication à la dernière bouteille.</h2>
+          <ol class="steps">
+            <li><span><b>Publication.</b> L’admin crée la soirée et son plan de table dans le backoffice. Les utilisateurs reçoivent une notification push.</span></li>
+            <li><span><b>Réservation.</b> Le client choisit sa table sur le plan, indique le nombre d’invités et règle l’acompte via la billetterie partenaire.</span></li>
+            <li><span><b>Billet.</b> La réservation confirmée génère un QR code dans l’app, qu’on peut aussi ajouter à Apple Wallet.</span></li>
+            <li><span><b>Entrée.</b> Le staff scanne le QR à la porte&nbsp;: la table passe «&nbsp;arrivée&nbsp;» et le serveur concerné est prévenu.</span></li>
+            <li><span><b>Commande.</b> À table, le staff scanne le QR de la table et saisit la commande. Elle apparaît chez la compta et chez le préparateur.</span></li>
+            <li><span><b>Paiement.</b> La compta valide le paiement&nbsp;; l’acompte déjà versé est déduit automatiquement.</span></li>
+            <li><span><b>Service et bilan.</b> Le préparateur passe la commande en «&nbsp;prête&nbsp;» puis «&nbsp;envoyée&nbsp;». Après la soirée, l’admin consulte les résultats agrégés.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Architecture</span>
+        <div>
+          <h2>Trois briques, un backend.</h2>
+          <p>L’app mobile et le backoffice partagent le même projet Firebase. <strong>Toutes les écritures sensibles</strong> (réservations, commandes, paiements, rôles) passent par des Cloud Functions côté serveur, jamais directement depuis un client.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Mobile</span><b>App React Native</b><p>Expo · iOS &amp; Android · mises à jour OTA</p></div>
+            <div class="link">appels</div>
+            <div class="node hot"><span class="label">Backend</span><b>Firebase</b><p>Auth · Firestore · Storage · 50 Cloud Functions (Node 22)</p></div>
+            <div class="link rev">appels</div>
+            <div class="node"><span class="label">Web</span><b>Backoffice Next.js</b><p>Dashboard par rôle · déployé sur Vercel</p></div>
+          </div>
+          <p style="margin-top:1.4rem">Autour de ce cœur&nbsp;: notifications push iOS via APNs, images des soirées sur Cloudinary, builds et mises à jour avec EAS, passes Apple Wallet signés, et un webhook pour la billetterie partenaire.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Points techniques</span>
+        <div>
+          <h2>Ce qui m’a le plus appris.</h2>
+          <ul class="points">
+            <li><strong>Plan de table interactif.</strong> Dans le backoffice, on pose les tables sur le plan de la salle, on les déplace et on les redimensionne. Les positions sont stockées en pourcentage, donc l’app affiche le même plan sur n’importe quel écran, avec zoom.</li>
+            <li><strong>API billetterie.</strong> J’ai rédigé la spécification des échanges avec la plateforme de billetterie (6 endpoints). Chaque appel est signé en HMAC-SHA256 pour qu’on ne puisse pas valider un acompte de l’extérieur.</li>
+            <li><strong>Apple Wallet sans module natif.</strong> Le pass est généré et signé par une Cloud Function, puis ouvert dans Safari. Résultat&nbsp;: la fonctionnalité a pu partir en mise à jour OTA, sans nouvelle version sur l’App Store.</li>
+            <li><strong>Rôles et sécurité.</strong> Le rôle est porté par le jeton d’authentification et revérifié côté serveur dans chaque fonction. Un compte staff peut être jetable, limité à une soirée.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — Le code</span>
+        <div>
+          <h2>Vérifier un webhook.</h2>
+          <p>Quand la billetterie confirme un acompte, elle appelle ce point d’entrée. On recalcule la signature du message avec la clé partagée et on la compare en temps constant avant de toucher à la base.</p>
+          <div class="code">
+            <div class="code-bar"><span>functions/index.js — ticketingWebhook</span><span>Node.js</span></div>
+<pre><span class="k">exports</span>.ticketingWebhook = <span class="n">onRequest</span>(<span class="k">async</span> (req, res) =&gt; {
+  <span class="c">// … méthode, configuration et taille du corps vérifiées avant</span>
+  <span class="k">const</span> header   = <span class="n">String</span>(req.<span class="n">get</span>(<span class="s">"X-ShakeUp-Signature"</span>) || <span class="s">""</span>);
+  <span class="k">const</span> expected = <span class="s">"sha256="</span> + crypto
+    .<span class="n">createHmac</span>(<span class="s">"sha256"</span>, secret).<span class="n">update</span>(rawBody).<span class="n">digest</span>(<span class="s">"hex"</span>);
+
+  <span class="k">const</span> a = Buffer.<span class="n">from</span>(header), b = Buffer.<span class="n">from</span>(expected);
+  <span class="k">if</span> (a.length !== b.length || !crypto.<span class="n">timingSafeEqual</span>(a, b)) {
+    <span class="k">return</span> res.<span class="n">status</span>(<span class="n">401</span>).<span class="n">json</span>({ error: <span class="s">"invalid-signature"</span> });
+  }
+
+  <span class="c">// La réservation doit exister et correspondre à la soirée et à la table annoncées</span>
+  <span class="k">const</span> resa = (<span class="k">await</span> db.<span class="n">doc</span>(<span class="s">`tablesReservation/${reservationId}`</span>).<span class="n">get</span>()).<span class="n">data</span>();
+  <span class="k">if</span> (body.eventId !== resa.eventId) <span class="k">return</span> res.<span class="n">status</span>(<span class="n">422</span>).<span class="n">json</span>({ error: <span class="s">"reservation-mismatch"</span> });
+
+  <span class="k">await</span> <span class="n">applyDepositValidation</span>({ reservationId, source: <span class="s">"api"</span> });
+  res.<span class="n">status</span>(<span class="n">200</span>).<span class="n">json</span>({ ok: <span class="k">true</span> });
+});</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">07 — Mon rôle</span>
+        <div>
+          <h2>Chef de projet <em style="font-style:italic;color:var(--ink-3)">qui code</em>.</h2>
+          <ul class="points">
+            <li><strong>Cadrage et maquettes</strong>&nbsp;: recueil des besoins avec le client, parcours et écrans sous Figma, validés avant développement.</li>
+            <li><strong>Architecture</strong>&nbsp;: choix de la stack, modèle de données, découpage en Cloud Functions, règles de sécurité.</li>
+            <li><strong>Développement</strong>&nbsp;: une grande partie de l’app, du backoffice et du backend.</li>
+            <li><strong>Pilotage</strong>&nbsp;: répartition des tâches dans l’équipe de cinq, suivi du budget, comptes rendus aux tuteurs.</li>
+            <li><strong>Mise en production</strong>&nbsp;: publication sur l’App Store et le Play Store, déploiement du backoffice.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">08 — En chiffres</span>
+        <div>
+          <h2>Ce qui a été livré.</h2>
+          <div class="outcomes">
+            <div class="outcome"><b>2 stores</b><span>App publiée sur iOS et Android</span></div>
+            <div class="outcome"><b>50</b><span>Cloud Functions côté serveur</span></div>
+            <div class="outcome"><b>40</b><span>écrans dans l’app mobile</span></div>
+            <div class="outcome"><b>~38k</b><span>lignes de TypeScript (app + backoffice)</span></div>
+            <div class="outcome"><b>6</b><span>rôles utilisateurs</span></div>
+            <div class="outcome"><b>5</b><span>étudiants pilotés sur l’année</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">09 — Ce que j’en retiens</span>
+        <div>
+          <h2>Les leçons.</h2>
+          <ul class="points">
+            <li>Un produit à plusieurs rôles se conçoit à partir des parcours, pas des écrans&nbsp;: qui fait quoi, à quel moment de la soirée.</li>
+            <li>Mettre la logique métier côté serveur dès le début évite de devoir faire confiance au téléphone du client.</li>
+            <li>Une maquette validée coûte beaucoup moins cher qu’une fonctionnalité recodée.</li>
+            <li>Diriger une équipe, c’est surtout rendre visible qui fait quoi et pour quand.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="resultats-escrime.html">
+      <span class="label">Projet suivant →</span>
+      <b>Lecteur de résultats d’escrime</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Me contacter →</a>
+  </div>
+</footer>
+</body>
+</html>

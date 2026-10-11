@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pompe à essence — Grégoire Desparain</title>
+  <meta name="description" content="Étude de cas : simulation Arduino d’une borne de station-service en libre-service, avec code PIN, détection du pistolet et prix en temps réel.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#apropos">À propos</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#parcours">Parcours</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+    </ul>
+    <a class="nav-cta" href="../index.html#contact">Contact</a>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projets">← Tous les projets</a>
+      <p class="label">P—04 · Étude de cas</p>
+      <h1 style="margin-top:1rem">Pompe à <em>essence</em></h1>
+      <p class="case-lede">Reproduire tout le parcours d’un client à une pompe automatique 24h/24, de l’insertion de la carte au ticket final, sur une carte Arduino et un écran de deux lignes.</p>
+      <div class="meta">
+        <div><span class="label">Rôle</span><b>Systèmes embarqués</b></div>
+        <div><span class="label">Cadre</span><b>Projet école · IMT Nord Europe</b></div>
+        <div><span class="label">Matériel</span><b>Arduino · clavier · LCD 16×2</b></div>
+        <div><span class="label">Langage</span><b>C / Arduino</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://github.com/gregdespa/arduino-gas-pump" target="_blank" rel="noopener">Code sur GitHub <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — Le principe</span>
+        <div>
+          <h2>Une borne, sept étapes.</h2>
+          <p>Le système est une <strong>machine à états</strong>&nbsp;: chaque étape doit être validée avant de passer à la suivante, exactement comme sur une vraie borne. Voici le parcours tel que l’utilisateur le vit.</p>
+          <ol class="steps">
+            <li><span><b>Station ouverte&nbsp;?</b> Un capteur de luminosité est lu. S’il fait nuit, l’écran affiche «&nbsp;Closed Station&nbsp;» et tout est bloqué.</span></li>
+            <li><span><b>Carte insérée.</b> Un capteur détecte la carte&nbsp;; tant qu’elle n’est pas là, la borne attend.</span></li>
+            <li><span><b>Code PIN.</b> Quatre chiffres sur un clavier 4×3, masqués au fur et à mesure par des «&nbsp;*&nbsp;». Trois erreurs et la carte est bloquée.</span></li>
+            <li><span><b>Retrait de la carte.</b> Impossible de servir tant que la carte est encore détectée, comme sur les bornes CB.</span></li>
+            <li><span><b>Pistolet décroché.</b> L’écran invite à prendre le pistolet tant qu’il est raccroché.</span></li>
+            <li><span><b>Distribution.</b> Tant que la gâchette est maintenue, le carburant «&nbsp;coule&nbsp;»&nbsp;: litres et prix s’affichent en direct.</span></li>
+            <li><span><b>Ticket.</b> Pistolet raccroché, la borne affiche le récapitulatif (litres + montant) puis «&nbsp;À bientôt&nbsp;!&nbsp;».</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — Câblage</span>
+        <div>
+          <h2>Entrées et sorties.</h2>
+          <table class="rules">
+            <tr><th>Composant</th><th>Broche(s)</th><th>Rôle</th></tr>
+            <tr><td>Clavier matriciel 4×3</td><td><code>22–28</code></td><td>Saisie du code PIN</td></tr>
+            <tr><td>Écran LCD 16×2</td><td><code>8, 9, 2, 3, 5, 6</code></td><td>Instructions, litres, montant</td></tr>
+            <tr><td>Capteur de luminosité</td><td><code>A1</code></td><td>Horaires d’ouverture</td></tr>
+            <tr><td>Détection carte</td><td><code>12</code></td><td>Carte insérée ou retirée</td></tr>
+            <tr><td>Détection pistolet</td><td><code>10</code></td><td>Pistolet décroché ou raccroché</td></tr>
+            <tr><td>Gâchette</td><td><code>4</code></td><td>Maintenue = distribution</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — Le code</span>
+        <div>
+          <h2>La boucle de distribution.</h2>
+          <p>Toutes les secondes où la gâchette est maintenue, on ajoute 2&nbsp;L, on recalcule le prix et on rafraîchit l’écran. Le réservoir est plafonné à 45&nbsp;L. Le temps est mesuré avec <code>millis()</code> plutôt que <code>delay()</code>, pour que la borne continue de réagir pendant le remplissage.</p>
+          <div class="code">
+            <div class="code-bar"><span>pompe.ino</span><span>C / Arduino</span></div>
+<pre><span class="k">float</span> P_SP22 = <span class="n">4.30</span>;                 <span class="c">// prix au litre</span>
+
+<span class="k">while</span> (<span class="n">digitalRead</span>(<span class="n">10</span>) == <span class="n">1</span>) {           <span class="c">// pistolet en main</span>
+  <span class="k">if</span> (<span class="n">digitalRead</span>(<span class="n">4</span>) == <span class="n">1</span>) {           <span class="c">// gâchette appuyée</span>
+    <span class="k">unsigned long</span> t0 = <span class="n">millis</span>();
+    <span class="k">while</span> (<span class="n">digitalRead</span>(<span class="n">4</span>) == <span class="n">1</span> &amp;&amp; plein &lt; <span class="n">45</span>) {
+      <span class="k">if</span> (<span class="n">millis</span>() - t0 &gt;= <span class="n">1000</span>) {
+        plein += <span class="n">2</span>;                       <span class="c">// +2 L par seconde</span>
+        prix = (plein - LPT) * P_SP22;
+        lcd.<span class="n">clear</span>();
+        lcd.<span class="n">print</span>(plein);
+        lcd.<span class="n">setCursor</span>(<span class="n">10</span>, <span class="n">0</span>);
+        lcd.<span class="n">print</span>(prix);
+        t0 = <span class="n">millis</span>();
+      }
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Sécurité</span>
+        <div>
+          <h2>Se comporter comme une vraie pompe.</h2>
+          <ul class="points">
+            <li><strong>Anti-fraude</strong>&nbsp;: après trois codes faux, la carte est marquée bloquée et refusée.</li>
+            <li><strong>Retrait obligatoire de la carte</strong> avant de servir, pour ne pas l’oublier dans la borne.</li>
+            <li><strong>Pas de distribution sans pistolet décroché</strong>, et pas de ticket sans pistolet raccroché.</li>
+            <li><strong>Prix recalculé en continu</strong> à partir du volume réellement servi.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Ce que j’en retiens</span>
+        <div>
+          <h2>Les acquis.</h2>
+          <ul class="points">
+            <li>Modéliser un parcours utilisateur en machine à états et n’autoriser que les transitions valides.</li>
+            <li>Sécuriser une interface qui touche à de l’argent&nbsp;: authentification, limitation des essais, blocage.</li>
+            <li>Écrire des boucles temps réel non bloquantes.</li>
+            <li>Guider l’utilisateur avec 32 caractères d’écran&nbsp;: chaque message compte.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="shakeup.html">
+      <span class="label">Retour au premier projet →</span>
+      <b>ShakeUp</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Me contacter →</a>
+  </div>
+</footer>
+</body>
+</html>
