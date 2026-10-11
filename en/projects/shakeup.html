@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShakeUp — Grégoire Desparain</title>
+  <meta name="description" content="Case study: ShakeUp, a nightlife event management platform. iOS/Android app, web back office and 50 Cloud Functions, led as project manager with a team of five students.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" hreflang="fr" href="https://gregdesparain.me/projets/shakeup.html">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+    </ul>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Language"><a href="../../projets/shakeup.html" hreflang="fr" lang="fr">FR</a><span aria-current="true">EN</span></nav>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projects">← All projects</a>
+      <div class="case-logo"><img src="../../assets/shakeup/logo.png" alt="ShakeUp logo" width="240" height="240"></div>
+      <p class="label">P—01 · Case study</p>
+      <h1 style="margin-top:1rem">Shake<em>Up</em></h1>
+      <p class="case-lede">An end-to-end platform for running nightlife events: guests book their table in the app, staff scan tickets and take orders on the floor, and the organizer runs everything from a back office. Live on the App Store and Google Play, and on its way to becoming a SaaS.</p>
+      <div class="meta">
+        <div><span class="label">Role</span><b>Founder · project lead &amp; full-stack dev</b></div>
+        <div><span class="label">Team</span><b>5 students · IMT Nord Europe</b></div>
+        <div><span class="label">Timeline</span><b>2025 – present</b></div>
+        <div><span class="label">Status</span><b>Live · iOS, Android, web</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — Context</span>
+        <div>
+          <h2>A night out is an information system.</h2>
+          <p>The project started under the codename <strong>The Forest</strong> as IMT Nord Europe’s second-year engineering project: a real client, a spec, a budget, and regular reviews with two faculty advisors.</p>
+          <p>The problem: an event organizer has to juggle table bookings, door entry, orders and payments all at once. The goal was to <strong>bring all of it into a single tool</strong> that works for guests at home and for staff in the middle of a packed night.</p>
+          <div class="shots">
+            <figure class="shot"><img src="../../assets/shakeup/soirees.jpg" alt="ShakeUp app screen listing past events" width="600" height="1300" loading="lazy"><figcaption>Past events</figcaption></figure>
+            <figure class="shot"><img src="../../assets/shakeup/reservation.jpg" alt="Table booking screen with entry QR code" width="600" height="1300" loading="lazy"><figcaption>Table booking + entry QR code</figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — Users</span>
+        <div>
+          <h2>Six roles, one app.</h2>
+          <p>The hard part of the product is that everyone sees a different app. On sign-in, the app reads the user’s role and routes them to the right interface.</p>
+          <table class="rules">
+            <tr><th>Role</th><th>What they do</th></tr>
+            <tr><td>Guest</td><td>Browses events, books a table, shows their QR code, checks the menu.</td></tr>
+            <tr><td>Staff</td><td>Scans guests in, tracks tables live, takes orders at the table.</td></tr>
+            <tr><td>Bar prep</td><td>Sees orders come in in real time, marks them ready, then served.</td></tr>
+            <tr><td>Cashier</td><td>Rings up walk-in sales during the event.</td></tr>
+            <tr><td>Accounting</td><td>Approves payments from the back office.</td></tr>
+            <tr><td>Admin</td><td>Creates events, the menu, the floor plan and staff accounts, and reviews results.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — The flow</span>
+        <div>
+          <h2>From launch to last bottle.</h2>
+          <ol class="steps">
+            <li><span><b>Launch.</b> The admin creates the event and its floor plan in the back office. Users get a push notification.</span></li>
+            <li><span><b>Booking.</b> The guest picks a table on the floor plan, enters the party size and pays the deposit through the partner ticketing platform.</span></li>
+            <li><span><b>Ticket.</b> A confirmed booking generates a QR code in the app, which can also be added to Apple Wallet.</span></li>
+            <li><span><b>Entry.</b> Staff scan the QR code at the door: the table is marked “arrived” and the assigned server is notified.</span></li>
+            <li><span><b>Order.</b> At the table, staff scan the table’s QR code and enter the order. It shows up for accounting and for the bar.</span></li>
+            <li><span><b>Payment.</b> Accounting approves the payment; the deposit already paid is deducted automatically.</span></li>
+            <li><span><b>Service and wrap-up.</b> The bar marks the order “ready”, then “sent”. After the event, the admin reviews aggregated results.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Architecture</span>
+        <div>
+          <h2>Three clients, one backend.</h2>
+          <p>The mobile app and the back office share the same Firebase project. <strong>Every sensitive write</strong> (bookings, orders, payments, roles) goes through server-side Cloud Functions, never straight from a client.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Mobile</span><b>React Native app</b><p>Expo · iOS &amp; Android · OTA updates</p></div>
+            <div class="link">calls</div>
+            <div class="node hot"><span class="label">Backend</span><b>Firebase</b><p>Auth · Firestore · Storage · 50 Cloud Functions (Node 22)</p></div>
+            <div class="link rev">calls</div>
+            <div class="node"><span class="label">Web</span><b>Next.js back office</b><p>Role-based dashboard · deployed on Vercel</p></div>
+          </div>
+          <p style="margin-top:1.4rem">Around that core: iOS push notifications via APNs, event images on Cloudinary, builds and updates with EAS, signed Apple Wallet passes, and a webhook for the partner ticketing platform.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Technical highlights</span>
+        <div>
+          <h2>What taught me the most.</h2>
+          <ul class="points">
+            <li><strong>AI-powered floor plan import.</strong> Placing dozens of tables on a floor plan by hand takes forever. The back office provides a prompt that you give to a multimodal LLM (ChatGPT, Gemini or Claude) along with a photo of the floor plan; the model returns structured JSON (categories, tables, positions). The back office validates it, corrects the coordinates for how the image is cropped, then merges it in without ever overwriting a table that’s already booked.</li>
+            <li><strong>Interactive floor plan.</strong> In the back office, you drop tables onto the venue’s floor plan, move them and resize them. Positions are stored as percentages, so the app renders the same plan on any screen, with zoom.</li>
+            <li><strong>Ticketing API.</strong> I wrote the spec for the integration with the ticketing platform (6 endpoints). Every call is signed with HMAC-SHA256 so nobody can validate a deposit from the outside.</li>
+            <li><strong>Apple Wallet without a native module.</strong> The pass is generated and signed by a Cloud Function, then opened in Safari. As a result, the feature could ship as an OTA update, with no new App Store release.</li>
+            <li><strong>Roles and security.</strong> The role lives in the auth token and is re-checked server-side in every function. Staff accounts can be disposable and scoped to a single event.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — The code</span>
+        <div>
+          <h2>Verifying a webhook.</h2>
+          <p>When the ticketing platform confirms a deposit, it calls this endpoint. We recompute the message signature with the shared key and compare it in constant time before touching the database.</p>
+          <div class="code">
+            <div class="code-bar"><span>functions/index.js — ticketingWebhook</span><span>Node.js</span></div>
+<pre><span class="k">exports</span>.ticketingWebhook = <span class="n">onRequest</span>(<span class="k">async</span> (req, res) =&gt; {
+  <span class="c">// … method, config and body size are checked first</span>
+  <span class="k">const</span> header   = <span class="n">String</span>(req.<span class="n">get</span>(<span class="s">"X-ShakeUp-Signature"</span>) || <span class="s">""</span>);
+  <span class="k">const</span> expected = <span class="s">"sha256="</span> + crypto
+    .<span class="n">createHmac</span>(<span class="s">"sha256"</span>, secret).<span class="n">update</span>(rawBody).<span class="n">digest</span>(<span class="s">"hex"</span>);
+
+  <span class="k">const</span> a = Buffer.<span class="n">from</span>(header), b = Buffer.<span class="n">from</span>(expected);
+  <span class="k">if</span> (a.length !== b.length || !crypto.<span class="n">timingSafeEqual</span>(a, b)) {
+    <span class="k">return</span> res.<span class="n">status</span>(<span class="n">401</span>).<span class="n">json</span>({ error: <span class="s">"invalid-signature"</span> });
+  }
+
+  <span class="c">// The booking must exist and match the event and table in the payload</span>
+  <span class="k">const</span> resa = (<span class="k">await</span> db.<span class="n">doc</span>(<span class="s">`tablesReservation/${reservationId}`</span>).<span class="n">get</span>()).<span class="n">data</span>();
+  <span class="k">if</span> (body.eventId !== resa.eventId) <span class="k">return</span> res.<span class="n">status</span>(<span class="n">422</span>).<span class="n">json</span>({ error: <span class="s">"reservation-mismatch"</span> });
+
+  <span class="k">await</span> <span class="n">applyDepositValidation</span>({ reservationId, source: <span class="s">"api"</span> });
+  res.<span class="n">status</span>(<span class="n">200</span>).<span class="n">json</span>({ ok: <span class="k">true</span> });
+});</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">07 — My role</span>
+        <div>
+          <h2>A project lead <em style="font-style:italic;color:var(--ink-3)">who codes</em>.</h2>
+          <ul class="points">
+            <li><strong>Scoping and design</strong>: gathered requirements with the client, designed flows and screens in Figma, and got them signed off before development.</li>
+            <li><strong>Architecture</strong>: chose the stack, designed the data model, split the logic into Cloud Functions, wrote the security rules.</li>
+            <li><strong>Development</strong>: built a large share of the app, the back office and the backend.</li>
+            <li><strong>Team lead</strong>: split the work across the team of five, tracked the budget, reported to the faculty advisors.</li>
+            <li><strong>Shipping</strong>: published to the App Store and Google Play, deployed the back office.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">08 — By the numbers</span>
+        <div>
+          <h2>What shipped.</h2>
+          <div class="outcomes">
+            <div class="outcome"><b>2 stores</b><span>App live on iOS and Android</span></div>
+            <div class="outcome"><b>50</b><span>server-side Cloud Functions</span></div>
+            <div class="outcome"><b>40</b><span>screens in the mobile app</span></div>
+            <div class="outcome"><b>~38k</b><span>lines of TypeScript (app + back office)</span></div>
+            <div class="outcome"><b>6</b><span>user roles</span></div>
+            <div class="outcome"><b>5</b><span>students led over the year</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">09 — What’s next</span>
+        <div>
+          <h2>From app to SaaS.</h2>
+          <p>ShakeUp was built for a single organizer. The next step is to turn it into <strong>a SaaS that any nightlife event organizer in France can use</strong>, with their own events, team and menu.</p>
+          <div class="callout">
+            <span class="label">In progress</span>
+            <p>I’m driving this as founder, drawing on both sides of what I’ve learned: architecture and product from building ShakeUp, prospecting and negotiation from my time at CLEEVEN.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">10 — Takeaways</span>
+        <div>
+          <h2>Lessons learned.</h2>
+          <ul class="points">
+            <li>A multi-role product is designed around flows, not screens: who does what, and at what point in the night.</li>
+            <li>Putting business logic on the server from day one means you never have to trust the client’s phone.</li>
+            <li>An approved mockup costs far less than a feature you have to rebuild.</li>
+            <li>Leading a team is mostly about making it visible who’s doing what, and by when.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="fencing-results.html">
+      <span class="label">Next project →</span>
+      <b>Fencing results reader</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Get in touch →</a>
+  </div>
+</footer>
+</body>
+</html>

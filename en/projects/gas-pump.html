@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gas Pump — Grégoire Desparain</title>
+  <meta name="description" content="Case study: an Arduino simulation of a self-service gas pump, with PIN entry, nozzle detection and real-time pricing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" hreflang="fr" href="https://gregdesparain.me/projets/pompe-essence.html">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+    </ul>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Language"><a href="../../projets/pompe-essence.html" hreflang="fr" lang="fr">FR</a><span aria-current="true">EN</span></nav>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projects">← All projects</a>
+      <p class="label">P—06 · Case study</p>
+      <h1 style="margin-top:1rem">Automated <em>gas pump</em></h1>
+      <p class="case-lede">Recreating the full experience of a 24/7 self-service gas pump, from inserting your card to the final receipt, on an Arduino board and a two-line screen.</p>
+      <div class="meta">
+        <div><span class="label">Role</span><b>Embedded systems</b></div>
+        <div><span class="label">Setting</span><b>School project · IMT Nord Europe</b></div>
+        <div><span class="label">Hardware</span><b>Arduino · keypad · 16×2 LCD</b></div>
+        <div><span class="label">Language</span><b>C / Arduino</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://github.com/gregdespa/arduino-gas-pump" target="_blank" rel="noopener">Code on GitHub <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — How it works</span>
+        <div>
+          <h2>One pump, seven steps.</h2>
+          <p>The system is a <strong>state machine</strong>: each step has to clear before moving to the next, just like a real pump. Here’s the flow as the customer experiences it.</p>
+          <ol class="steps">
+            <li><span><b>Station open?</b> A light sensor is read. If it’s dark out, the screen shows “Closed Station” and everything is locked.</span></li>
+            <li><span><b>Card inserted.</b> A sensor detects the card; until it’s there, the pump waits.</span></li>
+            <li><span><b>PIN.</b> Four digits on a 4×3 keypad, masked with “*” as you type. Three wrong attempts and the card is blocked.</span></li>
+            <li><span><b>Card removed.</b> Fueling can’t start while the card is still detected, just like at a card-operated pump.</span></li>
+            <li><span><b>Nozzle lifted.</b> The screen prompts you to pick up the nozzle as long as it’s still holstered.</span></li>
+            <li><span><b>Fueling.</b> As long as the trigger is held, fuel “flows”: liters and price update live on screen.</span></li>
+            <li><span><b>Receipt.</b> Once the nozzle is holstered, the pump shows a summary (liters + amount), then “See you soon!”.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — Wiring</span>
+        <div>
+          <h2>Inputs and outputs.</h2>
+          <table class="rules">
+            <tr><th>Component</th><th>Pin(s)</th><th>Purpose</th></tr>
+            <tr><td>4×3 matrix keypad</td><td><code>22–28</code></td><td>PIN entry</td></tr>
+            <tr><td>16×2 LCD</td><td><code>8, 9, 2, 3, 5, 6</code></td><td>Instructions, liters, amount</td></tr>
+            <tr><td>Light sensor</td><td><code>A1</code></td><td>Opening hours</td></tr>
+            <tr><td>Card detection</td><td><code>12</code></td><td>Card inserted or removed</td></tr>
+            <tr><td>Nozzle detection</td><td><code>10</code></td><td>Nozzle lifted or holstered</td></tr>
+            <tr><td>Trigger</td><td><code>4</code></td><td>Held = fueling</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — The code</span>
+        <div>
+          <h2>The fueling loop.</h2>
+          <p>For every second the trigger is held, we add 2&nbsp;L, recompute the price and refresh the screen. The tank caps at 45&nbsp;L. Timing uses <code>millis()</code> instead of <code>delay()</code>, so the pump stays responsive while fueling.</p>
+          <div class="code">
+            <div class="code-bar"><span>pompe.ino</span><span>C / Arduino</span></div>
+<pre><span class="k">float</span> P_SP22 = <span class="n">4.30</span>;                 <span class="c">// price per liter</span>
+
+<span class="k">while</span> (<span class="n">digitalRead</span>(<span class="n">10</span>) == <span class="n">1</span>) {           <span class="c">// nozzle in hand</span>
+  <span class="k">if</span> (<span class="n">digitalRead</span>(<span class="n">4</span>) == <span class="n">1</span>) {           <span class="c">// trigger pressed</span>
+    <span class="k">unsigned long</span> t0 = <span class="n">millis</span>();
+    <span class="k">while</span> (<span class="n">digitalRead</span>(<span class="n">4</span>) == <span class="n">1</span> &amp;&amp; plein &lt; <span class="n">45</span>) {
+      <span class="k">if</span> (<span class="n">millis</span>() - t0 &gt;= <span class="n">1000</span>) {
+        plein += <span class="n">2</span>;                       <span class="c">// +2 L per second</span>
+        prix = (plein - LPT) * P_SP22;
+        lcd.<span class="n">clear</span>();
+        lcd.<span class="n">print</span>(plein);
+        lcd.<span class="n">setCursor</span>(<span class="n">10</span>, <span class="n">0</span>);
+        lcd.<span class="n">print</span>(prix);
+        t0 = <span class="n">millis</span>();
+      }
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Safety</span>
+        <div>
+          <h2>Behaving like a real pump.</h2>
+          <ul class="points">
+            <li><strong>Fraud protection</strong>: after three wrong PINs, the card is flagged as blocked and rejected.</li>
+            <li><strong>Card must be removed</strong> before fueling, so nobody leaves it in the machine.</li>
+            <li><strong>No fueling without the nozzle lifted</strong>, and no receipt until it’s holstered.</li>
+            <li><strong>Price recomputed continuously</strong> from the volume actually dispensed.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Takeaways</span>
+        <div>
+          <h2>What I learned.</h2>
+          <ul class="points">
+            <li>Modeling a user flow as a state machine and allowing only valid transitions.</li>
+            <li>Securing an interface that handles money: authentication, attempt limits, lockout.</li>
+            <li>Writing non-blocking real-time loops.</li>
+            <li>Guiding the user with 32 characters of screen: every message counts.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="shakeup.html">
+      <span class="label">Back to the first project →</span>
+      <b>ShakeUp</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Get in touch →</a>
+  </div>
+</footer>
+</body>
+</html>

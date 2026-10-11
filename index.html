@@ -3,13 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Grégoire Desparain — Élève ingénieur</title>
-  <meta name="description" content="Portfolio de Grégoire Desparain, élève ingénieur en informatique à IMT Nord Europe. Projets full stack, systèmes embarqués et outils data.">
+  <title>Grégoire Desparain — Ingénieur IA</title>
+  <meta name="description" content="Grégoire Desparain, élève ingénieur à IMT Nord Europe : intelligence artificielle, développement full stack et entrepreneuriat. Fondateur de ShakeUp. À la recherche d’un stage IA aux États-Unis.">
+  <link rel="alternate" hreflang="fr" href="https://gregdesparain.me/">
+  <link rel="alternate" hreflang="en" href="https://gregdesparain.me/en/">
+  <script>
+    // Premier passage d'un visiteur non francophone : version anglaise
+    try { if (!localStorage.getItem('lang') && !/^fr/i.test(navigator.language || '')) location.replace('en/'); } catch (e) {}
+    document.documentElement.classList.add('js');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
-  <script>document.documentElement.classList.add('js')</script>
   <script src="assets/main.js" defer></script>
 </head>
 <body>
@@ -23,7 +29,10 @@
       <li><a href="#parcours">Parcours</a></li>
       <li><a href="#competences">Compétences</a></li>
     </ul>
-    <a class="nav-cta" href="#contact">Contact</a>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Langue"><span aria-current="true">FR</span><a href="en/" hreflang="en" lang="en">EN</a></nav>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </div>
   </div>
 </header>
 
@@ -34,13 +43,14 @@
     <div class="wrap hero-grid">
       <div>
         <div class="hero-kicker">
-          <span class="status"><i></i>Stage de 6 mois · dès avril 2027</span>
+          <span class="status"><i></i>Stage IA aux États-Unis · dès avril 2027</span>
         </div>
         <h1 class="name">Grégoire<br><em>Desparain</em></h1>
+        <p class="label" style="margin-top:1.4rem;color:var(--ink)">Ingénieur IA · Développeur full stack · Fondateur de ShakeUp</p>
         <p class="hero-lede">
-          Élève ingénieur en informatique à <strong>IMT Nord Europe</strong>.
-          Je conçois des applications de bout en bout&nbsp;: de la maquette Figma
-          jusqu’au déploiement, et du capteur Arduino jusqu’à l’écran.
+          Élève ingénieur à <strong>IMT Nord Europe</strong>, je me spécialise en
+          <strong>intelligence artificielle</strong> avec un solide bagage de développeur&nbsp;:
+          j’ai déjà livré des produits complets, du backend jusqu’à l’App Store.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#projets">Voir les projets <span class="arr">→</span></a>
@@ -51,9 +61,9 @@
       <aside class="portrait-card reveal">
         <figure><img src="assets/portrait.jpg" alt="Portrait de Grégoire Desparain" width="900" height="600"></figure>
         <table class="spec">
-          <tr><th>Base</th><td>Lyon, France</td></tr>
+          <tr><th>Objectif</th><td>Stage IA · États-Unis · 6 mois</td></tr>
           <tr><th>École</th><td>IMT Nord Europe · 2<sup>e</sup> année</td></tr>
-          <tr><th>Profil</th><td>Full stack · IoT · Gestion de projet</td></tr>
+          <tr><th>Fondateur</th><td>ShakeUp · bientôt en SaaS</td></tr>
           <tr><th>Anglais</th><td>C1 · TOEIC 955/990</td></tr>
         </table>
       </aside>
@@ -62,8 +72,8 @@
 
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track">
-      <span>React Native &amp; Firebase</span><span>Arduino &amp; IoT</span><span>PHP &amp; XML</span><span>UX/UI sous Figma</span><span>Python · C · SQL</span><span>Gestion de projet</span>
-      <span>React Native &amp; Firebase</span><span>Arduino &amp; IoT</span><span>PHP &amp; XML</span><span>UX/UI sous Figma</span><span>Python · C · SQL</span><span>Gestion de projet</span>
+      <span>Intelligence artificielle</span><span>LLM &amp; agents</span><span>Python</span><span>React Native &amp; Firebase</span><span>Cloud Functions</span><span>SaaS</span><span>Produit &amp; entrepreneuriat</span>
+      <span>Intelligence artificielle</span><span>LLM &amp; agents</span><span>Python</span><span>React Native &amp; Firebase</span><span>Cloud Functions</span><span>SaaS</span><span>Produit &amp; entrepreneuriat</span>
     </div>
   </div>
 
@@ -72,21 +82,22 @@
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="sec-num">§01 — À propos</span>
-        <h2 class="sec-title">Ingénieur, <em>et un peu</em> chef d’orchestre.</h2>
+        <h2 class="sec-title">IA, <em>code</em> et entrepreneuriat.</h2>
       </div>
       <div class="about-grid">
         <div></div>
         <div class="about-text reveal">
-          <p>Je suis en <strong>cycle ingénieur à IMT Nord Europe</strong> (ex-Mines de Douai), après trois ans de prépa intégrée à Lille. Ce qui me plaît, c’est la partie où un besoin flou devient un outil que des gens utilisent vraiment.</p>
-          <p>J’ai développé pour la <strong>Fédération Française d’Escrime</strong>, déployé des capteurs connectés chez <strong>Passman</strong>, piloté une équipe de cinq jusqu’à la publication d’une app sur les stores, puis travaillé côté business chez <strong>CLEEVEN</strong> à Bâle.</p>
-          <p>À côté, je suis <strong>arbitre national d’escrime</strong> depuis 2016 et responsable technique du Challenge Aramis à Lyon. Gérer une compétition de 200 personnes un dimanche matin, c’est une bonne école de la gestion d’imprévus.</p>
+          <p>Je suis en <strong>cycle ingénieur à IMT Nord Europe</strong> (ex-Mines de Douai), après trois ans de prépa intégrée à Lille. Je m’oriente vers l’<strong>intelligence artificielle</strong>, avec un objectif précis&nbsp;: un stage IA aux États-Unis.</p>
+          <p>Mon atout, c’est que je sais déjà livrer. J’ai mené <strong>ShakeUp</strong> de la maquette à l’App Store avec une équipe de cinq&nbsp;: app mobile, backoffice, une cinquantaine de Cloud Functions, et une première brique d’IA qui importe les plans de salle grâce à un LLM.</p>
+          <p>Côté entrepreneur, je transforme ShakeUp en <strong>SaaS</strong> pour que n’importe quel organisateur de soirées en France puisse l’utiliser. Mon stage chez <strong>CLEEVEN</strong> à Bâle, côté business (prospection, négociation, recrutement), m’a appris l’autre moitié du métier.</p>
+          <p>À côté, je suis arbitre national d’escrime depuis 2016 et responsable technique du Challenge Aramis à Lyon&nbsp;: plus de 200 participants à faire tourner sans accroc.</p>
         </div>
         <div class="facts reveal">
+          <div class="fact"><b>50</b><span>Cloud Functions en prod</span></div>
+          <div class="fact"><b>2</b><span>stores · iOS &amp; Android</span></div>
           <div class="fact"><b>5</b><span>étudiants pilotés</span></div>
           <div class="fact"><b>955</b><span>au TOEIC</span></div>
-          <div class="fact"><b>25+</b><span>incidents IoT résolus</span></div>
           <div class="fact"><b>200+</b><span>participants à Aramis</span></div>
-          <div class="fact"><b>4</b><span>stages &amp; missions</span></div>
           <div class="fact"><b>10</b><span>ans d’arbitrage</span></div>
         </div>
       </div>
@@ -99,8 +110,8 @@
       <div class="sec-head reveal">
         <span class="sec-num">§02 — Projets</span>
         <div>
-          <h2 class="sec-title">Ce que j’ai <em>construit</em>.</h2>
-          <p class="sec-intro">Chaque projet a sa page&nbsp;: le contexte, le problème à résoudre, comment je m’y suis pris, l’architecture et ce que j’en ai retenu.</p>
+          <h2 class="sec-title">Ce que je <em>construis</em>.</h2>
+          <p class="sec-intro">De l’IA au matériel embarqué, en passant par un produit en production. Chaque projet terminé a son étude de cas&nbsp;: le contexte, le problème, l’architecture et ce que j’en ai retenu.</p>
         </div>
       </div>
 
@@ -108,26 +119,42 @@
         <li class="reveal">
           <a class="proj" href="projets/shakeup.html">
             <span class="proj-n">P—01</span>
-            <span class="proj-t">ShakeUp<small>Chef de projet · 2025–2026</small></span>
-            <span class="proj-d">Plateforme de gestion de soirées&nbsp;: réservation de tables, QR d’entrée, commandes à table, caisse et backoffice. App iOS/Android publiée, menée de A à Z avec une équipe de cinq étudiants.
-              <span class="tags"><span class="tag">React Native</span><span class="tag">Firebase</span><span class="tag">Cloud Functions</span><span class="tag">Next.js</span><span class="tag">Figma</span></span>
+            <span class="proj-t">ShakeUp<small>Fondateur · chef de projet · 2025–</small></span>
+            <span class="proj-d">Plateforme de gestion de soirées publiée sur iOS et Android&nbsp;: réservation de tables, QR d’entrée, commandes à table, caisse, backoffice et import des plans de salle par LLM. Prochaine étape&nbsp;: un SaaS déployé dans toute la France.
+              <span class="tags"><span class="tag">React Native</span><span class="tag">Firebase</span><span class="tag">Cloud Functions</span><span class="tag">Next.js</span><span class="tag">LLM</span><span class="tag">SaaS</span></span>
             </span>
             <span class="proj-go">Lire <span class="circle">→</span></span>
           </a>
         </li>
         <li class="reveal">
-          <a class="proj" href="projets/resultats-escrime.html">
+          <div class="proj soon">
             <span class="proj-n">P—02</span>
+            <span class="proj-t">Projet IA<small>Intelligence artificielle</small></span>
+            <span class="proj-d">Détails à venir.</span>
+            <span class="proj-go"><span class="badge"><i></i>En cours</span></span>
+          </div>
+        </li>
+        <li class="reveal">
+          <div class="proj soon">
+            <span class="proj-n">P—03</span>
+            <span class="proj-t">Projet IA<small>Intelligence artificielle</small></span>
+            <span class="proj-d">Détails à venir.</span>
+            <span class="proj-go"><span class="badge"><i></i>En cours</span></span>
+          </div>
+        </li>
+        <li class="reveal">
+          <a class="proj" href="projets/resultats-escrime.html">
+            <span class="proj-n">P—04</span>
             <span class="proj-t">Lecteur de résultats<small>Fédération Française d’Escrime · 2024</small></span>
             <span class="proj-d">Outil PHP qui transforme l’export XML brut d’une compétition en poules, classements et statistiques lisibles par les entraîneurs. Fini la reconstruction à la main sous Excel.
-              <span class="tags"><span class="tag">PHP</span><span class="tag">SimpleXML</span><span class="tag">HTML/CSS</span><span class="tag">Statistiques</span></span>
+              <span class="tags"><span class="tag">PHP</span><span class="tag">SimpleXML</span><span class="tag">Data</span><span class="tag">Statistiques</span></span>
             </span>
             <span class="proj-go">Lire <span class="circle">→</span></span>
           </a>
         </li>
         <li class="reveal">
           <a class="proj" href="projets/station-meteo.html">
-            <span class="proj-n">P—03</span>
+            <span class="proj-n">P—05</span>
             <span class="proj-t">Station météo connectée<small>Projet école · IoT</small></span>
             <span class="proj-d">Deux Arduino reliés par radio XBee&nbsp;: une sonde extérieure mesure température, humidité, vent et lumière, un module intérieur affiche les données et pilote des volets motorisés.
               <span class="tags"><span class="tag">Arduino</span><span class="tag">XBee</span><span class="tag">Capteurs</span><span class="tag">Servomoteurs</span></span>
@@ -137,7 +164,7 @@
         </li>
         <li class="reveal">
           <a class="proj" href="projets/pompe-essence.html">
-            <span class="proj-n">P—04</span>
+            <span class="proj-n">P—06</span>
             <span class="proj-t">Pompe à essence<small>Projet école · Embarqué</small></span>
             <span class="proj-d">Simulation complète d’une borne de station-service en libre-service&nbsp;: carte, code PIN, détection du pistolet, débit et prix en temps réel sur écran LCD.
               <span class="tags"><span class="tag">Arduino</span><span class="tag">C</span><span class="tag">Machine à états</span><span class="tag">LCD</span></span>
@@ -147,7 +174,7 @@
         </li>
         <li class="reveal">
           <div class="proj muted">
-            <span class="proj-n">P—05</span>
+            <span class="proj-n">P—07</span>
             <span class="proj-t">Pac-Man en C<small>Projet perso · en cours</small></span>
             <span class="proj-d">Le jeu d’arcade réécrit en C pur&nbsp;: déplacement des fantômes, collisions, score. Un terrain d’entraînement pour la gestion mémoire et l’organisation des structures.
               <span class="tags"><span class="tag">C</span><span class="tag">Boucle de jeu</span><span class="tag">Bas niveau</span></span>
@@ -169,6 +196,19 @@
 
       <div class="ledger">
         <article class="entry reveal">
+          <div class="entry-when"><b>2025 – aujourd’hui</b>France</div>
+          <div>
+            <h3>Fondateur &amp; chef de projet <span>· ShakeUp</span></h3>
+            <ul>
+              <li>Pilotage d’une équipe de 5 étudiants sur toute l’année scolaire, jusqu’à la publication sur iOS et Android.</li>
+              <li>Maquettes UX/UI, développement React Native + Firebase, architecture serverless, base de données et budget.</li>
+              <li>Import des plans de salle assisté par LLM dans le backoffice.</li>
+              <li>En cours&nbsp;: transformation de l’app en SaaS pour un déploiement dans toute la France.</li>
+            </ul>
+            <div class="tags"><a class="tag" href="projets/shakeup.html">Voir l’étude de cas →</a></div>
+          </div>
+        </article>
+        <article class="entry reveal">
           <div class="entry-when"><b>Mai – Août 2026</b>Bâle, Suisse</div>
           <div>
             <h3>Ingénieur d’affaires <span>· CLEEVEN He</span></h3>
@@ -177,18 +217,6 @@
               <li>Sourcing et qualification d’ingénieurs consultants, conduite d’entretiens de recrutement.</li>
               <li>Suivi opérationnel des missions, relation client-consultant, pilotage des indicateurs de performance.</li>
             </ul>
-          </div>
-        </article>
-        <article class="entry reveal">
-          <div class="entry-when"><b>2025 – 2026</b>IMT Nord Europe</div>
-          <div>
-            <h3>Chef de projet &amp; développeur full stack <span>· ShakeUp</span></h3>
-            <ul>
-              <li>Pilotage d’une équipe de 5 étudiants sur toute l’année scolaire.</li>
-              <li>Maquettes UX/UI, développement React Native + Firebase, base de données, architecture et budget.</li>
-              <li>Publication de l’app sur iOS et Android, backoffice déployé sur Vercel.</li>
-            </ul>
-            <div class="tags"><a class="tag" href="projets/shakeup.html">Voir l’étude de cas →</a></div>
           </div>
         </article>
         <article class="entry reveal">
@@ -258,16 +286,21 @@
       </div>
       <div class="skills reveal">
         <div class="skill">
-          <span class="label">Programmation</span>
-          <h3>Langages &amp; frameworks</h3>
-          <div class="tags"><span class="tag">Python</span><span class="tag">C</span><span class="tag">JavaScript</span><span class="tag">React / React Native</span><span class="tag">Next.js</span><span class="tag">Firebase</span><span class="tag">PHP</span><span class="tag">SQL</span><span class="tag">HTML/CSS</span><span class="tag">Arduino</span></div>
+          <span class="label">IA &amp; data</span>
+          <h3>Intelligence artificielle</h3>
+          <div class="tags"><span class="tag">Python</span><span class="tag">LLM &amp; prompt engineering</span><span class="tag">Intégration d’API d’IA</span><span class="tag">Développement assisté par IA</span><span class="tag">SQL</span><span class="tag">Traitement de données</span></div>
         </div>
         <div class="skill">
-          <span class="label">Technique</span>
-          <h3>Domaines</h3>
-          <div class="tags"><span class="tag">Intégration web</span><span class="tag">SEO</span><span class="tag">IoT</span><span class="tag">CAO</span><span class="tag">UX/UI (Figma)</span><span class="tag">Gestion de projet</span></div>
+          <span class="label">Développement</span>
+          <h3>Langages &amp; frameworks</h3>
+          <div class="tags"><span class="tag">TypeScript</span><span class="tag">JavaScript</span><span class="tag">React / React Native</span><span class="tag">Next.js</span><span class="tag">Node.js</span><span class="tag">Firebase</span><span class="tag">C</span><span class="tag">PHP</span><span class="tag">HTML/CSS</span><span class="tag">Arduino / IoT</span></div>
+        </div>
+        <div class="skill">
+          <span class="label">Produit &amp; business</span>
+          <h3>Entrepreneuriat</h3>
+          <div class="tags"><span class="tag">Gestion de projet</span><span class="tag">UX/UI (Figma)</span><span class="tag">Prospection &amp; négociation</span><span class="tag">Recrutement</span><span class="tag">SEO</span></div>
           <p class="label" style="margin-top:1.4rem">Certifications</p>
-          <div class="tags" style="margin-top:.5rem"><span class="tag">MOOC Qualité de l’air</span><span class="tag">MOOC Gestion de projet</span></div>
+          <div class="tags" style="margin-top:.5rem"><span class="tag">MOOC Gestion de projet</span><span class="tag">MOOC Qualité de l’air</span></div>
         </div>
         <div class="skill">
           <span class="label">Langues</span>
@@ -286,7 +319,7 @@
     <div class="wrap">
       <p class="sec-num reveal">§05 — Contact</p>
       <h2 class="contact-big reveal" style="margin-top:1.4rem">
-        Un stage, un projet&nbsp;?<br><a href="mailto:gdespar1@hotmail.com"><em>Écrivez-moi.</em></a>
+        Un stage IA, un projet&nbsp;?<br><a href="mailto:gdespar1@hotmail.com"><em>Écrivez-moi.</em></a>
       </h2>
       <div class="contact-links reveal">
         <a href="mailto:gdespar1@hotmail.com"><span class="label">E-mail</span><b>gdespar1@hotmail.com</b></a>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fencing Results Reader — Grégoire Desparain</title>
+  <meta name="description" content="Case study: a PHP tool for the French Fencing Federation that turns raw XML competition exports into clear, shareable results tables.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" hreflang="fr" href="https://gregdesparain.me/projets/resultats-escrime.html">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+    </ul>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Language"><a href="../../projets/resultats-escrime.html" hreflang="fr" lang="fr">FR</a><span aria-current="true">EN</span></nav>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projects">← All projects</a>
+      <p class="label">P—04 · Case study</p>
+      <h1 style="margin-top:1rem">Fencing <em>results</em> reader</h1>
+      <p class="case-lede">For the French Fencing Federation, a web tool that reads a competition’s raw export and turns it into pools, bouts, rankings and stats, ready to share with coaches.</p>
+      <div class="meta">
+        <div><span class="label">Role</span><b>Web developer (internship)</b></div>
+        <div><span class="label">Client</span><b>French Fencing Federation (FFE)</b></div>
+        <div><span class="label">Timeline</span><b>Jun – Jul 2024 · Paris</b></div>
+        <div><span class="label">Stack</span><b>PHP · SimpleXML · HTML/CSS</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://github.com/gregdespa/resultsreader" target="_blank" rel="noopener">Code on GitHub <span class="arr">↗</span></a>
+      <a class="btn btn-ghost resource" href="../../ffe/edb.pdf" target="_blank" rel="noopener">Requirements spec (French, PDF) <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — Context</span>
+        <div>
+          <h2>After every competition: Excel.</h2>
+          <p>At the end of a competition, the refereeing software produces an XML file with everything in it: pools, every bout, the direct-elimination brackets, the final ranking, the referees.</p>
+          <p>The catch is that nobody reads XML. Staff opened the file by hand to work out who beat whom, copied the scores into Excel and rebuilt the rankings before sending them to coaches. <strong>Every competition meant starting from scratch, and it depended on whoever happened to be free that weekend.</strong></p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — The ask</span>
+        <div>
+          <h2>Fast, reliable, usable by non-developers.</h2>
+          <p>Before writing any code, I wrote a <strong>requirements spec</strong> describing every page, the data it shows and how navigation works. In practice, I was the product manager before I was the developer.</p>
+          <table class="rules">
+            <tr><th>Page</th><th>Content</th></tr>
+            <tr><td><code>index.php</code></td><td>Competition name, venue, date, format (pools → direct elimination).</td></tr>
+            <tr><td><code>inscrits.php</code></td><td>Registered fencers: name, club, category, weapon, with search.</td></tr>
+            <tr><td><code>arbitre.php</code></td><td>Referees assigned to the event, with club and level.</td></tr>
+            <tr><td><code>poules.php</code></td><td>Every pool and every bout: touches scored and received, wins, referee.</td></tr>
+            <tr><td><code>classement_f.php</code></td><td>Final ranking, medals, and the round each fencer reached.</td></tr>
+            <tr><td><code>match.php</code></td><td>Detailed view of a single bout for review with the coach.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — Architecture</span>
+        <div>
+          <h2>One file in, pages out.</h2>
+          <p>The key decision: <strong>no database</strong>. Everything is computed in memory from the XML on each load. For a new competition, you swap the file and the site is up to date, with nothing to reprogram or migrate.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Input</span><b>XML export</b><p>Refereeing software (e.g. <code>lille.xml</code>)</p></div>
+            <div class="link">parse</div>
+            <div class="node hot"><span class="label">Processing</span><b>PHP + SimpleXML</b><p>Extraction, stats computation</p></div>
+            <div class="link">render</div>
+            <div class="node"><span class="label">Output</span><b>HTML pages</b><p>One URL per view, easy to share</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — The code</span>
+        <div>
+          <h2>Reading a pool.</h2>
+          <p>A simplified excerpt from <code>poules.php</code>: load the export, loop over each pool, then over each bout and its score. The same pattern drives the rankings, referees and registrations pages.</p>
+          <div class="code">
+            <div class="code-bar"><span>poules.php</span><span>PHP</span></div>
+<pre><span class="c">// Load the competition data</span>
+<span class="n">$xml</span> = <span class="k">simplexml_load_file</span>(<span class="s">"lille.xml"</span>);
+<span class="n">$pools</span> = [];
+
+<span class="k">foreach</span> (<span class="n">$xml</span>-&gt;Poule <span class="k">as</span> <span class="n">$poule</span>) {
+    <span class="n">$num</span> = (string) <span class="n">$poule</span>[<span class="s">'Num'</span>];
+    <span class="n">$pools</span>[<span class="n">$num</span>] = [<span class="s">"referee"</span> =&gt; (string) <span class="n">$poule</span>[<span class="s">'Arbitre'</span>], <span class="s">"matches"</span> =&gt; []];
+
+    <span class="k">foreach</span> (<span class="n">$poule</span>-&gt;Match <span class="k">as</span> <span class="n">$m</span>) {
+        <span class="n">$pools</span>[<span class="n">$num</span>][<span class="s">"matches"</span>][] = [
+            <span class="s">"a"</span>  =&gt; (string) <span class="n">$m</span>-&gt;TireurA[<span class="s">'Nom'</span>],
+            <span class="s">"b"</span>  =&gt; (string) <span class="n">$m</span>-&gt;TireurB[<span class="s">'Nom'</span>],
+            <span class="s">"sa"</span> =&gt; (int) <span class="n">$m</span>[<span class="s">'ScoreA'</span>],
+            <span class="s">"sb"</span> =&gt; (int) <span class="n">$m</span>[<span class="s">'ScoreB'</span>],
+        ];
+    }
+}
+<span class="c">// … then render each pool as an HTML table</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Iteration</span>
+        <div>
+          <h2>Demo, feedback, version two.</h2>
+          <p>I demoed the tool live to the federation lead. Most of the feedback was about <strong>which metrics actually matter</strong> to a coach, so I reworked the stats and the layout accordingly.</p>
+          <p>The spec also laid out future work: tracking cards per fencer, referee stats, and flagging upsets (a low seed beating a favorite).</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — Outcome</span>
+        <div>
+          <h2>Minutes instead of hours.</h2>
+          <div class="outcomes">
+            <div class="outcome"><b>Minutes</b><span>to produce a recap, instead of rebuilding it by hand</span></div>
+            <div class="outcome"><b>1 version</b><span>of the results, the same for every coach</span></div>
+            <div class="outcome"><b>0 database</b><span>: dropping in the XML is enough</span></div>
+          </div>
+          <p style="margin-top:1.4rem">Above all, I learned to turn “we want stats” into metrics you can actually compute, and to present information the way people need it in the field.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="weather-station.html">
+      <span class="label">Next project →</span>
+      <b>Connected weather station</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Get in touch →</a>
+  </div>
+</footer>
+</body>
+</html>

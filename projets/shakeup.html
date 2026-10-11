@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" hreflang="en" href="https://gregdesparain.me/en/projects/shakeup.html">
   <link rel="stylesheet" href="../assets/style.css">
   <script>document.documentElement.classList.add('js')</script>
   <script src="../assets/main.js" defer></script>
@@ -23,7 +24,10 @@
       <li><a href="../index.html#parcours">Parcours</a></li>
       <li><a href="../index.html#competences">Compétences</a></li>
     </ul>
-    <a class="nav-cta" href="../index.html#contact">Contact</a>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Langue"><span aria-current="true">FR</span><a href="../en/projects/shakeup.html" hreflang="en" lang="en">EN</a></nav>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </div>
   </div>
 </header>
 
@@ -34,11 +38,11 @@
       <div class="case-logo"><img src="../assets/shakeup/logo.png" alt="Logo ShakeUp" width="240" height="240"></div>
       <p class="label">P—01 · Étude de cas</p>
       <h1 style="margin-top:1rem">Shake<em>Up</em></h1>
-      <p class="case-lede">Une plateforme complète pour organiser des soirées&nbsp;: les clients réservent leur table depuis l’app, le staff scanne et prend les commandes sur place, l’organisateur pilote tout depuis un backoffice. Publiée sur l’App Store et le Play Store.</p>
+      <p class="case-lede">Une plateforme complète pour organiser des soirées&nbsp;: les clients réservent leur table depuis l’app, le staff scanne et prend les commandes sur place, l’organisateur pilote tout depuis un backoffice. Publiée sur l’App Store et le Play Store, et en route pour devenir un SaaS.</p>
       <div class="meta">
-        <div><span class="label">Rôle</span><b>Chef de projet &amp; dev full stack</b></div>
+        <div><span class="label">Rôle</span><b>Fondateur · chef de projet &amp; dev full stack</b></div>
         <div><span class="label">Équipe</span><b>5 étudiants · IMT Nord Europe</b></div>
-        <div><span class="label">Période</span><b>2025 – 2026</b></div>
+        <div><span class="label">Période</span><b>2025 – aujourd’hui</b></div>
         <div><span class="label">Statut</span><b>En ligne · iOS, Android, web</b></div>
       </div>
     </div>
@@ -114,6 +118,7 @@
         <div>
           <h2>Ce qui m’a le plus appris.</h2>
           <ul class="points">
+            <li><strong>Import des plans de salle par IA.</strong> Placer des dizaines de tables à la main sur un plan, c’est long. Le backoffice fournit un prompt qu’on donne à un LLM multimodal (ChatGPT, Gemini ou Claude) avec la photo du plan&nbsp;; le modèle renvoie un JSON structuré (catégories, tables, positions). Le backoffice le valide, corrige les coordonnées selon le cadrage de l’image, puis le fusionne sans jamais écraser une table déjà réservée.</li>
             <li><strong>Plan de table interactif.</strong> Dans le backoffice, on pose les tables sur le plan de la salle, on les déplace et on les redimensionne. Les positions sont stockées en pourcentage, donc l’app affiche le même plan sur n’importe quel écran, avec zoom.</li>
             <li><strong>API billetterie.</strong> J’ai rédigé la spécification des échanges avec la plateforme de billetterie (6 endpoints). Chaque appel est signé en HMAC-SHA256 pour qu’on ne puisse pas valider un acompte de l’extérieur.</li>
             <li><strong>Apple Wallet sans module natif.</strong> Le pass est généré et signé par une Cloud Function, puis ouvert dans Safari. Résultat&nbsp;: la fonctionnalité a pu partir en mise à jour OTA, sans nouvelle version sur l’App Store.</li>
@@ -181,7 +186,19 @@
       </section>
 
       <section class="chapter reveal">
-        <span class="sec-num">09 — Ce que j’en retiens</span>
+        <span class="sec-num">09 — La suite</span>
+        <div>
+          <h2>De l’app au SaaS.</h2>
+          <p>ShakeUp a été conçu pour un organisateur. L’étape suivante, c’est d’en faire <strong>un SaaS que n’importe quel organisateur de soirées en France peut utiliser</strong>, avec ses propres événements, son équipe et son menu.</p>
+          <div class="callout">
+            <span class="label">En cours</span>
+            <p>Je m’en occupe en tant que fondateur, en mobilisant ce que j’ai appris des deux côtés&nbsp;: l’architecture et le produit avec ShakeUp, la prospection et la négociation chez CLEEVEN.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">10 — Ce que j’en retiens</span>
         <div>
           <h2>Les leçons.</h2>
           <ul class="points">

@@ -25,15 +25,19 @@
 * **Asset Flow:** Stitch generates to `.stitch/designs/` → Validate → Move to `site/public/`
 * **Navigation Strategy:** Persistent top nav bar on every page linking to Home, Projects, Experience, Skills/About, Contact.
 
-## 4. Live Sitemap (refonte oct. 2026, FR)
+## 4. Live Sitemap (oct. 2026 — profil « Ingénieur IA + dev + entrepreneur », cible stage IA US)
 
-* [x] `index.html` — page unique : hero, à propos, projets, parcours, compétences, contact
-* [x] `projets/shakeup.html` — étude de cas (ex-The Forest ; `the-forest.html` redirige)
-* [x] `projets/resultats-escrime.html` — étude de cas
-* [x] `projets/station-meteo.html` — étude de cas
-* [x] `projets/pompe-essence.html` — étude de cas
-* Anciennes pages (projects/experience/skills/contact, fr/*, ffe/, pump/, station/) = redirections
+FR (racine) ↔ EN (`en/`), sélecteur FR/EN dans la nav sur chaque page. Premier passage d'un navigateur non francophone → `en/`.
+
+* [x] `index.html` / `en/index.html` — page unique : hero, à propos, projets, parcours, compétences, contact
+* [x] `projets/shakeup.html` / `en/projects/shakeup.html`
+* [x] `projets/resultats-escrime.html` / `en/projects/fencing-results.html`
+* [x] `projets/station-meteo.html` / `en/projects/weather-station.html`
+* [x] `projets/pompe-essence.html` / `en/projects/gas-pump.html`
+* Anciennes pages = redirections (pages EN d'origine → `en/`, pages FR → racine)
 
 ## 5. Roadmap
-- [ ] Version anglaise
+- [ ] Deux projets IA (P—02, P—03) affichés « en cours » sans détails : études de cas à écrire quand Grégoire donne les infos
+- [ ] CV en anglais (le site EN pointe vers le CV français)
 - [ ] Étude de cas Pac-Man quand le projet sera terminé
+- [ ] Supprimer `/new` et `assets/fx.*` (vestiges, non utilisés) si Grégoire valide
