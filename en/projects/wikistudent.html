@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WikiStudent — Grégoire Desparain</title>
+  <meta name="description" content="Case study: WikiStudent, a collectible card game for college campuses. Next.js, Supabase and Stripe, with every game rule enforced in SQL functions, built by orchestrating AI coding agents.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" hreflang="fr" href="https://gregdesparain.me/projets/wikistudent.html">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#skills">Skills</a></li>
+    </ul>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Language"><a href="../../projets/wikistudent.html" hreflang="fr" lang="fr">FR</a><span aria-current="true">EN</span></nav>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projects">← All projects</a>
+      <p class="label">P—02 · Case study</p>
+      <h1 style="margin-top:1rem">Wiki<em>Student</em></h1>
+      <p class="case-lede">A collectible card game for college campuses: the student union opens a space for its school, students turn campus photos and memes into cards, open booster packs and fill their binder.</p>
+      <div class="meta">
+        <div><span class="label">Role</span><b>Founder · product &amp; full-stack dev</b></div>
+        <div><span class="label">Method</span><b>Wrote the spec, orchestrated AI coding agents</b></div>
+        <div><span class="label">Timeline</span><b>Oct 2026 – present</b></div>
+        <div><span class="label">Status</span><b>Invite-only beta</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://wikistudent.vercel.app" target="_blank" rel="noopener">Visit the site (French) <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — The idea</span>
+        <div>
+          <h2>Campus memes, as trading cards.</h2>
+          <p>Every school has its running jokes: the broken coffee machine, the 8 a.m. lecture, the cat that hangs around campus. WikiStudent turns them into <strong>a collectible card game unique to each school</strong>. Students submit cards, the student union moderates them, and everyone opens booster packs to complete their collection.</p>
+          <p>The business model is deliberately simple: the student union pays once (€20 for one class year, €30 for up to five) and its students play for free.</p>
+          <div class="shots cards">
+            <figure class="shot"><img src="../../assets/wikistudent/01-machine-a-cafe.jpg" alt="Illustrated card: broken coffee machine" width="600" height="600" loading="lazy"><figcaption>Coffee machine</figcaption></figure>
+            <figure class="shot"><img src="../../assets/wikistudent/02-amphi-8h.jpg" alt="Illustrated card: the 8 a.m. lecture hall" width="600" height="600" loading="lazy"><figcaption>8 a.m. lecture</figcaption></figure>
+            <figure class="shot"><img src="../../assets/wikistudent/04-chat-du-campus.jpg" alt="Illustrated card: the campus cat" width="600" height="600" loading="lazy"><figcaption>Campus cat</figcaption></figure>
+          </div>
+          <p class="mono" style="font-size:.72rem;color:var(--ink-3);margin-top:.8rem">Cards from the demo school, generated illustrations.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — The method</span>
+        <div>
+          <h2>A spec, then agents.</h2>
+          <p>I started by writing a <strong>complete product spec</strong>: pricing, roles, draw rules, the coin economy, moderation, image rights, legal pages and the design system. It was written so a coding agent could build the app in one pass.</p>
+          <p>Development then ran on <strong>Claude Code with several sub-agents in parallel</strong>, each on its own branch (game, student-union dashboard, payments, native app, legal pages), then merged. My job: break the work down, scope each agent, review, test and make the calls. Every decision is recorded in a decision log.</p>
+          <ul class="points">
+            <li>Project rules written for the agents: no game logic on the client, no <code>any</code>, every feature shipped with its tests.</li>
+            <li>One commit per logical step, so everything can be reviewed and rolled back.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — User flow</span>
+        <div>
+          <h2>From school sign-up to first booster.</h2>
+          <ol class="steps">
+            <li><span><b>The student union creates the school.</b> It pays through Stripe (or joins the invite-only beta) and gets an invite code per class year.</span></li>
+            <li><span><b>Students join.</b> Invite code plus a confirmed email; they can belong to several schools and switch between them.</span></li>
+            <li><span><b>They submit cards.</b> Photos are cropped and compressed in the browser, with mandatory consent on upload.</span></li>
+            <li><span><b>The student union moderates.</b> It approves, picks a rarity, and the card enters the draw pool.</span></li>
+            <li><span><b>Everyone opens boosters.</b> Boosters recharge over time; duplicates are discarded for coins, which buy bonus boosters or trade on the marketplace.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Architecture</span>
+        <div>
+          <h2>The rules live in the database.</h2>
+          <p>The key decision: <strong>no game, coin or role logic on the client</strong>. Everything goes through SQL functions in Postgres, called over RPC. A player who edits the page’s JavaScript can’t mint coins or rig a draw.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Client</span><b>Next.js 15</b><p>Mobile-first web, PWA, Capacitor shell</p></div>
+            <div class="link">RPC</div>
+            <div class="node hot"><span class="label">Rules</span><b>SQL functions</b><p>Draws, coins, roles, moderation</p></div>
+            <div class="link">data</div>
+            <div class="node"><span class="label">Supabase</span><b>Postgres + Storage</b><p>Row-level and per-image access policies</p></div>
+          </div>
+          <p style="margin-top:1.4rem">Around it: Supabase Auth, Stripe for school payments, RevenueCat for in-app purchases, and Vercel cron jobs for nightly tasks.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Technical highlights</span>
+        <div>
+          <h2>Where rigor mattered.</h2>
+          <table class="rules">
+            <tr><th>Topic</th><th>Approach</th></tr>
+            <tr><td>Opening a booster</td><td>A single transaction with the player’s row locked: draw a rarity from normalized weights, then a uniformly random card within it. “Unique” cards leave the pool as soon as someone finds them.</td></tr>
+            <tr><td>Displayed odds</td><td>Odds per rarity are shown before every opening or purchase, computed from the same data as the SQL draw. A test keeps the two in sync.</td></tr>
+            <tr><td>Dynamic rarity</td><td>Popularity score = likes × 3 + number of owners. Every night, cards are re-ranked by score and redistributed across rarities; every change is logged.</td></tr>
+            <tr><td>Coin economy</td><td>Every movement writes a ledger row and updates the balance in the same transaction.</td></tr>
+            <tr><td>Image rights</td><td>An “I’m in this photo” button on every card pulls it from the draw pool and blurs it immediately, pending the student union’s decision. Cards are also hidden automatically after several reports.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — The code</span>
+        <div>
+          <h2>Honest odds.</h2>
+          <p>From <code>lib/odds.ts</code>: only rarities that still have at least one drawable card count, exactly like the <code>open_booster</code> SQL function.</p>
+          <div class="code">
+            <div class="code-bar"><span>lib/odds.ts</span><span>TypeScript</span></div>
+<pre><span class="k">export function</span> <span class="n">boosterOdds</span>(rarities: OddsRarity[], cards: OddsCard[]): Odds[] {
+  <span class="c">// A unique rarity that has already been found is no longer drawable</span>
+  <span class="k">const</span> drawable = rarities.<span class="n">filter</span>(
+    (r) =&gt; cards.<span class="n">some</span>((c) =&gt; c.rarity_id === r.id &amp;&amp; (!r.is_unique || !c.found_by))
+      &amp;&amp; (r.weight ?? <span class="s">0</span>) &gt; <span class="s">0</span>,
+  )
+  <span class="k">const</span> total = drawable.<span class="n">reduce</span>((s, r) =&gt; s + <span class="n">Number</span>(r.weight ?? <span class="s">0</span>), <span class="s">0</span>)
+  <span class="k">return</span> drawable.<span class="n">map</span>((r) =&gt; ({
+    label: r.label, color: r.color,
+    pct: total ? (<span class="n">Number</span>(r.weight) / total) * <span class="s">100</span> : <span class="s">0</span>,
+  }))
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">07 — The audit</span>
+        <div>
+          <h2>Break it before selling it.</h2>
+          <p>Before opening to student unions, I had <strong>the entire codebase audited</strong> by trying to cheat. Every exploit found was first reproduced on a local database (minting coins, a booster refunded twice, a school activated by a stranger), then fixed in a migration and covered by a SQL test.</p>
+          <ul class="points">
+            <li>One test fires 20 simultaneous booster openings to prove no coin or card is ever counted twice.</li>
+            <li>Hidden or rejected images become unreadable to regular members, and their links expire.</li>
+            <li>Migrations are idempotent and checked in production with a read-only script.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">08 — By the numbers</span>
+        <div>
+          <h2>What shipped.</h2>
+          <div class="outcomes">
+            <div class="outcome"><b>~22k</b><span>lines of TypeScript and SQL</span></div>
+            <div class="outcome"><b>14</b><span>Supabase migrations</span></div>
+            <div class="outcome"><b>3</b><span>test layers: unit, SQL, Playwright end-to-end</span></div>
+            <div class="outcome"><b>€20 / €30</b><span>one-time payment per school</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">09 — What’s next</span>
+        <div>
+          <h2>The first schools.</h2>
+          <p>The app is in invite-only beta. Go-to-market runs through student unions: a ready-to-explore demo school, short-form videos and direct outreach. The first five schools get it free at launch.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">10 — Takeaways</span>
+        <div>
+          <h2>What I learned.</h2>
+          <ul class="points">
+            <li>With AI agents, the work that matters becomes the spec, the breakdown and the review.</li>
+            <li>Put the rules in the database, not the client, as soon as money or cheating is involved.</li>
+            <li>Think legal from v1: image rights, GDPR, displayed odds, legal pages.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="fencing-results.html">
+      <span class="label">Next project →</span>
+      <b>Fencing results reader</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Get in touch →</a>
+  </div>
+</footer>
+</body>
+</html>

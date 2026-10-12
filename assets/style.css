@@ -374,3 +374,8 @@ code { font-family: var(--mono); font-size: .86em; background: var(--paper-2); b
 .callout { margin-top: 1.6rem; border: 1px solid var(--ink); padding: 1.4rem 1.5rem; background: var(--paper); }
 .callout .label { display: block; margin-bottom: .5rem; color: var(--signal); }
 .callout p { color: var(--ink-2); }
+
+/* Cartes carrées (WikiStudent) */
+.shots.cards .shot { flex-basis: 200px; }
+.shots.cards .shot img { border-radius: 14px; }
+@media (max-width: 560px) { .shots.cards .shot { flex-basis: calc(33.333% - .94rem); } }

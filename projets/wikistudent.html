@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WikiStudent — Grégoire Desparain</title>
+  <meta name="description" content="Étude de cas : WikiStudent, le jeu de cartes à collectionner des campus. Next.js, Supabase et Stripe, avec toutes les règles du jeu dans des fonctions SQL, développé en orchestrant des agents IA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="alternate" hreflang="en" href="https://gregdesparain.me/en/projects/wikistudent.html">
+  <link rel="stylesheet" href="../assets/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="../assets/main.js" defer></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="dot"></span>G. Desparain</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#apropos">À propos</a></li>
+      <li><a href="../index.html#projets">Projets</a></li>
+      <li><a href="../index.html#parcours">Parcours</a></li>
+      <li><a href="../index.html#competences">Compétences</a></li>
+    </ul>
+    <div class="nav-right">
+      <nav class="lang" aria-label="Langue"><span aria-current="true">FR</span><a href="../en/projects/wikistudent.html" hreflang="en" lang="en">EN</a></nav>
+      <a class="nav-cta" href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back" href="../index.html#projets">← Tous les projets</a>
+      <p class="label">P—02 · Étude de cas</p>
+      <h1 style="margin-top:1rem">Wiki<em>Student</em></h1>
+      <p class="case-lede">Le jeu de cartes à collectionner des campus&nbsp;: le BDE ouvre l’espace de son école, les étudiants transforment les photos et les memes de leur campus en cartes, ouvrent des boosters et complètent leur classeur.</p>
+      <div class="meta">
+        <div><span class="label">Rôle</span><b>Fondateur · produit &amp; dev full stack</b></div>
+        <div><span class="label">Méthode</span><b>Spec rédigée, dev orchestré avec des agents IA</b></div>
+        <div><span class="label">Période</span><b>Oct. 2026 – aujourd’hui</b></div>
+        <div><span class="label">Statut</span><b>Bêta sur invitation</b></div>
+      </div>
+      <a class="btn btn-ghost resource" href="https://wikistudent.vercel.app" target="_blank" rel="noopener">Voir le site <span class="arr">↗</span></a>
+    </div>
+  </section>
+
+  <div class="case-body">
+    <div class="wrap">
+
+      <section class="chapter reveal">
+        <span class="sec-num">01 — L’idée</span>
+        <div>
+          <h2>Les memes du campus, en cartes.</h2>
+          <p>Chaque école a ses running gags&nbsp;: la machine à café en panne, l’amphi de 8&nbsp;h, le chat qui traîne sur le campus. WikiStudent en fait <strong>un jeu de cartes à collectionner propre à chaque école</strong>. Les étudiants proposent des cartes, le BDE les modère, tout le monde ouvre des boosters pour compléter son classeur.</p>
+          <p>Le modèle économique est volontairement simple&nbsp;: le BDE paie une fois (20&nbsp;€ pour une promo, 30&nbsp;€ jusqu’à cinq) et ses étudiants jouent gratuitement.</p>
+          <div class="shots cards">
+            <figure class="shot"><img src="../assets/wikistudent/01-machine-a-cafe.jpg" alt="Carte illustrée : machine à café en panne" width="600" height="600" loading="lazy"><figcaption>Machine à café</figcaption></figure>
+            <figure class="shot"><img src="../assets/wikistudent/02-amphi-8h.jpg" alt="Carte illustrée : l’amphi de 8 h" width="600" height="600" loading="lazy"><figcaption>Amphi 8&nbsp;h</figcaption></figure>
+            <figure class="shot"><img src="../assets/wikistudent/04-chat-du-campus.jpg" alt="Carte illustrée : le chat du campus" width="600" height="600" loading="lazy"><figcaption>Chat du campus</figcaption></figure>
+          </div>
+          <p class="mono" style="font-size:.72rem;color:var(--ink-3);margin-top:.8rem">Cartes de l’école de démo, illustrations générées.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">02 — La méthode</span>
+        <div>
+          <h2>Une spec, puis des agents.</h2>
+          <p>J’ai d’abord écrit un <strong>cahier des charges complet</strong>&nbsp;: offres, rôles, règles de tirage, économie de pièces, modération, droit à l’image, pages légales, design system. Il a été pensé pour qu’un agent de code puisse construire l’app d’une traite.</p>
+          <p>Le développement s’est ensuite fait avec <strong>Claude Code et plusieurs sous-agents en parallèle</strong>, chacun sur sa branche (jeu, espace BDE, paiement, app native, pages légales), puis fusionnés. Mon travail&nbsp;: découper, cadrer chaque agent, relire, tester et arbitrer. Les choix sont consignés dans un journal de décisions.</p>
+          <ul class="points">
+            <li>Règles du projet écrites pour les agents&nbsp;: aucune règle de jeu côté client, aucun <code>any</code>, chaque fonctionnalité livrée avec ses tests.</li>
+            <li>Un commit par étape logique, pour pouvoir relire et revenir en arrière.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">03 — Le parcours</span>
+        <div>
+          <h2>De l’école au premier booster.</h2>
+          <ol class="steps">
+            <li><span><b>Le BDE crée l’école.</b> Il paie via Stripe (ou entre en bêta sur invitation) et obtient un code d’invitation par promo.</span></li>
+            <li><span><b>Les étudiants rejoignent.</b> Code d’invitation, e-mail confirmé, et ils peuvent appartenir à plusieurs écoles et basculer de l’une à l’autre.</span></li>
+            <li><span><b>Ils proposent des cartes.</b> Photo recadrée et compressée dans le navigateur, consentement obligatoire à l’envoi.</span></li>
+            <li><span><b>Le BDE modère.</b> Il accepte, choisit la rareté, et la carte entre dans les tirages.</span></li>
+            <li><span><b>On ouvre des boosters.</b> Ils se rechargent avec le temps&nbsp;; les doublons se défaussent en pièces, qui servent à ouvrir des boosters bonus ou à échanger sur le marché.</span></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">04 — Architecture</span>
+        <div>
+          <h2>Les règles vivent dans la base.</h2>
+          <p>Le choix structurant&nbsp;: <strong>aucune règle de jeu, de pièces ou de rôle côté client</strong>. Tout passe par des fonctions SQL dans Postgres, appelées en RPC. Un joueur qui modifie le JavaScript de la page ne peut donc ni se créer des pièces ni forcer un tirage.</p>
+          <div class="diagram">
+            <div class="node"><span class="label">Client</span><b>Next.js 15</b><p>Web mobile d’abord, PWA, coquille Capacitor</p></div>
+            <div class="link">RPC</div>
+            <div class="node hot"><span class="label">Règles</span><b>Fonctions SQL</b><p>Tirages, pièces, rôles, modération</p></div>
+            <div class="link">données</div>
+            <div class="node"><span class="label">Supabase</span><b>Postgres + Storage</b><p>Politiques d’accès par ligne et par image</p></div>
+          </div>
+          <p style="margin-top:1.4rem">Autour&nbsp;: Supabase Auth, Stripe pour les écoles, RevenueCat pour les achats in-app, des crons Vercel pour les tâches de nuit.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">05 — Points techniques</span>
+        <div>
+          <h2>Ce qui demandait de la rigueur.</h2>
+          <table class="rules">
+            <tr><th>Sujet</th><th>Solution</th></tr>
+            <tr><td>Tirage d’un booster</td><td>Une seule transaction, ligne du joueur verrouillée&nbsp;: on tire une rareté selon des poids normalisés, puis une carte au hasard dans cette rareté. Les cartes «&nbsp;uniques&nbsp;» sortent du tirage dès qu’un joueur les trouve.</td></tr>
+            <tr><td>Probabilités affichées</td><td>Les chances par rareté sont affichées avant chaque ouverture ou achat, calculées sur les mêmes données que le tirage SQL. Un test vérifie que les deux restent alignés.</td></tr>
+            <tr><td>Rareté dynamique</td><td>Score de popularité = likes × 3 + nombre de possesseurs. Chaque nuit, les cartes sont reclassées par score et redistribuées entre les raretés&nbsp;; chaque changement est journalisé.</td></tr>
+            <tr><td>Économie de pièces</td><td>Chaque mouvement écrit une ligne dans un journal et met à jour le solde dans la même transaction.</td></tr>
+            <tr><td>Droit à l’image</td><td>Bouton «&nbsp;Je suis sur la photo&nbsp;» sur chaque carte&nbsp;: elle est retirée des tirages et floutée immédiatement, en attendant la décision du BDE. Masquage automatique après plusieurs signalements.</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">06 — Le code</span>
+        <div>
+          <h2>Des probabilités honnêtes.</h2>
+          <p>Extrait de <code>lib/odds.ts</code>&nbsp;: seules comptent les raretés qui ont encore au moins une carte tirable, exactement comme dans la fonction SQL <code>open_booster</code>.</p>
+          <div class="code">
+            <div class="code-bar"><span>lib/odds.ts</span><span>TypeScript</span></div>
+<pre><span class="k">export function</span> <span class="n">boosterOdds</span>(rarities: OddsRarity[], cards: OddsCard[]): Odds[] {
+  <span class="c">// Une rareté unique déjà trouvée n’est plus tirable</span>
+  <span class="k">const</span> drawable = rarities.<span class="n">filter</span>(
+    (r) =&gt; cards.<span class="n">some</span>((c) =&gt; c.rarity_id === r.id &amp;&amp; (!r.is_unique || !c.found_by))
+      &amp;&amp; (r.weight ?? <span class="s">0</span>) &gt; <span class="s">0</span>,
+  )
+  <span class="k">const</span> total = drawable.<span class="n">reduce</span>((s, r) =&gt; s + <span class="n">Number</span>(r.weight ?? <span class="s">0</span>), <span class="s">0</span>)
+  <span class="k">return</span> drawable.<span class="n">map</span>((r) =&gt; ({
+    label: r.label, color: r.color,
+    pct: total ? (<span class="n">Number</span>(r.weight) / total) * <span class="s">100</span> : <span class="s">0</span>,
+  }))
+}</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">07 — L’audit</span>
+        <div>
+          <h2>Casser avant de vendre.</h2>
+          <p>Avant d’ouvrir aux BDE, j’ai fait <strong>auditer tout le code</strong> en cherchant à tricher. Chaque faille trouvée a d’abord été rejouée sur une base locale (création de pièces, booster rendu deux fois, école activée par un inconnu), puis corrigée par une migration et couverte par un test SQL.</p>
+          <ul class="points">
+            <li>Un test lance 20 ouvertures de boosters simultanées pour vérifier qu’aucune pièce ni carte n’est comptée deux fois.</li>
+            <li>Les images masquées ou refusées deviennent illisibles pour les membres ordinaires, et leurs liens expirent.</li>
+            <li>Migrations rejouables sans erreur, contrôlées en production par un script en lecture seule.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">08 — En chiffres</span>
+        <div>
+          <h2>Ce qui a été livré.</h2>
+          <div class="outcomes">
+            <div class="outcome"><b>~22k</b><span>lignes de TypeScript et SQL</span></div>
+            <div class="outcome"><b>14</b><span>migrations Supabase</span></div>
+            <div class="outcome"><b>3</b><span>niveaux de tests&nbsp;: unitaires, SQL, parcours Playwright</span></div>
+            <div class="outcome"><b>20 / 30 €</b><span>paiement unique par école</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">09 — La suite</span>
+        <div>
+          <h2>Les premières écoles.</h2>
+          <p>L’app est en bêta sur invitation. Le lancement passe par les BDE&nbsp;: une école de démo prête à visiter, des reels et une prospection directe. Cinq écoles sont offertes au lancement.</p>
+        </div>
+      </section>
+
+      <section class="chapter reveal">
+        <span class="sec-num">10 — Ce que j’en retiens</span>
+        <div>
+          <h2>Les acquis.</h2>
+          <ul class="points">
+            <li>Avec des agents IA, le travail qui compte devient la spec, le découpage et la relecture.</li>
+            <li>Mettre les règles dans la base plutôt que dans le client, dès qu’il y a de l’argent ou de la triche en jeu.</li>
+            <li>Penser juridique dès la v1&nbsp;: droit à l’image, RGPD, probabilités affichées, pages légales.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="wrap">
+    <a class="next" href="resultats-escrime.html">
+      <span class="label">Projet suivant →</span>
+      <b>Lecteur de résultats d’escrime</b>
+    </a>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap mono" style="color:var(--ink-3)">
+    <span>© <span data-year>2026</span> Grégoire Desparain</span>
+    <a href="../index.html#contact" style="text-decoration:none">Me contacter →</a>
+  </div>
+</footer>
+</body>
+</html>
