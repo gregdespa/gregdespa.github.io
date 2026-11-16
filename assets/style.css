@@ -379,3 +379,61 @@ code { font-family: var(--mono); font-size: .86em; background: var(--paper-2); b
 .shots.cards .shot { flex-basis: 200px; }
 .shots.cards .shot img { border-radius: 14px; }
 @media (max-width: 560px) { .shots.cards .shot { flex-basis: calc(33.333% - .94rem); } }
+
+/* ==========================================================
+   Accueil allégé (nov. 2026) : chiffres, cartes, frise
+   ========================================================== */
+.hero-stats { margin-top: 2.2rem; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0 2.4rem; }
+.hero-stats div { border-top: 1px solid var(--ink); padding-top: .7rem; }
+.hero-stats b { display: block; font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1; }
+.hero-stats span { font-family: var(--mono); font-size: .7rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+@media (max-width: 480px) { .hero-stats { gap: 0 1.2rem; } }
+
+/* Cartes projet */
+.work { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2.4vw, 28px); }
+@media (max-width: 760px) { .work { grid-template-columns: 1fr; } }
+.card { display: flex; flex-direction: column; border: 1px solid var(--ink); background: var(--paper); text-decoration: none; min-width: 0; transition: transform .25s, box-shadow .25s; }
+a.card:hover { transform: translateY(-3px); box-shadow: 6px 6px 0 var(--ink); }
+.card-visual { aspect-ratio: 16 / 10; background: var(--paper-2); border-bottom: 1px solid var(--ink); overflow: hidden; position: relative; display: grid; place-items: center; }
+.card-body { padding: 1.3rem 1.4rem 1.4rem; display: flex; flex-direction: column; gap: .7rem; flex: 1; }
+.card-kicker { font-family: var(--mono); font-size: .7rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; display: flex; justify-content: space-between; gap: 1rem; }
+.card h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3vw, 2.4rem); line-height: 1; letter-spacing: -.02em; }
+.card p { color: var(--ink-2); font-size: .98rem; line-height: 1.5; }
+.card-foot { margin-top: auto; padding-top: .4rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.card-go { font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--signal); white-space: nowrap; }
+
+/* Visuels des cartes */
+.v-phone img { width: 42%; border: 1px solid var(--ink); border-radius: 22px; position: absolute; top: 12%; left: 29%; background: #fff; }
+.v-cards { display: flex; align-items: center; justify-content: center; }
+.v-cards img { width: 30%; height: auto; align-self: center; border: 1px solid var(--ink); border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.v-cards img:nth-child(1) { transform: rotate(-8deg) translateX(18%); }
+.v-cards img:nth-child(2) { position: relative; z-index: 1; transform: translateY(-4%); }
+.v-cards img:nth-child(3) { transform: rotate(8deg) translateX(-18%); }
+.card-visual svg { width: 86%; height: auto; color: var(--ink); }
+.v-term { background: var(--code-bg); color: var(--code-ink); font-family: var(--mono); font-size: clamp(.8rem, 1.6vw, 1rem); line-height: 1.9; white-space: pre; place-items: center start; padding: 0 8%; }
+.v-term .k { color: #8f8a7a; }
+.v-term .s { color: var(--signal); }
+
+/* Autres projets */
+.more-list { list-style: none; margin-top: clamp(28px, 4vw, 44px); border-top: 1px solid var(--ink); }
+.more-list a { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: baseline; padding: .9rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
+.more-list a:hover b { color: var(--signal); }
+.more-list b { font-weight: 500; }
+.more-list span { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); }
+.more-list span::after { content: " →"; color: var(--signal); }
+
+/* Frise du parcours, une ligne par entrée */
+.timeline { list-style: none; border-top: 1px solid var(--ink); }
+.timeline li { display: grid; grid-template-columns: 170px 1fr auto; gap: .3rem 2rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.timeline time { font-family: var(--mono); font-size: .74rem; color: var(--ink-3); }
+.timeline b { font-weight: 500; }
+.timeline b span { color: var(--ink-3); font-weight: 400; }
+.timeline em { font-style: normal; font-family: var(--mono); font-size: .74rem; color: var(--signal); text-align: right; }
+@media (max-width: 760px) { .timeline li { grid-template-columns: 1fr; } .timeline em { text-align: left; } }
+.timeline + .sub-head { margin-top: 2.6rem; }
+
+/* Compétences sur trois lignes */
+.stack { border-top: 1px solid var(--ink); }
+.stack > div { display: grid; grid-template-columns: 170px 1fr; gap: .6rem 2rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+@media (max-width: 760px) { .stack > div { grid-template-columns: 1fr; } }
+.stack p { color: var(--ink-2); }
