@@ -415,7 +415,7 @@ a.card:hover { transform: translateY(-3px); box-shadow: 6px 6px 0 var(--ink); }
 .v-term .s { color: var(--signal); }
 
 /* Autres projets */
-.more-list { list-style: none; margin-top: clamp(28px, 4vw, 44px); border-top: 1px solid var(--ink); }
+.more-list { list-style: none; margin-top: .4rem; border-top: 1px solid var(--ink); }
 .more-list a { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: baseline; padding: .9rem 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
 .more-list a:hover b { color: var(--signal); }
 .more-list b { font-weight: 500; }
@@ -446,3 +446,7 @@ a.card:hover { transform: translateY(-3px); box-shadow: 6px 6px 0 var(--ink); }
 @media (max-width: 760px) { .tldr-grid > div { padding: 1rem 0; border-bottom: 1px solid var(--rule); } }
 .tldr-grid p { margin-top: .5rem; font-size: 1.05rem; line-height: 1.5; color: var(--ink); }
 .tldr-grid > div:last-child p { font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.2; }
+
+/* Schéma au trait dans les études de cas */
+.schema { margin: 1.6rem 0 0; border: 1px solid var(--ink); background: var(--paper-2); padding: clamp(12px, 3vw, 28px); }
+.schema svg { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 auto; color: var(--ink); }
