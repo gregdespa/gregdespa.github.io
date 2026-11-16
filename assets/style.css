@@ -437,3 +437,12 @@ a.card:hover { transform: translateY(-3px); box-shadow: 6px 6px 0 var(--ink); }
 .stack > div { display: grid; grid-template-columns: 170px 1fr; gap: .6rem 2rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
 @media (max-width: 760px) { .stack > div { grid-template-columns: 1fr; } }
 .stack p { color: var(--ink-2); }
+
+/* Résumé « en 30 secondes » en tête d'étude de cas */
+.tldr { padding: clamp(32px, 5vw, 56px) 0; border-bottom: 1px solid var(--rule); background: var(--paper-2); }
+.tldr-grid { margin-top: 1.2rem; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
+@media (max-width: 760px) { .tldr-grid { grid-template-columns: 1fr; } }
+.tldr-grid > div { padding: 1.2rem 1.6rem 0 0; }
+@media (max-width: 760px) { .tldr-grid > div { padding: 1rem 0; border-bottom: 1px solid var(--rule); } }
+.tldr-grid p { margin-top: .5rem; font-size: 1.05rem; line-height: 1.5; color: var(--ink); }
+.tldr-grid > div:last-child p { font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.6rem); line-height: 1.2; }
